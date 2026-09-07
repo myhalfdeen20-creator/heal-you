@@ -1,0 +1,8 @@
+{
+  "name": "HealYou - Asesmen Ummul Mukminin",
+  "description": "A psychological assessment tool inspired by the character traits of the wives of Prophet Muhammad (Ummul Mukminin). Built as a single-page web app with React.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "name": "healyou-ummul-mukminin",
+  "version": "1.0.0",
+  "description": "HealYou - Arsitektur Psikologi Perempuan & Ummul Mukminin",
+  "main": "server.js",
+  "scripts": {
+    "dev": "node server.js",
+    "build": "echo 'No build step required'",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@babel/standalone": "^8.0.4",
+    "canvas": "^3.2.3",
+    "express": "^4.19.2"
+  }
+}
