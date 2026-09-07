@@ -284,61 +284,61 @@
 
         // --- 2. DATA PERTANYAAN (55 SOAL PRESISI) ---
         const RAW_QUESTIONS = [
-            { a: "khadijah", t: "Saat orang terdekatku ragu pada diri mereka, aku bisa melihat potensi mereka dan memvalidasinya (Cognitive Restructuring)." },
-            { a: "khadijah", t: "Aku merasa utuh saat menjadi stabilitas utama (fondasi) untuk mendukung visi kebaikan yang diyakini bersama." },
-            { a: "khadijah", t: "Di situasi panik (hiper-arousal), kehadiranku secara fisik maupun mental sering kali mengembalikan ketenangan sekitarku (Somatic Grounding)." },
-            { a: "khadijah", t: "Aku tidak pernah merasa tersaingi ketika pasanganku atau orang terdekatku meraih sorotan kesuksesan." },
-            { a: "khadijah", t: "Menghadapi kesulitan tidak meruntuhkan mentalku, selama aku tahu kami masih memiliki pijakan tujuan yang jelas." },
-            { a: "saudah", t: "Aku secara sadar lebih memilih mengalah demi menjaga ekuilibrium (kedamaian) lingkungan daripada memenangkan ego pribadi." },
-            { a: "saudah", t: "Aku sering menggunakan humor atau kelapangan dada sebagai mekanisme untuk memecah ketegangan konflik." },
-            { a: "saudah", t: "Melihat sistem keluargaku berjalan rukun karena aku merelakan ruangku (ego-bypass) memberiku kepuasan batin." },
-            { a: "saudah", t: "Aku merasa aman dengan identitasku, sehingga pencapaian atau kehadiran orang lain tidak memicu rasa iri di hatiku." },
-            { a: "saudah", t: "Aku menolak terjebak dalam kompetisi toksik, lebih memilih menjadi peneduh bagi semua orang." },
-            { a: "aisyah", t: "Jika ada informasi yang terasa janggal, otakku secara dinamis akan memvalidasi (debugging) dan mempertanyakannya." },
-            { a: "aisyah", t: "Aku memiliki bandwidth emosional yang tinggi; aku transparan dan jujur mengekspresikan perasaanku tanpa represi." },
-            { a: "aisyah", t: "Kapasitas belajarku sangat cepat (neuroplastisitas), dan rasa ingin tahuku tentang banyak hal tidak pernah padam." },
-            { a: "aisyah", t: "Aku butuh ruang diskusi secara intelektual dan logis sebelum aku bisa menerima dan mematuhi sebuah instruksi." },
-            { a: "aisyah", t: "Meski dihadapkan pada fitnah atau isolasi yang menekan, aku menolak berkompromi mengakui kesalahan yang tak kubuat." },
-            { a: "hafshah", t: "Aku bertindak layaknya guardian integritas; aku selalu memastikan kebenaran sebelum mempercayai sebuah opini publik." },
-            { a: "hafshah", t: "Orang memercayaiku menjaga rahasia terbesar (master data) karena objektivitasku tidak mudah goyah oleh sentimen." },
-            { a: "hafshah", t: "Memiliki jadwal, kedisiplinan, dan aturan yang jelas membuat sistem sarafku merasa jauh lebih aman." },
-            { a: "hafshah", t: "Aku tidak suka kompromi terhadap kesepakatan yang dilanggar; bagiku aturan (rule-bound) adalah penjaga kebaikan." },
-            { a: "hafshah", t: "Aku lebih memilih dianggap kaku demi mempertahankan prinsip daripada membiarkan kebohongan berlalu di depanku." },
-            { a: "ummusalamah", t: "Saat terjadi krisis atau jalan buntu yang membuat orang lain panik (cognitive freeze), otakku langsung merumuskan solusi strategis." },
-            { a: "ummusalamah", t: "Aku sadar bahwa memberikan contoh lewat tindakan nyata jauh lebih efektif meretas emosi orang lain daripada berdebat lisan." },
-            { a: "ummusalamah", t: "Kehilangan atau trauma masa lalu melatih fleksibilitas kognitifku, memudahkanku mengambil keputusan yang lebih objektif kini." },
-            { a: "ummusalamah", t: "Jika rencanaku gagal total, fungsi eksekutif otakku dengan cepat akan mencari rute pemulihan (Load Balancing)." },
-            { a: "ummusalamah", t: "Aku memiliki intuisi yang tajam untuk mengalihkan beban konflik komunitas menuju titik penyelesaian yang logis." },
-            { a: "zainabkhuzaimah", t: "Naluriku untuk merawat kesejahteraan mereka yang lemah (pure altruism) sering kali mengalahkan agenda pribadiku." },
-            { a: "zainabkhuzaimah", t: "Melakukan aksi pelayanan sosial (acts of service) adalah mekanisme terbaikku untuk menemukan kebahagiaan hidup." },
-            { a: "zainabkhuzaimah", t: "Intensitas empatiku sangat tinggi; aku seolah ikut merasakan sakit saat melihat penderitaan kelompok yang rentan." },
-            { a: "zainabkhuzaimah", t: "Aku fokus pada memberikan dampak positif (throughput) yang maksimal kepada orang lain, walau dalam waktu kebersamaan yang singkat." },
-            { a: "zainabkhuzaimah", t: "Banyak orang merasa teduh dan aman menceritakan masalah terberat mereka karena sifat kedermawananku." },
-            { a: "zainabjahsy", t: "Aku sangat menghargai kemandirian (self-reliance); kebanggaan sejatiku berasal dari hasil jerih payah tanganku sendiri." },
-            { a: "zainabjahsy", t: "Aku berhasil merombak (refactor) ego atau kebanggaan kasta masa laluku menjadi kebanggaan karena bisa berkarya." },
-            { a: "zainabjahsy", t: "Bisa bersedekah atau berbagi langsung dari keringatku sendiri memberikan kemerdekaan batin (otonomi) yang luar biasa." },
-            { a: "zainabjahsy", t: "Aku merasa tidak nyaman jika harus bergantung pada status, belas kasihan, atau bantuan orang lain secara pasif." },
-            { a: "zainabjahsy", t: "Bagiku, hierarki nilai seseorang ditentukan oleh seberapa keras ia bekerja untuk bisa melayani sesamanya." },
-            { a: "juwairiyah", t: "Saat sistem sarafku dipenuhi kecemasan akibat masalah (trauma), aku meregulasinya melalui keheningan dan mindfulness spiritual." },
-            { a: "juwairiyah", t: "Kehadiran dan ketenanganku secara tidak sengaja sering menetralisir konflik (ripple effect) di sekitarku." },
-            { a: "juwairiyah", t: "Melakukan rutinitas zikir/ibadah yang repetitif sangat membantuku menurunkan gelombang otak yang tegang kembali normal." },
-            { a: "juwairiyah", t: "Aku bertindak layaknya proses di latar belakang, membersihkan kekacauan emosi lingkungan tanpa harus mencari panggung." },
-            { a: "juwairiyah", t: "Aku mampu memutus rantai trauma masa laluku agar tidak melukai orang lain di masa depanku." },
-            { a: "ummuhabibah", t: "Aku sanggup menerapkan 'Zero-Trust Protocol', menolak kedekatan dengan siapa pun—bahkan keluarga—yang merusak integritas asasiku." },
-            { a: "ummuhabibah", t: "Berada di lingkungan asing yang terisolasi atau mengalami pengkhianatan justru membuat prinsipku (Post-Traumatic Growth) semakin kuat." },
-            { a: "ummuhabibah", t: "Aku membangun batasan (firewall/boundaries) yang sangat tegas untuk mencegah hal toksik masuk ke dalam hidupku." },
-            { a: "ummuhabibah", t: "Rasa trauma di masa lalu mematikan kebutuhanku untuk selalu menyenangkan orang lain (people pleasing)." },
-            { a: "ummuhabibah", t: "Meski membatasi kedekatan emosional, aku tetap bisa bersikap wajar dan profesional dengan orang yang melanggar normaku." },
-            { a: "shafiyyah", t: "Saat orang menyerang latar belakang atau stigma masa laluku, aku mampu membingkainya ulang (reframing) menjadi kekuatan narasi." },
-            { a: "shafiyyah", t: "Luka akibat diskriminasi atau penolakan (rejection) ku-reboot menjadi dorongan untuk membuktikan kesetiaan dan kebaikanku." },
-            { a: "shafiyyah", t: "Aku tidak mengizinkan prejudice (prasangka buruk) orang lain mendikte bagaimana aku menilai identitas dan harga diriku." },
-            { a: "shafiyyah", t: "Aku memiliki pemulihan diri (error recovery) yang anggun; membalas ketidakadilan dengan pengorbanan yang tulus." },
-            { a: "shafiyyah", t: "Semakin aku dipojokkan oleh kelemahan rasial/statusku, semakin tajam logikaku membalasnya dengan narasi yang mencerdaskan." },
-            { a: "maimunah", t: "Aku memiliki kualitas observasional (System Logger) yang sangat presisi dalam merekam detail fisik, rutinitas, dan kebiasaan." },
-            { a: "maimunah", t: "Menjaga kebersihan, keteraturan, dan melakukan pemeliharaan (maintenance) harian meredakan beban pikiranku." },
-            { a: "maimunah", t: "Orang-orang sering menjadikanku rujukan terpercaya karena ingatanku terhadap prosedur dan detail sangat akurat (tsiqah)." },
-            { a: "maimunah", t: "Aku menyadari pergeseran kecil atau anomali pada lingkungan sekitarku dengan lebih cepat dibanding orang lain." },
-            { a: "maimunah", t: "Keteraturan rutinitas yang konsisten, tanpa perlu banyak kejutan, adalah bahasa rasaku dalam menciptakan ruang yang aman." }
+            { a: "khadijah", t: "Saat orang terdekatku merasa ragu pada diri mereka, aku selalu bisa melihat potensi mereka dan meyakinkan mereka." },
+            { a: "khadijah", t: "Aku merasa senang dan utuh saat bisa menjadi tempat bersandar dan pendukung utama bagi orang-orang yang kusayangi." },
+            { a: "khadijah", t: "Di situasi panik atau krisis, kehadiranku sering kali membuat orang-orang di sekitarku kembali merasa tenang." },
+            { a: "khadijah", t: "Aku sama sekali tidak merasa tersaingi jika pasanganku atau sahabatku meraih kesuksesan yang lebih besar dariku." },
+            { a: "khadijah", t: "Menghadapi masa sulit tidak membuatku mudah menyerah, selama aku tahu kami masih memiliki tujuan yang jelas." },
+            { a: "saudah", t: "Aku lebih memilih mengalah demi menjaga kedamaian di sekitarku daripada harus bersikeras memenangkan egoku sendiri." },
+            { a: "saudah", t: "Aku sering menggunakan candaan atau humor untuk mencairkan suasana yang sedang tegang atau canggung." },
+            { a: "saudah", t: "Melihat keluargaku atau teman-temanku rukun karena aku rela berkorban memberiku kepuasan batin tersendiri." },
+            { a: "saudah", t: "Aku merasa aman dengan diriku sendiri, sehingga pencapaian orang lain tidak pernah membuatku merasa iri." },
+            { a: "saudah", t: "Aku sangat menghindari persaingan yang tidak sehat dan lebih suka menjadi peneduh bagi semua orang." },
+            { a: "aisyah", t: "Jika ada informasi yang terasa janggal, aku akan otomatis mempertanyakannya dan mencari tahu kebenarannya." },
+            { a: "aisyah", t: "Aku selalu jujur dan terbuka dalam mengekspresikan apa yang aku rasakan, tanpa berusaha menutup-nutupinya." },
+            { a: "aisyah", t: "Aku sangat mudah belajar hal baru dan rasa ingin tahuku terhadap banyak hal seakan tidak pernah habis." },
+            { a: "aisyah", t: "Aku butuh alasan yang logis dan bisa diterima akal sebelum aku mau mematuhi sebuah aturan atau instruksi." },
+            { a: "aisyah", t: "Meskipun ditekan atau dijauhi banyak orang, aku menolak untuk mengakui kesalahan yang tidak pernah aku buat." },
+            { a: "hafshah", t: "Aku selalu memastikan kebenaran sebuah cerita sebelum ikut mempercayai apa kata orang banyak." },
+            { a: "hafshah", t: "Orang sangat mempercayaiku memegang rahasia karena aku selalu bersikap objektif dan tidak mudah terbawa emosi." },
+            { a: "hafshah", t: "Aku merasa jauh lebih tenang jika hidupku memiliki jadwal, kedisiplinan, dan aturan main yang sangat jelas." },
+            { a: "hafshah", t: "Aku sangat tidak suka jika ada kesepakatan yang dilanggar; bagiku aturan itu dibuat untuk menjaga kebaikan bersama." },
+            { a: "hafshah", t: "Aku lebih memilih dianggap kaku karena memegang prinsip, daripada membiarkan kebohongan terjadi di depan mataku." },
+            { a: "ummusalamah", t: "Saat terjadi masalah besar yang membuat orang lain panik, otakku justru langsung mencari solusi strategis." },
+            { a: "ummusalamah", t: "Aku sadar bahwa memberikan contoh lewat tindakan nyata jauh lebih efektif daripada sekadar berdebat dengan kata-kata." },
+            { a: "ummusalamah", t: "Pengalaman masa lalu yang pahit justru melatihku untuk bisa mengambil keputusan yang lebih bijaksana saat ini." },
+            { a: "ummusalamah", t: "Jika rencanaku gagal total, aku tidak akan lama-lama terpuruk dan langsung mencari jalan keluar lain." },
+            { a: "ummusalamah", t: "Aku memiliki firasat yang kuat untuk mengarahkan konflik dalam kelompok menuju penyelesaian yang damai." },
+            { a: "zainabkhuzaimah", t: "Keinginanku untuk membantu mereka yang lemah atau kesulitan sering kali mengalahkan kepentingan pribadiku sendiri." },
+            { a: "zainabkhuzaimah", t: "Membantu orang lain secara langsung adalah caraku yang paling ampuh untuk menemukan kebahagiaan hidup." },
+            { a: "zainabkhuzaimah", t: "Rasa empatiku sangat tinggi; aku seolah ikut merasakan sakit saat melihat orang lain menderita." },
+            { a: "zainabkhuzaimah", t: "Aku selalu fokus ingin memberikan kebaikan yang maksimal kepada orang lain, walaupun perjumpaan kami hanya sebentar." },
+            { a: "zainabkhuzaimah", t: "Banyak orang merasa nyaman menceritakan masalah terberat mereka kepadaku karena mereka tahu aku peduli." },
+            { a: "zainabjahsy", t: "Aku sangat menghargai kemandirian; kebanggaan terbesarku berasal dari hasil jerih payah tanganku sendiri." },
+            { a: "zainabjahsy", t: "Aku bangga karena bisa mengubah egoku di masa lalu menjadi keinginan kuat untuk terus berkarya dan mandiri." },
+            { a: "zainabjahsy", t: "Bisa bersedekah atau berbagi dengan orang lain dari hasil keringatku sendiri memberiku kepuasan batin yang luar biasa." },
+            { a: "zainabjahsy", t: "Aku merasa tidak nyaman jika hidupku harus selalu bergantung pada bantuan atau belas kasihan orang lain." },
+            { a: "zainabjahsy", t: "Bagiku, kemuliaan seseorang ditentukan oleh seberapa gigih ia bekerja agar bisa bermanfaat bagi sesamanya." },
+            { a: "juwairiyah", t: "Saat pikiranku sedang sangat cemas karena suatu masalah, aku menenangkannya dengan menyendiri dan beribadah." },
+            { a: "juwairiyah", t: "Kehadiran dan ketenanganku secara tidak sengaja sering kali membuat suasana panas di sekitarku ikut mereda." },
+            { a: "juwairiyah", t: "Melakukan rutinitas ibadah (seperti zikir) sangat membantuku menurunkan pikiran yang tegang kembali menjadi normal." },
+            { a: "juwairiyah", t: "Aku seperti 'pekerja di balik layar' yang ikut membereskan kekacauan emosi orang lain tanpa perlu mencari panggung." },
+            { a: "juwairiyah", t: "Aku berusaha keras memutus rantai luka masa laluku agar jangan sampai aku ikut melukai orang lain di masa depan." },
+            { a: "ummuhabibah", t: "Aku berani memberi batasan tegas dan menjauhi siapa pun—termasuk keluarga—jika mereka merusak prinsip agamaku." },
+            { a: "ummuhabibah", t: "Berada di lingkungan yang asing atau pernah dikhianati justru membuat keteguhan prinsip hidupku semakin kuat." },
+            { a: "ummuhabibah", t: "Aku membangun batasan diri yang sangat jelas untuk mencegah hal-hal buruk (toksik) masuk merusak ketenanganku." },
+            { a: "ummuhabibah", t: "Luka di masa lalu membuatku berhenti memaksakan diri untuk harus selalu menyenangkan semua orang." },
+            { a: "ummuhabibah", t: "Meskipun membatasi kedekatan secara emosi, aku tetap bisa bersikap biasa dan profesional dengan orang yang tidak kusukai." },
+            { a: "shafiyyah", t: "Saat orang menyerang latar belakang atau kekuranganku, aku bisa mengubah ejekan itu menjadi bukti kelebihanku." },
+            { a: "shafiyyah", t: "Luka karena ditolak atau dibeda-bedakan justru memacuku untuk membuktikan bahwa aku orang yang tulus dan setia." },
+            { a: "shafiyyah", t: "Aku sama sekali tidak mengizinkan penilaian buruk orang lain mendikte bagaimana aku menilai harga diriku sendiri." },
+            { a: "shafiyyah", t: "Aku membalas ketidakadilan orang lain dengan cara yang elegan, yaitu dengan tetap memberikan kebaikan yang tulus." },
+            { a: "shafiyyah", t: "Semakin aku dipojokkan dengan kelemahanku, semakin tajam dan cerdas caraku dalam membalas ucapan mereka." },
+            { a: "maimunah", t: "Aku memiliki ingatan dan kejelian yang sangat baik dalam merekam detail fisik, rutinitas, dan kebiasaan orang lain." },
+            { a: "maimunah", t: "Menjaga kebersihan, membereskan barang, dan melakukan rutinitas harian sangat ampuh untuk meredakan beban pikiranku." },
+            { a: "maimunah", t: "Orang-orang sering bertanya kepadaku karena mereka tahu ingatanku terhadap detail sebuah kejadian sangatlah akurat." },
+            { a: "maimunah", t: "Aku lebih cepat menyadari adanya perubahan kecil pada sikap seseorang atau lingkungan di sekitarku dibanding orang lain." },
+            { a: "maimunah", t: "Memiliki rutinitas yang teratur setiap hari, tanpa terlalu banyak kejutan mendadak, membuatku merasa jauh lebih aman." }
         ];
 
         const shuffleArray = (array) => {
@@ -357,12 +357,12 @@
         const DownloadIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>;
 
         const CharacterAvatar = ({ id, colorHex, size = "large" }) => {
-            const dims = size === "large" ? "w-48 h-48 sm:w-56 sm:h-56" : "w-24 h-24";
+            const dims = size === "large" ? "w-48 h-48 sm:w-56 sm:h-56" : size === "medium" ? "w-32 h-32 sm:w-40 sm:h-40" : "w-24 h-24";
             
             return (
                 <div className={`${dims} rounded-full overflow-hidden shadow-xl mx-auto flex items-end justify-center relative`} style={{backgroundColor: `${colorHex}20`, border: `4px solid ${colorHex}40`}}>
                     <img 
-                        src={`/avatars/${id}.png`} 
+                        src={`/avatars/${id}.png?v=3`} 
                         alt={`Ilustrasi ${id}`}
                         className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
                         onError={(e) => {
@@ -371,6 +371,83 @@
                         }}
                     />
                 </div>
+            );
+        };
+
+        // --- 4. KOMPONEN SCREENS ---
+        const GalleryScreen = ({ onBack, isFading }) => {
+            return (
+                <main className={`min-h-screen py-10 px-4 sm:px-6 lg:px-8 transition-opacity duration-700 ${isFading ? 'opacity-0' : 'opacity-100 fade-in'}`}>
+                    <div className="max-w-5xl mx-auto space-y-8 slide-up">
+                        <div className="text-center mb-10">
+                            <h2 className="text-3xl sm:text-4xl font-serif text-slate-700 mb-4">Galeri Ummul Mukminin</h2>
+                            <p className="text-slate-600 font-medium">Temukan seluruh teladan luar biasa dari para ibunda orang-orang mukmin.</p>
+                        </div>
+                        
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {ARCHETYPES.map((char) => (
+                                <div key={char.id} className="glass-panel rounded-[2rem] p-6 text-center flex flex-col items-center relative overflow-hidden transition-all hover:-translate-y-1 hover:shadow-2xl cursor-default">
+                                    <CharacterAvatar id={char.id} colorHex={char.hex} size="medium" />
+                                    <h3 className="mt-6 text-xl font-serif text-slate-700" style={{color: char.hex}}>{char.name}</h3>
+                                    <span className="text-[10px] font-bold tracking-widest uppercase mt-2 mb-3 px-3 py-1 rounded-full bg-white/60 border shadow-sm" style={{color: char.hex, borderColor: `${char.hex}30`}}>
+                                        {char.epithet}
+                                    </span>
+                                    <p className="text-sm text-slate-600 leading-relaxed">
+                                        {char.shortSummary}
+                                    </p>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div className="flex justify-center mt-12">
+                            <button onClick={onBack} className="btn-secondary py-3 px-8 rounded-full font-semibold flex items-center justify-center gap-2">
+                                Kembali ke Hasil
+                            </button>
+                        </div>
+                    </div>
+                </main>
+            );
+        };
+
+        const DataEntryScreen = ({ onSubmit, isFading }) => {
+            const [name, setName] = useState("");
+            
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                if (name.trim()) {
+                    onSubmit(name.trim());
+                }
+            };
+
+            return (
+                <main className={`min-h-screen flex items-center justify-center p-4 sm:p-6 transition-opacity duration-700 ${isFading ? 'opacity-0' : 'opacity-100 fade-in'}`}>
+                    <section className="glass-panel max-w-md w-full rounded-[2rem] p-10 text-center slide-up">
+                        <div className="inline-flex items-center justify-center p-4 bg-white/80 rounded-[2rem] text-[#5C7C6A] mb-6 shadow-sm border border-white" aria-hidden="true">
+                            <LeafIcon />
+                        </div>
+                        <h2 className="text-2xl font-serif text-slate-700 mb-2">Sebelum Memulai</h2>
+                        <p className="text-slate-600 text-sm mb-8 leading-relaxed font-medium">
+                            Boleh kami tahu nama atau panggilan sapaanmu? Agar hasil analisis psikologis ini menjadi catatan perjalanan yang lebih personal untukmu.
+                        </p>
+                        <form onSubmit={handleSubmit} className="space-y-6">
+                            <div>
+                                <input 
+                                    type="text" 
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                    placeholder="Masukkan namamu..."
+                                    className="w-full px-5 py-4 bg-white/70 border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#5C7C6A] focus:border-transparent text-slate-700 placeholder-slate-400 font-medium transition-all"
+                                    required
+                                    autoFocus
+                                    maxLength="30"
+                                />
+                            </div>
+                            <button type="submit" disabled={!name.trim()} className="btn-primary w-full py-4 rounded-3xl font-semibold disabled:opacity-50 disabled:cursor-not-allowed">
+                                Lanjutkan Perjalanan
+                            </button>
+                        </form>
+                    </section>
+                </main>
             );
         };
 
@@ -488,7 +565,7 @@
         };
 
         // Result Dashboard (Bento Box Layout)
-        const ResultDashboard = ({ result, onReset, isFading }) => {
+        const ResultDashboard = ({ result, userName, onReset, onViewGallery, isFading }) => {
             const { primary, secondary } = result;
             const [isHistoryExpanded, setIsHistoryExpanded] = useState(true);
             const [isDownloading, setIsDownloading] = useState(false);
@@ -538,7 +615,7 @@
                                     </span>
                                 </div>
                                 <h1 className="text-3xl sm:text-4xl lg:text-5xl font-serif text-slate-700 mb-4 px-2 leading-tight">
-                                    Karakteristikmu<br />Beresonansi dengan <span style={{color: primary.hex}} className="font-semibold">{primary.name}</span>
+                                    {userName ? `Halo ${userName}, Karakteristikmu` : 'Karakteristikmu'}<br />Beresonansi dengan <span style={{color: primary.hex}} className="font-semibold">{primary.name}</span>
                                 </h1>
                                 <p className="text-slate-600 leading-relaxed text-base sm:text-lg max-w-3xl mx-auto font-medium z-10">
                                     {primary.shortSummary}
@@ -609,12 +686,15 @@
                         </div>
 
                         {/* Actions */}
-                        <div className="flex flex-col sm:flex-row gap-4 pt-6 slide-up stagger-4" data-html2canvas-ignore>
-                            <button onClick={handleDownloadImage} disabled={isDownloading} className="btn-primary flex-1 py-4 rounded-3xl font-semibold flex items-center justify-center gap-2">
-                                {isDownloading ? "Mengkompilasi Laporan..." : <><DownloadIcon /> Simpan Catatan Perjalanan</>}
+                        <div className="flex flex-col sm:flex-row flex-wrap gap-4 pt-6 slide-up stagger-4" data-html2canvas-ignore>
+                            <button onClick={handleDownloadImage} disabled={isDownloading} className="btn-primary flex-1 py-4 px-4 rounded-3xl font-semibold flex items-center justify-center gap-2">
+                                {isDownloading ? "Mengkompilasi..." : <><DownloadIcon /> Simpan Catatan</>}
                             </button>
-                            <button onClick={onReset} className="btn-secondary flex-1 py-4 rounded-3xl font-semibold">
-                                Mulai Ulang Refleksi
+                            <button onClick={onViewGallery} className="glass-panel flex-1 py-4 px-4 rounded-3xl font-semibold text-slate-700 hover:bg-white/80 transition-all border border-slate-200 flex items-center justify-center gap-2">
+                                Lihat Galeri Lengkap
+                            </button>
+                            <button onClick={onReset} className="btn-secondary flex-1 py-4 px-4 rounded-3xl font-semibold">
+                                Mulai Ulang
                             </button>
                         </div>
                         
@@ -633,6 +713,7 @@
             const [questions, setQuestions] = useState([]);
             const [currentIndex, setCurrentIndex] = useState(0);
             const [answers, setAnswers] = useState({});
+            const [userName, setUserName] = useState('');
             const [isFading, setIsFading] = useState(false);
 
             useEffect(() => {
@@ -653,6 +734,7 @@
                                 setQuestions(parsed.questions);
                                 setCurrentIndex(parsed.currentIndex || 0);
                                 setAnswers(parsed.answers || {});
+                                if (parsed.userName) setUserName(parsed.userName);
                                 
                                 if (parsed.currentIndex > 0) {
                                     if (parsed.currentIndex % 11 === 0 && parsed.currentIndex !== 0) {
@@ -670,11 +752,12 @@
                 setIsInitializing(false);
             }, []);
 
-            const saveState = (newCurrentIndex, newAnswers, newQuestions) => {
+            const saveState = (newCurrentIndex, newAnswers, newQuestions, newUserName) => {
                 const stateToSave = {
                     questions: newQuestions || questions,
                     currentIndex: newCurrentIndex,
                     answers: newAnswers,
+                    userName: newUserName !== undefined ? newUserName : userName,
                     lastSaved: new Date().toISOString()
                 };
                 try {
@@ -693,11 +776,16 @@
             };
 
             const startNew = () => {
+                transitionTo('data_entry');
+            };
+
+            const submitUserData = (name) => {
+                setUserName(name);
                 const shuffled = shuffleArray(RAW_QUESTIONS);
                 setQuestions(shuffled);
                 setCurrentIndex(0);
                 setAnswers({});
-                saveState(0, {}, shuffled);
+                saveState(0, {}, shuffled, name);
                 transitionTo('playing');
             };
 
@@ -737,6 +825,7 @@
                     setQuestions([]);
                     setCurrentIndex(0);
                     setAnswers({});
+                    setUserName('');
                     transitionTo('welcome');
                 }
             };
@@ -768,6 +857,13 @@
                             isFading={isFading}
                         />
                     )}
+
+                    {gameState === 'data_entry' && (
+                        <DataEntryScreen 
+                            onSubmit={submitUserData}
+                            isFading={isFading}
+                        />
+                    )}
                     
                     {gameState === 'playing' && questions.length > 0 && currentIndex < questions.length && (
                         <QuestionBoard 
@@ -790,7 +886,16 @@
                     {gameState === 'result' && (
                         <ResultDashboard 
                             result={calculateResult()} 
+                            userName={userName}
                             onReset={resetState}
+                            onViewGallery={() => transitionTo('gallery')}
+                            isFading={isFading}
+                        />
+                    )}
+
+                    {gameState === 'gallery' && (
+                        <GalleryScreen 
+                            onBack={() => transitionTo(Object.keys(answers).length === RAW_QUESTIONS.length ? 'result' : 'welcome')}
                             isFading={isFading}
                         />
                     )}
