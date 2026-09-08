@@ -1,0 +1,96 @@
+                    {/* Hidden PDF Rapor Layout (A4 Size: ~794px x 1123px) */}
+                    <div style={{ position: 'absolute', top: '-25000px', left: '-25000px' }}>
+                        <div ref={pdfRef} className="w-[794px] min-h-[1123px] bg-white relative overflow-hidden flex flex-col font-sans text-slate-800" style={{ backgroundColor: '#ffffff' }}>
+                            {/* Decorative Top Border */}
+                            <div className="h-4 w-full" style={{backgroundColor: primary.hex}}></div>
+                            
+                            {/* Header */}
+                            <div className="px-16 pt-16 pb-8 flex justify-between items-start border-b border-slate-100">
+                                <div>
+                                    <h1 className="text-3xl font-serif text-slate-800 tracking-tight">Rapor Psikologi</h1>
+                                    <p className="text-sm font-bold text-slate-400 tracking-widest uppercase mt-2">HealYou Asesmen Ummul Mukminin</p>
+                                </div>
+                                <div className="text-right">
+                                    <p className="text-sm text-slate-500 font-medium">Tanggal: {new Date().toLocaleDateString('id-ID', {day: 'numeric', month: 'long', year: 'numeric'})}</p>
+                                    <p className="text-sm text-slate-500 font-medium mt-1">Subjek: <span className="text-slate-800 font-bold">{userName || 'Anonim'}</span></p>
+                                </div>
+                            </div>
+
+                            {/* Main Content */}
+                            <div className="flex-1 px-16 py-12 flex flex-col gap-10">
+                                {/* Core Identity */}
+                                <div className="flex items-center gap-10">
+                                    <div className="shrink-0 relative">
+                                        <div className="absolute inset-0 rounded-full blur-2xl opacity-20" style={{backgroundColor: primary.hex}}></div>
+                                        <CharacterAvatar id={primary.id} colorHex={primary.hex} size="medium" />
+                                    </div>
+                                    <div>
+                                        <p className="text-xs font-bold text-slate-400 tracking-widest uppercase mb-2">Resonansi Utama</p>
+                                        <h2 className="text-4xl font-serif text-slate-800 mb-2">{primary.name}</h2>
+                                        <span className="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase border" style={{color: primary.hex, borderColor: `${primary.hex}50`, backgroundColor: `${primary.hex}10`}}>
+                                            {primary.epithet}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                {/* Summary */}
+                                <div>
+                                    <h3 className="text-sm font-bold text-slate-800 tracking-widest uppercase mb-4 border-b border-slate-200 pb-2">Profil Kepribadian</h3>
+                                    <p className="text-base text-slate-600 leading-relaxed font-medium">
+                                        {primary.shortSummary}
+                                    </p>
+                                </div>
+
+                                {/* Dynamics */}
+                                <div>
+                                    <h3 className="text-sm font-bold text-slate-800 tracking-widest uppercase mb-4 border-b border-slate-200 pb-2">Dinamika Relasional & Keseharian</h3>
+                                    <p className="text-base text-slate-600 leading-relaxed font-medium">
+                                        {primary.roleDynamics}
+                                    </p>
+                                </div>
+
+                                {/* Wisdom */}
+                                <div>
+                                    <h3 className="text-sm font-bold text-slate-800 tracking-widest uppercase mb-4 border-b border-slate-200 pb-2">Kekuatan Kognitif & Emosional</h3>
+                                    <ul className="space-y-4">
+                                        {primary.wisdom.map((w, idx) => {
+                                            const [term, desc] = w.split(': ');
+                                            return (
+                                                <li key={idx} className="flex flex-col gap-1 text-base text-slate-600 font-medium leading-relaxed">
+                                                    <span className="font-bold text-slate-800">{term}</span>
+                                                    <span>{desc}</span>
+                                                </li>
+                                            );
+                                        })}
+                                    </ul>
+                                </div>
+                                
+                                {/* Secondary */}
+                                {secondary && (
+                                    <div className="mt-auto pt-8 border-t border-slate-200">
+                                        <h3 className="text-sm font-bold text-slate-800 tracking-widest uppercase mb-4">Sub-Rutinitas & Kapabilitas Paralel</h3>
+                                        <div className="flex items-center gap-6 p-6 rounded-2xl bg-slate-50 border border-slate-100">
+                                            <div className="shrink-0">
+                                                <CharacterAvatar id={secondary.id} colorHex={secondary.hex} size="small" />
+                                            </div>
+                                            <div>
+                                                <h4 className="text-xl font-serif text-slate-800 mb-1">{secondary.name}</h4>
+                                                <p className="text-sm text-slate-600 font-medium">Sistem pendukung: <span style={{color: secondary.hex}} className="font-semibold">{secondary.epithet}</span></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Footer */}
+                            <div className="px-16 py-8 border-t border-slate-100 flex justify-between items-center bg-slate-50 mt-auto">
+                                <div className="flex items-center gap-3">
+                                    <div className="w-8 h-8 bg-[#5C7C6A] rounded-full flex items-center justify-center text-white">
+                                        <LeafIcon />
+                                    </div>
+                                    <p className="text-xs font-bold text-slate-400 tracking-widest uppercase">HealYou</p>
+                                </div>
+                                <p className="text-[10px] font-bold text-slate-400 tracking-widest uppercase">healyou-asesmen-ummul-mukminin.netlify.app</p>
+                            </div>
+                        </div>
+                    </div>

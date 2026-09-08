@@ -1,0 +1,40 @@
+            const handleDownloadPDF = async () => {
+                if (!pdfRef.current) return;
+                setIsGeneratingPDF(true);
+                const currentScrollY = window.scrollY;
+                window.scrollTo(0, 0);
+                
+                try {
+                    await new Promise(resolve => setTimeout(resolve, 300));
+                    const canvas = await html2canvas(pdfRef.current, {
+                        scale: 2,
+                        backgroundColor: "#ffffff",
+                        useCORS: true,
+                        logging: false,
+                        windowWidth: pdfRef.current.scrollWidth,
+                        windowHeight: pdfRef.current.scrollHeight,
+                    });
+                    
+                    const imgData = canvas.toDataURL('image/jpeg', 0.95);
+                    const { jsPDF } = window.jspdf;
+                    
+                    // A4 size in mm: 210 x 297
+                    const pdf = new jsPDF({
+                        orientation: 'portrait',
+                        unit: 'mm',
+                        format: 'a4'
+                    });
+                    
+                    const pdfWidth = pdf.internal.pageSize.getWidth();
+                    const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+                    
+                    pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+                    pdf.save(`Rapor_Psikologi_${primary.name.replace(/\s+/g, '_')}.pdf`);
+                } catch (error) {
+                    console.error("Gagal menghasilkan PDF:", error);
+                    alert("Maaf, terjadi kesalahan saat menyusun dokumen rapor.");
+                } finally {
+                    window.scrollTo(0, currentScrollY);
+                    setIsGeneratingPDF(false);
+                }
+            };

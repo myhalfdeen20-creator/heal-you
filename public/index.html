@@ -17,6 +17,7 @@
 
     <!-- html2canvas for Export/Share Feature -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
@@ -60,6 +61,28 @@
         .fade-in { animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         .slide-up { animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; }
         
+        .animate-enter { animation: enterScreen 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+        .animate-exit { animation: exitScreen 0.4s cubic-bezier(0.4, 0, 1, 1) forwards; }
+        .question-enter { animation: questionIn 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+        .question-exit { animation: questionOut 0.3s cubic-bezier(0.4, 0, 1, 1) forwards; }
+
+        @keyframes enterScreen {
+            from { opacity: 0; transform: translateY(16px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        @keyframes exitScreen {
+            from { opacity: 1; transform: translateY(0) scale(1); }
+            to { opacity: 0; transform: translateY(-16px) scale(0.98); }
+        }
+        @keyframes questionIn {
+            from { opacity: 0; transform: translateX(32px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes questionOut {
+            from { opacity: 1; transform: translateX(0); }
+            to { opacity: 0; transform: translateX(-32px); }
+        }
+
         .stagger-1 { animation-delay: 100ms; }
         .stagger-2 { animation-delay: 200ms; }
         .stagger-3 { animation-delay: 300ms; }
@@ -355,19 +378,29 @@
         const SparklesIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1-1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>;
         const ArrowRightIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>;
         const DownloadIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>;
+        const ShareIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>;
+        const FileTextIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><line x1="10" y1="9" x2="8" y2="9"></line></svg>;
+        const SoundOnIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>;
+        const SoundOffIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>;
 
         const CharacterAvatar = ({ id, colorHex, size = "large" }) => {
             const dims = size === "large" ? "w-48 h-48 sm:w-56 sm:h-56" : size === "medium" ? "w-32 h-32 sm:w-40 sm:h-40" : "w-24 h-24";
             
             return (
-                <div className={`${dims} rounded-full overflow-hidden shadow-xl mx-auto flex items-end justify-center relative`} style={{backgroundColor: `${colorHex}20`, border: `4px solid ${colorHex}40`}}>
+                <div className={`${dims} rounded-full overflow-hidden shadow-xl mx-auto flex items-end justify-center relative bg-white`} style={{backgroundColor: `${colorHex}15`, border: `4px solid ${colorHex}40`}}>
                     <img 
-                        src={`/avatars/${id}.png?v=6`} 
+                        src={`/avatars/${id}.jpg`} 
                         alt={`Ilustrasi ${id}`}
                         className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
                         onError={(e) => {
-                            e.target.onerror = null;
-                            e.target.src = 'https://placehold.co/400x400/e2e8f0/64748b.png?text=Avatar';
+                            // Fallback if .jpg doesn't exist, try .png
+                            if (e.target.src.endsWith('.jpg')) {
+                                e.target.src = `/avatars/${id}.png`;
+                            } else {
+                                // Fallback placeholder if neither exists
+                                e.target.onerror = null;
+                                e.target.src = 'https://placehold.co/400x400/e2e8f0/64748b.png?text=Avatar+Faceless';
+                            }
                         }}
                     />
                 </div>
@@ -376,8 +409,10 @@
 
         // --- 4. KOMPONEN SCREENS ---
         const GalleryScreen = ({ onBack, isFading }) => {
+            const [selectedChar, setSelectedChar] = useState(null);
+
             return (
-                <main className={`min-h-screen py-10 px-4 sm:px-6 lg:px-8 transition-opacity duration-700 ${isFading ? 'opacity-0' : 'opacity-100 fade-in'}`}>
+                <main className={`min-h-screen py-10 px-4 sm:px-6 lg:px-8 overflow-x-hidden ${isFading ? 'animate-exit' : 'animate-enter'}`}>
                     <div className="max-w-5xl mx-auto space-y-8 slide-up">
                         <div className="text-center mb-10">
                             <h2 className="text-3xl sm:text-4xl font-serif text-slate-700 mb-4">Galeri Ummul Mukminin</h2>
@@ -386,16 +421,26 @@
                         
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                             {ARCHETYPES.map((char) => (
-                                <div key={char.id} className="glass-panel rounded-[2rem] p-6 text-center flex flex-col items-center relative overflow-hidden transition-all hover:-translate-y-1 hover:shadow-2xl cursor-default">
+                                <button 
+                                    key={char.id} 
+                                    onClick={() => setSelectedChar(char)}
+                                    className="glass-panel rounded-[2rem] p-6 text-center flex flex-col items-center relative overflow-hidden transition-all hover:-translate-y-1 hover:shadow-2xl text-left w-full h-full"
+                                >
                                     <CharacterAvatar id={char.id} colorHex={char.hex} size="medium" />
                                     <h3 className="mt-6 text-xl font-serif text-slate-700" style={{color: char.hex}}>{char.name}</h3>
                                     <span className="text-[10px] font-bold tracking-widest uppercase mt-2 mb-3 px-3 py-1 rounded-full bg-white/60 border shadow-sm" style={{color: char.hex, borderColor: `${char.hex}30`}}>
                                         {char.epithet}
                                     </span>
-                                    <p className="text-sm text-slate-600 leading-relaxed">
+                                    <p className="text-sm text-slate-600 leading-relaxed mb-6 text-center">
                                         {char.shortSummary}
                                     </p>
-                                </div>
+                                    <div className="mt-auto pt-4 w-full border-t border-slate-200/50 flex justify-center items-center gap-2 group">
+                                        <span className="text-xs font-bold uppercase tracking-widest" style={{color: char.hex}}>Baca Sejarah Lengkap</span>
+                                        <div className="transition-transform group-hover:translate-x-1" style={{color: char.hex}}>
+                                            <ArrowRightIcon />
+                                        </div>
+                                    </div>
+                                </button>
                             ))}
                         </div>
 
@@ -405,6 +450,68 @@
                             </button>
                         </div>
                     </div>
+
+                    {/* Character Details Modal */}
+                    {selectedChar && (
+                        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-slate-900/40 backdrop-blur-sm animate-enter" onClick={() => setSelectedChar(null)}>
+                            <div className="glass-panel max-w-2xl w-full max-h-[90vh] overflow-y-auto rounded-[2rem] p-6 sm:p-10 relative bg-[#F7F5F0]" onClick={e => e.stopPropagation()}>
+                                <button 
+                                    onClick={() => setSelectedChar(null)}
+                                    className="absolute top-4 right-4 sm:top-6 sm:right-6 w-10 h-10 bg-white/80 rounded-full flex items-center justify-center text-slate-500 hover:text-slate-800 transition-colors shadow-sm"
+                                    aria-label="Tutup"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                </button>
+                                
+                                <div className="flex flex-col sm:flex-row gap-6 sm:gap-8 items-center sm:items-start mb-8 mt-4 sm:mt-0">
+                                    <div className="shrink-0 relative">
+                                        <div className="absolute inset-0 rounded-full blur-2xl opacity-20" style={{backgroundColor: selectedChar.hex}}></div>
+                                        <CharacterAvatar id={selectedChar.id} colorHex={selectedChar.hex} size="medium" />
+                                    </div>
+                                    <div className="text-center sm:text-left flex-1">
+                                        <h3 className="text-2xl sm:text-3xl font-serif text-slate-800 mb-2">{selectedChar.name}</h3>
+                                        <span className="inline-block text-[10px] font-bold tracking-widest uppercase px-3 py-1 rounded-full bg-white/60 border shadow-sm mb-4" style={{color: selectedChar.hex, borderColor: `${selectedChar.hex}30`}}>
+                                            {selectedChar.epithet}
+                                        </span>
+                                        <p className="text-sm font-medium text-slate-600 leading-relaxed bg-white/40 p-4 rounded-xl border border-white">
+                                            {selectedChar.shortSummary}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div className="space-y-8">
+                                    <div>
+                                        <h4 className="text-xs font-bold tracking-widest uppercase mb-3 text-slate-400 border-b border-slate-200 pb-2">Jejak Sejarah & Konteks Klinis</h4>
+                                        <p className="text-base text-slate-700 leading-relaxed font-medium">
+                                            {selectedChar.history}
+                                        </p>
+                                    </div>
+                                    
+                                    <div>
+                                        <h4 className="text-xs font-bold tracking-widest uppercase mb-3 text-slate-400 border-b border-slate-200 pb-2">Dinamika Relasional (Keseharian)</h4>
+                                        <p className="text-base text-slate-700 leading-relaxed font-medium">
+                                            {selectedChar.roleDynamics}
+                                        </p>
+                                    </div>
+
+                                    <div>
+                                        <h4 className="text-xs font-bold tracking-widest uppercase mb-4 text-slate-400 border-b border-slate-200 pb-2">Kekuatan Kognitif & Emosional</h4>
+                                        <ul className="space-y-4">
+                                            {selectedChar.wisdom.map((w, idx) => {
+                                                const [term, desc] = w.split(': ');
+                                                return (
+                                                    <li key={idx} className="text-sm text-slate-700 leading-relaxed bg-white/40 p-3 rounded-xl border border-white">
+                                                        <span className="font-bold block mb-1" style={{color: selectedChar.hex}}>{term}</span>
+                                                        <span className="font-medium">{desc}</span>
+                                                    </li>
+                                                );
+                                            })}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </main>
             );
         };
@@ -420,7 +527,7 @@
             };
 
             return (
-                <main className={`min-h-screen flex items-center justify-center p-4 sm:p-6 transition-opacity duration-700 ${isFading ? 'opacity-0' : 'opacity-100 fade-in'}`}>
+                <main className={`min-h-screen flex items-center justify-center p-4 sm:p-6 overflow-x-hidden ${isFading ? 'animate-exit' : 'animate-enter'}`}>
                     <section className="glass-panel max-w-md w-full rounded-[2rem] p-10 text-center slide-up">
                         <div className="inline-flex items-center justify-center p-4 bg-white/80 rounded-[2rem] text-[#5C7C6A] mb-6 shadow-sm border border-white" aria-hidden="true">
                             <LeafIcon />
@@ -452,7 +559,7 @@
         };
 
         const WelcomeScreen = ({ onStart, onResume, onReset, savedIndex, isFading }) => (
-            <main className={`min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-8 transition-opacity duration-700 ${isFading ? 'opacity-0' : 'opacity-100 fade-in'}`}>
+            <main className={`min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-8 overflow-x-hidden ${isFading ? 'animate-exit' : 'animate-enter'}`}>
                 <article className="glass-panel max-w-3xl w-full rounded-[2.5rem] p-8 sm:p-12 lg:p-16 text-center relative overflow-hidden">
                     <div className="absolute -top-32 -right-32 w-64 h-64 bg-emerald-100/40 rounded-full blur-3xl" aria-hidden="true"></div>
                     <div className="absolute -bottom-32 -left-32 w-64 h-64 bg-orange-100/40 rounded-full blur-3xl" aria-hidden="true"></div>
@@ -495,7 +602,7 @@
 
         // Break Screen
         const BreakScreen = ({ chunkIndex, onContinue, isFading }) => (
-            <main className={`min-h-screen flex items-center justify-center p-4 sm:p-6 transition-opacity duration-700 ${isFading ? 'opacity-0' : 'opacity-100 fade-in'}`}>
+            <main className={`min-h-screen flex items-center justify-center p-4 sm:p-6 overflow-x-hidden ${isFading ? 'animate-exit' : 'animate-enter'}`}>
                 <section className="glass-panel max-w-md w-full rounded-[2rem] p-10 text-center slide-up" aria-labelledby="break-title">
                     <div className="inline-flex items-center justify-center p-4 bg-white/80 rounded-[2rem] text-[#5C7C6A] mb-6 shadow-sm border border-white" aria-hidden="true">
                         <LeafIcon />
@@ -518,7 +625,7 @@
             const totalChunks = Math.ceil(totalQuestions / 11);
 
             return (
-                <main className={`min-h-screen flex flex-col items-center justify-center p-4 sm:p-6 transition-opacity duration-500 ${isFading ? 'opacity-0' : 'opacity-100'}`}>
+                <main className={`min-h-screen flex flex-col items-center justify-center p-4 sm:p-6 overflow-x-hidden ${isFading ? 'question-exit' : 'question-enter'}`}>
                     <section className="max-w-2xl w-full">
                         <header className="mb-10 text-center" aria-label="Progress">
                             <p className="text-[11px] font-semibold text-slate-400 tracking-wider uppercase mb-5" aria-live="polite">
@@ -564,24 +671,144 @@
             );
         };
 
+        // Analyzing Screen
+        const AnalyzingScreen = ({ onComplete, isFading }) => {
+            const [textIndex, setTextIndex] = useState(0);
+            const phrases = [
+                "Menganalisis pola jawabanmu...",
+                "Mencari resonansi arketipe...",
+                "Menyusun catatan perjalanan..."
+            ];
+
+            useEffect(() => {
+                const interval = setInterval(() => {
+                    setTextIndex(prev => {
+                        if (prev < phrases.length - 1) return prev + 1;
+                        clearInterval(interval);
+                        return prev;
+                    });
+                }, 1200);
+
+                const totalTime = phrases.length * 1200 + 800;
+                const timer = setTimeout(() => {
+                    onComplete();
+                }, totalTime);
+
+                return () => {
+                    clearInterval(interval);
+                    clearTimeout(timer);
+                };
+            }, [onComplete]);
+
+            return (
+                <main className={`min-h-screen flex items-center justify-center p-4 sm:p-6 overflow-x-hidden ${isFading ? 'animate-exit' : 'animate-enter'}`}>
+                    <section className="glass-panel max-w-md w-full rounded-[2rem] p-12 text-center flex flex-col items-center">
+                        <div className="relative w-24 h-24 mb-10 flex items-center justify-center">
+                            <div className="absolute inset-0 border-4 border-slate-200 rounded-full opacity-50"></div>
+                            <div className="absolute inset-0 border-4 border-[#5C7C6A] rounded-full border-t-transparent animate-spin opacity-80"></div>
+                            <div className="absolute inset-2 bg-emerald-50 rounded-full animate-pulse flex items-center justify-center text-[#5C7C6A] shadow-inner">
+                                <SparklesIcon />
+                            </div>
+                        </div>
+                        <h2 className="text-xl sm:text-2xl font-serif text-slate-700 h-16 sm:h-8 flex items-center justify-center transition-all duration-300">
+                            {phrases[textIndex]}
+                        </h2>
+                        <p className="text-slate-400 mt-6 text-[10px] font-bold tracking-[0.2em] uppercase">Memproses Data</p>
+                    </section>
+                </main>
+            );
+        };
+
         // Result Dashboard (Bento Box Layout)
         const ResultDashboard = ({ result, userName, onReset, onViewGallery, isFading }) => {
             const { primary, secondary } = result;
             const [isHistoryExpanded, setIsHistoryExpanded] = useState(true);
             const [isDownloading, setIsDownloading] = useState(false);
-            const captureRef = useRef(null);
+            const exportRef = useRef(null);
+            const pdfRef = useRef(null);
+            const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
+
+            const handleDownloadPDF = async () => {
+                if (!pdfRef.current) return;
+                setIsGeneratingPDF(true);
+                const currentScrollY = window.scrollY;
+                window.scrollTo(0, 0);
+                
+                try {
+                    await new Promise(resolve => setTimeout(resolve, 300));
+                    const canvas = await html2canvas(pdfRef.current, {
+                        scale: 2,
+                        backgroundColor: "#ffffff",
+                        useCORS: true,
+                        logging: false,
+                        windowWidth: pdfRef.current.scrollWidth,
+                        windowHeight: pdfRef.current.scrollHeight,
+                    });
+                    
+                    const imgData = canvas.toDataURL('image/jpeg', 0.95);
+                    const { jsPDF } = window.jspdf;
+                    
+                    // A4 size in mm: 210 x 297
+                    const pdf = new jsPDF({
+                        orientation: 'portrait',
+                        unit: 'mm',
+                        format: 'a4'
+                    });
+                    
+                    const pdfWidth = pdf.internal.pageSize.getWidth();
+                    const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+                    
+                    pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+                    pdf.save(`Rapor_Psikologi_${primary.name.replace(/\s+/g, '_')}.pdf`);
+                } catch (error) {
+                    console.error("Gagal menghasilkan PDF:", error);
+                    alert("Maaf, terjadi kesalahan saat menyusun dokumen rapor.");
+                } finally {
+                    window.scrollTo(0, currentScrollY);
+                    setIsGeneratingPDF(false);
+                }
+            };
+
+            const handleShare = async () => {
+                const shareText = `Halo! Saya baru saja mengikuti Asesmen HealYou. Ternyata karakteristik psikologis saya beresonansi dengan keteladanan ${primary.name}. Yuk, cari tahu teladan Ummul Mukminin mana yang sesuai denganmu!`;
+                const shareUrl = "https://healyou-asesmen-ummul-mukminin.netlify.app/";
+                
+                if (navigator.share) {
+                    try {
+                        await navigator.share({
+                            title: 'HealYou - Asesmen Ummul Mukminin',
+                            text: shareText,
+                            url: shareUrl,
+                        });
+                    } catch (error) {
+                        if (error.name !== 'AbortError') {
+                            console.error('Error sharing:', error);
+                        }
+                    }
+                } else {
+                    navigator.clipboard.writeText(`${shareText}\n\n${shareUrl}`);
+                    alert("Tautan dan pesan berhasil disalin ke clipboard!");
+                }
+            };
 
             const handleDownloadImage = async () => {
-                if (!captureRef.current) return;
+                if (!exportRef.current) return;
                 setIsDownloading(true);
+                
+                // Simpan posisi scroll saat ini
+                const currentScrollY = window.scrollY;
+                // Gulir ke atas agar html2canvas tidak memotong elemen
+                window.scrollTo(0, 0);
+                
                 try {
-                    await new Promise(resolve => setTimeout(resolve, 100));
-                    const canvas = await html2canvas(captureRef.current, {
+                    await new Promise(resolve => setTimeout(resolve, 300));
+                    const canvas = await html2canvas(exportRef.current, {
                         scale: 2, 
                         backgroundColor: "#F7F5F0",
                         useCORS: true,
                         logging: false,
-                        windowWidth: captureRef.current.scrollWidth,
+                        windowWidth: exportRef.current.scrollWidth,
+                        windowHeight: exportRef.current.scrollHeight,
                     });
 
                     const image = canvas.toDataURL("image/jpeg", 0.9);
@@ -593,14 +820,69 @@
                     console.error("Gagal mengekspor gambar:", error);
                     alert("Maaf, terjadi kesalahan saat menyimpan gambar.");
                 } finally {
+                    // Kembalikan posisi scroll
+                    window.scrollTo(0, currentScrollY);
                     setIsDownloading(false);
                 }
             };
 
             return (
-                <main className={`min-h-screen py-10 px-4 sm:px-6 lg:px-8 transition-opacity duration-700 ${isFading ? 'opacity-0' : 'opacity-100 fade-in'}`}>
+                <main className={`min-h-screen py-10 px-4 sm:px-6 lg:px-8 overflow-x-hidden ${isFading ? 'animate-exit' : 'animate-enter'}`}>
                     
-                    <div className="max-w-5xl mx-auto space-y-6" ref={captureRef}>
+                    {/* Hidden Export Layout (Portrait for Social Media) */}
+                    <div style={{ position: 'absolute', top: '-15000px', left: '-15000px' }}>
+                        <div ref={exportRef} className="w-[480px] min-h-[853px] bg-[#F7F5F0] relative overflow-hidden flex flex-col p-10 font-sans" style={{ backgroundColor: '#F7F5F0' }}>
+                            {/* Background Decorations */}
+                            <div className="absolute top-0 right-0 w-80 h-80 rounded-full blur-3xl opacity-30 pointer-events-none" style={{backgroundColor: primary.hex}}></div>
+                            <div className="absolute bottom-0 left-0 w-64 h-64 rounded-full blur-3xl opacity-30 pointer-events-none" style={{backgroundColor: secondary ? secondary.hex : primary.hex}}></div>
+
+                            {/* Header */}
+                            <div className="mb-6 flex justify-between items-center z-10">
+                                <p className="text-[#5C7C6A] font-bold tracking-[0.2em] uppercase text-[10px]">Catatan Perjalanan HealYou</p>
+                            </div>
+
+                            {/* Main Content Area */}
+                            <div className="flex-1 flex flex-col items-center justify-center text-center z-10 py-6">
+                                <CharacterAvatar id={primary.id} colorHex={primary.hex} size="large" />
+                                
+                                <div className="mt-8 mb-4 inline-flex items-center justify-center px-5 py-2 bg-white/60 border border-white rounded-full shadow-sm backdrop-blur-md">
+                                    <span className="text-[11px] font-bold tracking-widest uppercase" style={{color: primary.hex}}>
+                                        {primary.epithet} • Kesesuaian {primary.matchPercentage || 0}%
+                                    </span>
+                                </div>
+                                
+                                <h1 className="text-3xl font-serif text-slate-700 mb-6 leading-tight">
+                                    Karakteristik {userName ? userName : 'saya'} beresonansi dengan<br />
+                                    <span style={{color: primary.hex}} className="font-semibold text-4xl mt-3 block">{primary.name}</span>
+                                </h1>
+                                
+                                <p className="text-slate-600 leading-relaxed text-base font-medium px-2">
+                                    {primary.shortSummary}
+                                </p>
+                            </div>
+
+                            {/* Secondary if exists */}
+                            {secondary && (
+                                <div className="mt-4 bg-white/60 backdrop-blur-md rounded-2xl p-5 border border-white/80 w-full z-10">
+                                    <p className="text-[10px] font-bold text-slate-400 tracking-widest uppercase mb-1">Sub-Rutinitas Pendukung</p>
+                                    <p className="text-sm font-serif text-slate-700"><span style={{color: secondary.hex}} className="font-semibold">{secondary.name}</span> — {secondary.epithet}</p>
+                                </div>
+                            )}
+
+                            {/* Footer */}
+                            <div className="mt-6 pt-6 border-t border-slate-200/50 flex justify-between items-center z-10">
+                                <div className="text-left">
+                                    <p className="text-xs font-bold text-slate-700">Asesmen Ummul Mukminin</p>
+                                    <p className="text-[10px] text-slate-500 mt-0.5">healyou-asesmen-ummul-mukminin.netlify.app</p>
+                                </div>
+                                <div className="w-10 h-10 bg-[#5C7C6A] rounded-full flex items-center justify-center text-white shadow-sm">
+                                    <LeafIcon />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="max-w-5xl mx-auto space-y-6">
                         {/* BENTO GRID */}
                         <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
                             
@@ -617,9 +899,19 @@
                                 <h1 className="text-3xl sm:text-4xl lg:text-5xl font-serif text-slate-700 mb-4 px-2 leading-tight">
                                     {userName ? `Halo ${userName}, Karakteristikmu` : 'Karakteristikmu'}<br />Beresonansi dengan <span style={{color: primary.hex}} className="font-semibold">{primary.name}</span>
                                 </h1>
-                                <p className="text-slate-600 leading-relaxed text-base sm:text-lg max-w-3xl mx-auto font-medium z-10">
+                                <p className="text-slate-600 leading-relaxed text-base sm:text-lg max-w-3xl mx-auto font-medium z-10 mb-8">
                                     {primary.shortSummary}
                                 </p>
+                                
+                                <div className="w-full max-w-md mx-auto bg-white/40 p-5 rounded-3xl border border-white backdrop-blur-sm relative z-10 shadow-[0_8px_32px_-12px_rgba(0,0,0,0.05)]">
+                                    <div className="flex justify-between items-center mb-3">
+                                        <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">Tingkat Kesesuaian</span>
+                                        <span className="text-xl font-black" style={{color: primary.hex}}>{primary.matchPercentage || 0}%</span>
+                                    </div>
+                                    <div className="w-full bg-slate-200/50 rounded-full h-3 overflow-hidden shadow-inner">
+                                        <div className="h-full rounded-full transition-all duration-1000 ease-out" style={{ width: `${primary.matchPercentage || 0}%`, backgroundColor: primary.hex }}></div>
+                                    </div>
+                                </div>
                             </div>
 
                             {/* Dinamika Relasional (Left column, 6 spans) */}
@@ -654,12 +946,21 @@
                                     <div className="shrink-0">
                                         <CharacterAvatar id={secondary.id} colorHex={secondary.hex} size="small" />
                                     </div>
-                                    <div className="text-center sm:text-left">
+                                    <div className="text-center sm:text-left flex-1">
                                         <p className="text-xs font-bold text-slate-400 tracking-widest uppercase mb-2">Sub-Rutinitas & Kapabilitas Paralel</p>
                                         <h3 className="text-xl font-serif text-slate-700 mb-2">{secondary.name}</h3>
                                         <p className="text-sm text-slate-600 leading-relaxed font-medium">
                                             Sistem arsitektur psikologismu juga didukung oleh modul <span className="font-semibold" style={{color: secondary.hex}}>{secondary.epithet}</span> layaknya karakteristik {secondary.name.split(' ')[0]}.
                                         </p>
+                                    </div>
+                                    <div className="mt-4 sm:mt-0 sm:ml-auto w-full sm:w-48 bg-white/40 p-4 rounded-2xl border border-white backdrop-blur-sm shrink-0">
+                                        <div className="flex justify-between items-center mb-2">
+                                            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Kesesuaian</span>
+                                            <span className="text-sm font-bold" style={{color: secondary.hex}}>{secondary.matchPercentage || 0}%</span>
+                                        </div>
+                                        <div className="w-full bg-slate-200/50 rounded-full h-1.5 overflow-hidden shadow-inner">
+                                            <div className="h-full rounded-full transition-all duration-1000 ease-out" style={{ width: `${secondary.matchPercentage || 0}%`, backgroundColor: secondary.hex }}></div>
+                                        </div>
                                     </div>
                                 </div>
                             )}
@@ -687,13 +988,22 @@
 
                         {/* Actions */}
                         <div className="flex flex-col sm:flex-row flex-wrap gap-4 pt-6 slide-up stagger-4" data-html2canvas-ignore>
-                            <button onClick={handleDownloadImage} disabled={isDownloading} className="btn-primary flex-1 py-4 px-4 rounded-3xl font-semibold flex items-center justify-center gap-2">
-                                {isDownloading ? "Mengkompilasi..." : <><DownloadIcon /> Simpan Catatan</>}
+                            <button onClick={handleShare} className="glass-panel flex-1 py-4 px-4 rounded-3xl font-semibold text-slate-700 hover:bg-white/90 transition-all border border-slate-200 flex items-center justify-center gap-2" style={{borderColor: `${primary.hex}50`, color: primary.hex}}>
+                                <ShareIcon /> Bagikan Hasil
                             </button>
-                            <button onClick={onViewGallery} className="glass-panel flex-1 py-4 px-4 rounded-3xl font-semibold text-slate-700 hover:bg-white/80 transition-all border border-slate-200 flex items-center justify-center gap-2">
+                            <button onClick={handleDownloadPDF} disabled={isGeneratingPDF} className="glass-panel flex-1 py-4 px-4 rounded-3xl font-semibold text-slate-700 hover:bg-white/90 transition-all border border-slate-200 flex items-center justify-center gap-2" style={{borderColor: `${primary.hex}50`, color: primary.hex}}>
+                                {isGeneratingPDF ? "Memproses PDF..." : <><FileTextIcon /> Cetak Rapor PDF</>}
+                            </button>
+                            <button onClick={handleDownloadImage} disabled={isDownloading} className="btn-primary flex-1 py-4 px-4 rounded-3xl font-semibold flex items-center justify-center gap-2">
+                                {isDownloading ? "Menyimpan Poster..." : <><DownloadIcon /> Simpan Poster</>}
+                            </button>
+                        </div>
+                        
+                        <div className="flex flex-col sm:flex-row flex-wrap gap-4 pt-2 slide-up stagger-4" data-html2canvas-ignore>
+                            <button onClick={onViewGallery} className="glass-panel w-full sm:w-auto flex-1 py-4 px-4 rounded-3xl font-semibold text-slate-700 hover:bg-white/80 transition-all border border-slate-200 flex items-center justify-center gap-2">
                                 Lihat Galeri Lengkap
                             </button>
-                            <button onClick={onReset} className="btn-secondary flex-1 py-4 px-4 rounded-3xl font-semibold">
+                            <button onClick={onReset} className="btn-secondary w-full sm:w-auto flex-1 py-4 px-4 rounded-3xl font-semibold">
                                 Mulai Ulang
                             </button>
                         </div>
@@ -702,12 +1012,190 @@
                             Analisis didasarkan pada sintesis historiografi dan psikologi klinis (CBT/IFS).
                         </p>
                     </div>
+
+                    {/* Hidden PDF Rapor Layout (A4 Size: ~794px x 1123px) */}
+                    <div style={{ position: 'absolute', top: '-25000px', left: '-25000px' }}>
+                        <div ref={pdfRef} className="w-[794px] min-h-[1123px] bg-white relative overflow-hidden flex flex-col font-sans text-slate-800" style={{ backgroundColor: '#ffffff' }}>
+                            {/* Decorative Top Border */}
+                            <div className="h-4 w-full" style={{backgroundColor: primary.hex}}></div>
+                            
+                            {/* Header */}
+                            <div className="px-16 pt-16 pb-8 flex justify-between items-start border-b border-slate-100">
+                                <div>
+                                    <h1 className="text-3xl font-serif text-slate-800 tracking-tight">Rapor Psikologi</h1>
+                                    <p className="text-sm font-bold text-slate-400 tracking-widest uppercase mt-2">HealYou Asesmen Ummul Mukminin</p>
+                                </div>
+                                <div className="text-right">
+                                    <p className="text-sm text-slate-500 font-medium">Tanggal: {new Date().toLocaleDateString('id-ID', {day: 'numeric', month: 'long', year: 'numeric'})}</p>
+                                    <p className="text-sm text-slate-500 font-medium mt-1">Subjek: <span className="text-slate-800 font-bold">{userName || 'Anonim'}</span></p>
+                                </div>
+                            </div>
+
+                            {/* Main Content */}
+                            <div className="flex-1 px-16 py-12 flex flex-col gap-10">
+                                {/* Core Identity */}
+                                <div className="flex items-center gap-10">
+                                    <div className="shrink-0 relative">
+                                        <div className="absolute inset-0 rounded-full blur-2xl opacity-20" style={{backgroundColor: primary.hex}}></div>
+                                        <CharacterAvatar id={primary.id} colorHex={primary.hex} size="medium" />
+                                    </div>
+                                    <div className="flex-1">
+                                        <div className="flex justify-between items-start mb-2">
+                                            <div>
+                                                <p className="text-xs font-bold text-slate-400 tracking-widest uppercase mb-1">Resonansi Utama</p>
+                                                <h2 className="text-4xl font-serif text-slate-800">{primary.name}</h2>
+                                            </div>
+                                            <div className="text-right">
+                                                <p className="text-3xl font-bold" style={{color: primary.hex}}>{primary.matchPercentage || 0}%</p>
+                                                <p className="text-[10px] font-bold text-slate-400 tracking-widest uppercase mt-1">Kesesuaian</p>
+                                            </div>
+                                        </div>
+                                        <span className="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase border mt-2" style={{color: primary.hex, borderColor: `${primary.hex}50`, backgroundColor: `${primary.hex}10`}}>
+                                            {primary.epithet}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                {/* Summary */}
+                                <div>
+                                    <h3 className="text-sm font-bold text-slate-800 tracking-widest uppercase mb-4 border-b border-slate-200 pb-2">Profil Kepribadian</h3>
+                                    <p className="text-base text-slate-600 leading-relaxed font-medium">
+                                        {primary.shortSummary}
+                                    </p>
+                                </div>
+
+                                {/* Dynamics */}
+                                <div>
+                                    <h3 className="text-sm font-bold text-slate-800 tracking-widest uppercase mb-4 border-b border-slate-200 pb-2">Dinamika Relasional & Keseharian</h3>
+                                    <p className="text-base text-slate-600 leading-relaxed font-medium">
+                                        {primary.roleDynamics}
+                                    </p>
+                                </div>
+
+                                {/* Wisdom */}
+                                <div>
+                                    <h3 className="text-sm font-bold text-slate-800 tracking-widest uppercase mb-4 border-b border-slate-200 pb-2">Kekuatan Kognitif & Emosional</h3>
+                                    <ul className="space-y-4">
+                                        {primary.wisdom.map((w, idx) => {
+                                            const [term, desc] = w.split(': ');
+                                            return (
+                                                <li key={idx} className="flex flex-col gap-1 text-base text-slate-600 font-medium leading-relaxed">
+                                                    <span className="font-bold text-slate-800">{term}</span>
+                                                    <span>{desc}</span>
+                                                </li>
+                                            );
+                                        })}
+                                    </ul>
+                                </div>
+                                
+                                {/* Secondary */}
+                                {secondary && (
+                                    <div className="mt-auto pt-8 border-t border-slate-200">
+                                        <h3 className="text-sm font-bold text-slate-800 tracking-widest uppercase mb-4">Sub-Rutinitas & Kapabilitas Paralel</h3>
+                                        <div className="flex items-center gap-6 p-6 rounded-2xl bg-slate-50 border border-slate-100">
+                                            <div className="shrink-0">
+                                                <CharacterAvatar id={secondary.id} colorHex={secondary.hex} size="small" />
+                                            </div>
+                                            <div>
+                                                <h4 className="text-xl font-serif text-slate-800 mb-1">{secondary.name}</h4>
+                                                <p className="text-sm text-slate-600 font-medium">Sistem pendukung: <span style={{color: secondary.hex}} className="font-semibold">{secondary.epithet}</span></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Footer */}
+                            <div className="px-16 py-8 border-t border-slate-100 flex justify-between items-center bg-slate-50 mt-auto">
+                                <div className="flex items-center gap-3">
+                                    <div className="w-8 h-8 bg-[#5C7C6A] rounded-full flex items-center justify-center text-white">
+                                        <LeafIcon />
+                                    </div>
+                                    <p className="text-xs font-bold text-slate-400 tracking-widest uppercase">HealYou</p>
+                                </div>
+                                <p className="text-[10px] font-bold text-slate-400 tracking-widest uppercase">healyou-asesmen-ummul-mukminin.netlify.app</p>
+                            </div>
+                        </div>
+                    </div>
                 </main>
             );
         };
 
+        // --- 4.5. AUDIO ENGINE (WEB AUDIO API - NO INSTRUMENTS) ---
+        const AudioEngine = {
+            ctx: null,
+            master: null,
+            noise: null,
+            lfo: null,
+            init: function() {
+                if (this.ctx) return;
+                this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+                this.master = this.ctx.createGain();
+                this.master.gain.value = 0; // Start muted
+                this.master.connect(this.ctx.destination);
+                
+                // Generates Brownian Noise (sounds like distant ocean/wind)
+                const bufferSize = this.ctx.sampleRate * 2;
+                const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+                const data = buffer.getChannelData(0);
+                let lastOut = 0;
+                for (let i = 0; i < bufferSize; i++) {
+                    const white = Math.random() * 2 - 1;
+                    data[i] = (lastOut + (0.02 * white)) / 1.02;
+                    lastOut = data[i];
+                    data[i] *= 3.5;
+                }
+                
+                this.noise = this.ctx.createBufferSource();
+                this.noise.buffer = buffer;
+                this.noise.loop = true;
+                
+                const filter = this.ctx.createBiquadFilter();
+                filter.type = 'lowpass';
+                filter.frequency.value = 300; // Deep, muffled
+                
+                this.lfo = this.ctx.createOscillator();
+                this.lfo.type = 'sine';
+                this.lfo.frequency.value = 0.1; // Slow breathing/waves (10s cycle)
+                
+                const lfoGain = this.ctx.createGain();
+                lfoGain.gain.value = 250;
+                
+                this.lfo.connect(lfoGain);
+                lfoGain.connect(filter.frequency);
+                
+                this.noise.connect(filter);
+                filter.connect(this.master);
+                
+                this.noise.start();
+                this.lfo.start();
+            },
+            play: function() {
+                this.init();
+                if (this.ctx.state === 'suspended') this.ctx.resume();
+                // Fade in gently over 3 seconds
+                this.master.gain.setTargetAtTime(0.5, this.ctx.currentTime, 1.5);
+            },
+            stop: function() {
+                if (!this.ctx) return;
+                // Fade out gently
+                this.master.gain.setTargetAtTime(0, this.ctx.currentTime, 0.5);
+            }
+        };
+
         // --- 5. MAIN APP COMPONENT ---
         const App = () => {
+            const [isAudioPlaying, setIsAudioPlaying] = useState(false);
+
+            const toggleAudio = () => {
+                if (isAudioPlaying) {
+                    AudioEngine.stop();
+                    setIsAudioPlaying(false);
+                } else {
+                    AudioEngine.play();
+                    setIsAudioPlaying(true);
+                }
+            };
             const [isInitializing, setIsInitializing] = useState(true);
             const [gameState, setGameState] = useState('welcome');
             const [questions, setQuestions] = useState([]);
@@ -811,7 +1299,7 @@
                     setCurrentIndex(nextIndex);
                     
                     if (nextIndex >= questions.length) {
-                        setGameState('result');
+                        setGameState('analyzing');
                     } else if (nextIndex % 11 === 0 && nextIndex !== 0) {
                         setGameState('break');
                     }
@@ -831,23 +1319,35 @@
             };
 
             const calculateResult = () => {
+                const maxScore = 25; // 5 questions * 5 max points
                 const scores = Object.keys(answers).map(archId => ({
                     id: archId,
-                    score: answers[archId]
+                    score: answers[archId],
+                    matchPercentage: Math.round((answers[archId] / maxScore) * 100)
                 })).sort((a, b) => b.score - a.score);
 
                 if (scores.length === 0) return { primary: ARCHETYPES[0], secondary: null };
 
-                const primaryArch = ARCHETYPES.find(a => a.id === scores[0].id);
+                const primaryArch = { ...ARCHETYPES.find(a => a.id === scores[0].id), matchPercentage: scores[0].matchPercentage };
                 const secondaryArch = scores.length > 1 && (scores[0].score - scores[1].score <= 3) 
-                    ? ARCHETYPES.find(a => a.id === scores[1].id) 
+                    ? { ...ARCHETYPES.find(a => a.id === scores[1].id), matchPercentage: scores[1].matchPercentage }
                     : null;
 
                 return { primary: primaryArch, secondary: secondaryArch };
             };
 
             return (
-                <div className="bg-[#F7F5F0] text-slate-700 min-h-screen selection:bg-emerald-100 selection:text-emerald-900">
+                <div className="bg-[#F7F5F0] text-slate-700 min-h-screen selection:bg-emerald-100 selection:text-emerald-900 relative">
+                    {/* Floating Audio Toggle */}
+                    <button 
+                        onClick={toggleAudio}
+                        className="fixed bottom-6 right-6 z-50 p-4 rounded-full bg-white/80 backdrop-blur-md shadow-lg border border-slate-200 text-slate-500 hover:text-[#5C7C6A] hover:bg-white transition-all duration-300"
+                        aria-label={isAudioPlaying ? "Matikan Suara Ambien" : "Nyalakan Suara Ambien"}
+                        title={isAudioPlaying ? "Matikan Suara Ambien" : "Nyalakan Suara Ambien"}
+                    >
+                        {isAudioPlaying ? <SoundOnIcon /> : <SoundOffIcon />}
+                    </button>
+
                     {isInitializing ? null : gameState === 'welcome' && (
                         <WelcomeScreen 
                             onStart={startNew} 
@@ -883,6 +1383,13 @@
                         />
                     )}
                     
+                    {gameState === 'analyzing' && (
+                        <AnalyzingScreen 
+                            onComplete={() => transitionTo('result')}
+                            isFading={isFading}
+                        />
+                    )}
+
                     {gameState === 'result' && (
                         <ResultDashboard 
                             result={calculateResult()} 

@@ -1,0 +1,44 @@
+const AnalyzingScreen = ({ onComplete, isFading }) => {
+    const [textIndex, setTextIndex] = useState(0);
+    const phrases = [
+        "Menganalisis pola jawabanmu...",
+        "Mencari resonansi arketipe...",
+        "Menyusun catatan perjalanan..."
+    ];
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setTextIndex(prev => {
+                if (prev < phrases.length - 1) return prev + 1;
+                clearInterval(interval);
+                return prev;
+            });
+        }, 1200);
+
+        const totalTime = phrases.length * 1200 + 600;
+        const timer = setTimeout(() => {
+            onComplete();
+        }, totalTime);
+
+        return () => {
+            clearInterval(interval);
+            clearTimeout(timer);
+        };
+    }, [onComplete]);
+
+    return (
+        <main className={`min-h-screen flex items-center justify-center p-4 sm:p-6 overflow-x-hidden ${isFading ? 'animate-exit' : 'animate-enter'}`}>
+            <section className="glass-panel max-w-md w-full rounded-[2rem] p-10 text-center flex flex-col items-center">
+                <div className="relative w-20 h-20 mb-8 flex items-center justify-center">
+                    <div className="absolute inset-0 border-4 border-emerald-100 rounded-full"></div>
+                    <div className="absolute inset-0 border-4 border-[#5C7C6A] rounded-full border-t-transparent animate-spin"></div>
+                    <div className="absolute inset-2 bg-emerald-50 rounded-full animate-pulse"></div>
+                </div>
+                <h2 className="text-xl font-serif text-slate-700 h-8 transition-all duration-300">
+                    {phrases[textIndex]}
+                </h2>
+                <p className="text-slate-400 mt-4 text-sm tracking-widest uppercase">Mohon Tunggu</p>
+            </section>
+        </main>
+    );
+};

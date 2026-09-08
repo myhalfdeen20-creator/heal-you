@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<body>
+<button onclick="play()">Play</button>
+<script>
+let ctx, master, noise, lfo, filter;
+function play() {
+    if(!ctx) {
+        ctx = new (window.AudioContext || window.webkitAudioContext)();
+        master = ctx.createGain();
+        master.gain.value = 0.5;
+        master.connect(ctx.destination);
+        
+        let bufferSize = ctx.sampleRate * 2;
+        let buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+        let data = buffer.getChannelData(0);
+        let lastOut = 0;
+        for (let i = 0; i < bufferSize; i++) {
+            let white = Math.random() * 2 - 1;
+            data[i] = (lastOut + (0.02 * white)) / 1.02;
+            lastOut = data[i];
+            data[i] *= 3.5;
+        }
+        
+        noise = ctx.createBufferSource();
+        noise.buffer = buffer;
+        noise.loop = true;
+        
+        filter = ctx.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.value = 400;
+        
+        lfo = ctx.createOscillator();
+        lfo.type = 'sine';
+        lfo.frequency.value = 0.15; // 6 seconds per wave
+        
+        let lfoGain = ctx.createGain();
+        lfoGain.gain.value = 300;
+        
+        lfo.connect(lfoGain);
+        lfoGain.connect(filter.frequency);
+        
+        noise.connect(filter);
+        filter.connect(master);
+        
+        noise.start();
+        lfo.start();
+    }
+}
+</script>
+</body>
+</html>
