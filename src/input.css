@@ -1,0 +1,126 @@
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+
+
+        :root {
+            --bg-base: #F6F7FA;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            background-image: 
+                radial-gradient(at 10% 0%, rgba(212, 228, 220, 0.7) 0px, transparent 50%),
+                radial-gradient(at 90% 10%, rgba(245, 235, 220, 0.8) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(212, 228, 220, 0.6) 0px, transparent 50%),
+                radial-gradient(at 0% 100%, rgba(245, 235, 220, 0.7) 0px, transparent 50%);
+            background-attachment: fixed;
+            color: #475569; 
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+        }
+
+        h1, h2, h3, h4, .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Modern Glass Panel / Bento Box Style */
+        .glass-panel {
+            background: rgba(253, 253, 254, 0.85);
+            backdrop-filter: blur(32px);
+            -webkit-backdrop-filter: blur(32px);
+            border: none;
+            box-shadow: 0 32px 64px -16px rgba(107, 104, 141, 0.08);
+        }
+
+        .fade-in { animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .slide-up { animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; }
+        
+        .animate-enter { animation: enterScreen 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+        .animate-exit { animation: exitScreen 0.4s cubic-bezier(0.4, 0, 1, 1) forwards; }
+        .question-enter { animation: questionIn 0.6s ease-out forwards; }
+        .question-exit { animation: questionOut 0.5s ease-in forwards; }
+
+        @keyframes enterScreen {
+            from { opacity: 0; transform: translateY(16px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        @keyframes exitScreen {
+            from { opacity: 1; transform: translateY(0) scale(1); }
+            to { opacity: 0; transform: translateY(-16px) scale(0.98); }
+        }
+        @keyframes questionIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes questionOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
+        .stagger-1 { animation-delay: 100ms; }
+        .stagger-2 { animation-delay: 200ms; }
+        .stagger-3 { animation-delay: 300ms; }
+        .stagger-4 { animation-delay: 400ms; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        .btn-primary {
+            background: #6B688D;
+            color: #ffffff;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 14px rgba(50, 48, 68, 0.15);
+        }
+        .btn-primary:hover {
+            background: #4A4865;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(50, 48, 68, 0.25);
+        }
+        
+        .btn-secondary {
+            background: rgba(253, 253, 254,0.85);
+            border: none;
+            box-shadow: 0 12px 24px -8px rgba(107, 104, 141, 0.05);
+            color: #475569;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .btn-secondary:hover {
+            background: #F6F7FA;
+            transform: translateY(-2px);
+            box-shadow: 0 16px 32px -8px rgba(107, 104, 141, 0.15);
+            color: #1e293b;
+        }
+
+        .option-card {
+            background: rgba(253, 253, 254, 0.7);
+            border: none;
+            box-shadow: 0 8px 24px -8px rgba(107, 104, 141, 0.05);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .option-card:hover {
+            background: rgba(253, 253, 254, 1);
+            transform: translateY(-3px);
+            box-shadow: 0 24px 48px -12px rgba(107, 104, 141, 0.12);
+        }
+    
+}
