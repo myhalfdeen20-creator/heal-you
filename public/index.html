@@ -11,6 +11,8 @@
     <!-- React & ReactDOM -->
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/prop-types/prop-types.min.js"></script>
+    <script src="https://unpkg.com/recharts@2.1.12/umd/Recharts.js"></script>
 
     <!-- Babel for JSX -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -146,161 +148,162 @@
 
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
+        const { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, Tooltip } = window.Recharts || {};
 
         // --- 1. DATA UMMUL MUKMININ (ANALISIS KLINIS & HISTORIS) ---
         const ARCHETYPES = [
             {
                 id: "khadijah",
                 name: "Khadijah binti Khuwailid",
-                epithet: "Sistem Operasi Inti & Kelekatan Aman (Secure Attachment)",
+                epithet: "Pondasi Stabilitas & Kelekatan Aman (Secure Attachment)",
                 hex: "#0d6b52",
-                shortSummary: "Kamu adalah 'Kernel OS' atau fondasi infrastruktur utama yang menopang stabilitas orang-orang di sekitarmu. Kamu memancarkan kematangan eksekutif dan mampu memberikan intervensi saat krisis terjadi.",
-                history: "Secara historis, Khadijah RA adalah bangsawan dengan kemandirian finansial dan kecerdasan spasial yang tinggi. Kontribusi psikologis terbesarnya adalah memberikan 'secure attachment' bagi Rasulullah SAW saat menerima wahyu pertama di Gua Hira. Ketika Nabi mengalami hiper-arousal (guncangan hebat), Khadijah tidak panik; ia melakukan 'Somatic Grounding' dengan menyelimutinya, dan 'Cognitive Restructuring' lewat afirmasi logis untuk meredakan ketakutannya, lalu memvalidasi pengalaman itu kepada Waraqah bin Naufal. Ia bertindak sebagai error handler yang mencegah sistem runtuh.",
-                roleDynamics: "Dalam kehidupan nyata, kamu adalah tempat bersandar (load balancer) di masa genting. Ketenangan batinmu meredam kecemasan sistem (keluarga/lingkungan). Kasih sayangmu menanamkan perlindungan yang utuh.",
+                shortSummary: "Kamu adalah pondasi utama yang menopang stabilitas orang-orang di sekitarmu. Kamu memancarkan kematangan emosional dan mampu memberikan ketenangan saat krisis terjadi.",
+                history: "Khadijah binti Khuwailid berfungsi sebagai fondasi utama dari pergerakan Islam. Secara historis, beliau adalah wanita bangsawan Mekkah yang sukses, menunjukkan kemandirian finansial dan kecerdasan eksekutif (kemampuan merencanakan dan mengeksekusi) yang sangat tinggi. Kontribusi psikologis terbesarnya terletak pada kapasitasnya memberikan 'secure attachment' (kelekatan yang aman) bagi Rasulullah SAW. Ketika wahyu pertama turun di Gua Hira, Nabi Muhammad mengalami guncangan psikologis dan fisik yang hebat. Daripada bereaksi panik, Khadijah melakukan dua langkah terapeutik: 'Somatic Grounding' (memberikan rasa aman secara fisik dengan menyelimuti untuk menurunkan stres) dan 'Cognitive Restructuring' (mematahkan pikiran-pikiran negatif atau ketakutan dengan afirmasi positif berbasis bukti nyata). Khadijah bertindak sebagai peredam kepanikan yang mencegah runtuhnya ketahanan mental sang Nabi.",
+                roleDynamics: "Dalam kehidupan nyata, kamu adalah tempat bersandar di masa genting. Ketenangan batinmu meredam kecemasan keluarga dan lingkungan. Kasih sayangmu menanamkan perlindungan yang utuh.",
                 wisdom: [
-                    "Somatic Grounding: Mampu menenangkan hiper-arousal orang lain lewat ketenangan fisik dan batin.",
-                    "Cognitive Restructuring: Mematahkan distorsi ketakutan dengan afirmasi yang logis dan berbasis bukti.",
-                    "Crisis Intervention: Menjadi fondasi pelindung dan stabilitas utama saat krisis ekstrem melanda."
+                    "Somatic Grounding: Mampu menenangkan kepanikan (hiper-arousal) orang lain lewat ketenangan fisik dan batin.",
+                    "Cognitive Restructuring: Mematahkan rasa takut dan pikiran negatif dengan dukungan yang logis dan berbasis bukti.",
+                    "Crisis Intervention: Menjadi fondasi pelindung dan penenang utama saat krisis ekstrem melanda."
                 ]
             },
             {
                 id: "saudah",
                 name: "Saudah binti Zam'ah",
-                epithet: "Mekanisme Fail-Safe & Dekonstruksi Ego",
+                epithet: "Peredam Konflik & Kelapangan Dada",
                 hex: "#c96a3f",
-                shortSummary: "Kapasitasmu merepresentasikan arsitektur ego-bypass. Bagimu, mengalah bukan berarti kalah, melainkan strategi elegan untuk menjaga ekuilibrium (keseimbangan) sistem bersama.",
-                history: "Setelah Khadijah wafat, Saudah mengisi kekosongan emosional dan manajerial dalam rumah tangga Nabi. Titik puncak kedewasaan psikologisnya (self-concept certainty) terlihat ketika ia secara sukarela menyerahkan jatah hari gilirannya kepada Aisyah. Ia secara sadar melakukan kalkulasi sistemik demi kebahagiaan kolektif, tidak terjebak dalam jebakan insecurity atau kompetisi narsistik antar-istri. Ia sering menggunakan humor untuk mencairkan suasana.",
-                roleDynamics: "Kamu bertindak layaknya mekanisme fail-safe; tidak menuntut banyak sumber daya (perhatian), namun keberadaan dan kelapangan dadamu memastikan lingkungan terhindar dari konflik dan overload emosional.",
+                shortSummary: "Kapasitasmu merepresentasikan kebijaksanaan untuk mengesampingkan ego. Bagimu, mengalah bukan berarti kalah, melainkan strategi elegan untuk menjaga kedamaian bersama.",
+                history: "Setelah wafatnya Khadijah, fase kekosongan emosional dalam rumah tangga Nabi diisi oleh Saudah binti Zam'ah. Secara psikologis, karakter Saudah sangat luar biasa dalam memelihara keseimbangan emosional rumah tangga tanpa mengedepankan egonya sendiri. Titik puncak kedewasaan psikologis Saudah terlihat ketika beliau menyadari dinamika yang kompleks, lalu secara sukarela menyerahkan jatah hari gilirannya kepada Aisyah. Keputusan ini menunjukkan tingkat keamanan identitas diri (self-concept certainty) yang sangat kokoh. Beliau tidak terjebak dalam rasa tidak aman (insecurity) atau kompetisi mencari perhatian. Saudah adalah sosok 'penengah' yang tidak menuntut banyak energi dari orang lain, namun keberadaannya sangat krusial untuk mencegah konflik dan ketegangan.",
+                roleDynamics: "Kamu bertindak layaknya peredam tegangan; tidak menuntut banyak perhatian, namun keberadaan dan kelapangan dadamu memastikan lingkungan terhindar dari konflik dan pertengkaran emosional.",
                 wisdom: [
-                    "Ego-bypass Mechanism: Mampu menundukkan ego pribadi demi menjaga harmoni dan kebahagiaan sistem kolektif.",
-                    "Stress Relief: Menggunakan humor dan kelapangan dada sebagai mekanisme meredakan ketegangan (conflict resolution).",
-                    "Self-Concept Certainty: Memiliki identitas yang sangat aman, tidak terancam oleh kelebihan atau kehadiran orang lain."
+                    "Ego-bypass Mechanism: Mampu menundukkan ego pribadi demi menjaga harmoni dan kebahagiaan bersama.",
+                    "Stress Relief: Menggunakan humor dan kelapangan dada sebagai cara meredakan ketegangan.",
+                    "Self-Concept Certainty: Memiliki identitas yang sangat aman, tidak terancam oleh kelebihan atau pencapaian orang lain."
                 ]
             },
             {
                 id: "aisyah",
                 name: "Aisyah binti Abu Bakar",
-                epithet: "Dynamic Processor & Neuroplastisitas Tinggi",
+                epithet: "Kecerdasan Kritis & Dinamika Emosional (Neuroplastisitas)",
                 hex: "#c2760c",
-                shortSummary: "Kamu adalah 'Dynamic Database' dengan kapasitas kognitif yang tajam. Otakmu sangat dinamis menyerap, memproses, dan mengkritisi informasi dengan kejujuran emosional yang tinggi.",
-                history: "Menikah di usia muda menempatkan otak Aisyah pada fase puncak neuroplastisitas; beliau meriwayatkan lebih dari 2.210 hadis. Ia memiliki daya kritis tinggi, sering melakukan debugging informasi (Naqd al-Matn) dengan rasio. Bandwidth emosionalnya sangat tinggi—ekspresif dan memiliki kecemburuan (Protector Part) yang intens, seperti saat ia tak sengaja memecahkan piring kiriman istri lain. Ketangguhan intinya teruji saat peristiwa Haditsul Ifk (berita bohong); meski terisolasi secara sosial, ia menolak memberi pengakuan palsu demi meredakan tekanan, hingga turun wahyu yang membersihkan namanya.",
-                roleDynamics: "Kamu memproses data dan dinamika hidup dengan sangat cepat. Emosimu yang kaya dan transparan adalah wujud perlindungan (Protector Part), menuntut kejujuran intelektual, dan bukan sebuah kelemahan.",
+                shortSummary: "Kamu memiliki kapasitas daya ingat dan kognitif yang sangat tajam. Otakmu sangat dinamis dalam menyerap, memproses, dan mengkritisi informasi dengan kejujuran emosional yang tinggi.",
+                history: "Aisyah binti Abu Bakar adalah figur dengan kecerdasan paling dinamis dalam sejarah Islam awal. Menikah pada usia muda memungkinkan otaknya yang sedang dalam fase puncak neuroplastisitas (kemampuan otak membentuk jaringan baru) untuk menyerap dan menyimpan ribuan hadis. Aisyah memiliki daya kritis yang mendahului zamannya; beliau tidak hanya sekadar merekam informasi, tetapi juga secara kritis mengevaluasi dan meluruskan riwayat-riwayat yang keliru dengan logika dan Al-Quran. Namun, kecerdasan yang tinggi ini diimbangi dengan karakter emosional yang sangat kaya. Beliau sangat ekspresif, kritis, dan memiliki rasa cemburu yang transparan. Dalam psikologi klinis, kecemburuan Aisyah bukanlah sebuah kecacatan, melainkan mekanisme perlindungan wajar dari individu dengan energi emosional tinggi yang mendambakan ikatan yang eksklusif. Ketangguhan mental Aisyah diuji ekstrem saat beliau difitnah (Haditsul Ifk); meskipun mengalami stres akut akibat isolasi sosial, ia menolak membuat pengakuan palsu demi meredakan tekanan, menunjukkan prinsip integritas yang mutlak.",
+                roleDynamics: "Kamu memproses informasi dan dinamika hidup dengan sangat cepat. Emosimu yang kaya dan transparan adalah wujud kejujuran batin, menuntut komunikasi yang terbuka dan autentik.",
                 wisdom: [
-                    "High Neuroplasticity: Memiliki kapasitas belajar, memori, dan fleksibilitas kognitif yang sangat dinamis.",
-                    "Critical Query Engine: Berani mempertanyakan dan memvalidasi (debugging) informasi secara rasional.",
-                    "Graceful Emotional Transparency: Mengekspresikan emosi secara transparan tanpa represi, menuntut ikatan yang autentik."
+                    "High Neuroplasticity: Memiliki kapasitas belajar, memori, dan kelenturan kognitif yang sangat luar biasa.",
+                    "Critical Analytical: Berani mempertanyakan dan memvalidasi informasi secara kritis dan rasional.",
+                    "Graceful Emotional Transparency: Mengekspresikan emosi secara jujur tanpa dipendam, menuntut hubungan yang tulus."
                 ]
             },
             {
                 id: "hafshah",
                 name: "Hafshah binti Umar",
-                epithet: "Cryptographic Hash & Integritas Data",
+                epithet: "Integritas & Penjaga Kedisiplinan",
                 hex: "#33348e",
-                shortSummary: "Kamu berfungsi sebagai komponen integritas data (data guardian). Sifatmu yang sangat disiplin, teliti, dan berpegang pada aturan (rule-bound) menjadikanmu benteng yang kokoh.",
-                history: "Mewarisi ketegasan Umar bin Khattab, Hafshah memiliki profil klinis dengan rutinitas terstruktur (dijuluki Malaikat Jibril sebagai Shawwamah dan Qawwamah—rajin puasa dan shalat malam). Sifat conscientiousness (kehati-hatian) dan rule-bound adherence miliknya terkadang kaku, namun karakteristik inilah yang menjadikannya kandidat paling logis, terpercaya, dan aman untuk menyimpan master repository Al-Quran (suhuf pertama) pasca wafatnya Abu Bakar, mencegah distorsi layaknya algoritma Cryptographic Hash.",
+                shortSummary: "Kamu berfungsi sebagai penjaga prinsip dan aturan. Sifatmu yang sangat disiplin, teliti, dan berpegang teguh pada komitmen menjadikanmu benteng yang kokoh.",
+                history: "Hafshah binti Umar adalah komponen integritas dari ekosistem kenabian. Lahir sebagai putri tertua dari Umar bin Khattab, Hafshah mewarisi karakter ketegasan, conscientiousness (kehati-hatian), kecerdasan literasi, dan disiplin kognitif yang sangat presisi. Beliau adalah salah satu dari sedikit wanita di era jahiliyah dan awal Islam yang memiliki kemampuan membaca dan menulis tingkat lanjut. Secara klinis, Hafshah menunjukkan profil individu dengan rutinitas perilaku yang terstruktur secara ketat. Beliau dijuluki Shawwamah (wanita yang rajin berpuasa) dan Qawwamah (wanita yang teguh mendirikan shalat malam) oleh Malaikat Jibril. Menariknya, kecenderungan patuh aturan dan perfeksionisme ini terkadang menimbulkan friksi. Karakteristiknya yang sangat kaku, teliti, dan tidak mudah terpengaruh oleh arus emosi ini menjadikan beliau kandidat paling logis, terpercaya, dan aman secara psikopolitis untuk menyimpan dokumen paling berharga umat Islam—suhuf Al-Quran pertama. Beliau memastikan keaslian informasi tetap terjaga tanpa terkorupsi.",
                 roleDynamics: "Kamu adalah sosok penjaga prinsip yang tidak mudah terpengaruh emosi massa. Keteraturan dan ketegasanmu mungkin terlihat kaku, namun itu adalah caramu mengamankan nilai fundamental keluarga atau kelompok.",
                 wisdom: [
-                    "Conscientiousness: Memiliki tingkat kedisiplinan dan kehati-hatian yang absolut terhadap sebuah amanah.",
-                    "Rule-Bound Adherence: Sangat terstruktur dan berpegang teguh pada prinsip tanpa ruang kompromi yang merusak.",
-                    "Data Guardian: Dipercaya menjaga informasi paling rahasia karena objektivitas yang tidak mudah dipengaruhi sentimen."
+                    "Conscientiousness: Memiliki tingkat kedisiplinan dan kehati-hatian yang mutlak terhadap sebuah amanah.",
+                    "Rule-Bound Adherence: Sangat terstruktur dan berpegang teguh pada prinsip tanpa ruang kompromi.",
+                    "Integrity Guardian: Dipercaya menjaga informasi paling rahasia karena objektivitas yang tak mudah dipengaruhi sentimen."
                 ]
             },
             {
                 id: "ummusalamah",
                 name: "Ummu Salamah (Hindun binti Abi Umayyah)",
-                epithet: "Executive Functioning & Resolusi Strategis",
+                epithet: "Fungsi Eksekutif & Resolusi Strategis",
                 hex: "#15746b",
-                shortSummary: "Kamu memiliki Fungsi Eksekutif otak yang sangat tinggi. Di saat krisis, kamu bertindak sebagai Load Balancer yang mengalihkan kepanikan massa menjadi eksekusi solusi nyata.",
-                history: "Ketahanan psikologis Ummu Salamah teruji saat suaminya wafat, namun regulasi kognitifnya menyelamatkannya dari disosiasi traumatis melalui doa transisi yang diajarkan Nabi. Peran arsitektural terbesarnya terjadi saat Perjanjian Hudaibiyah. Ketika ribuan sahabat mengalami kelumpuhan kognitif (cognitive freeze) dan menolak perintah Nabi karena kecewa, Ummu Salamah bertindak sebagai System Architect; ia menyarankan solusi behavioral-driven (memberi contoh fisik mencukur rambut) daripada verbal. Taktik mirror-neuron ini sukses meretas blokade emosional kolektif.",
+                shortSummary: "Kamu memiliki fungsi eksekutif otak yang sangat tinggi. Di saat krisis, kamu mampu mengalihkan kepanikan massa menjadi eksekusi solusi yang nyata.",
+                history: "Ummu Salamah merupakan representasi paripurna dari Fungsi Eksekutif (kemampuan otak untuk merencanakan, fokus, dan memecahkan masalah tingkat tinggi). Ketahanan psikologisnya menderita ujian luar biasa saat suami pertamanya wafat. Regulasi kognitif Ummu Salamah memungkinkannya melafalkan doa transisi psikologis yang diajarkan Nabi, yang mencegahnya jatuh ke dalam keputusasaan atau disosiasi traumatis. Peran strategis terbesarnya terlihat dalam penyelesaian krisis pada Perjanjian Hudaibiyah. Ketika ribuan kaum muslimin merasa sangat terpukul secara emosional dan menolak perintah Nabi untuk mengakhiri ihram, Nabi masuk ke tenda Ummu Salamah dalam keadaan gundah. Ummu Salamah, bertindak layaknya konsultan psikologi massa, mengusulkan solusi berbasis perilaku (behavioral-driven) ketimbang sekadar kata-kata: 'Keluarlah, dan jangan berbicara sepatah kata pun kepada mereka, sampai engkau menyembelih untamu dan memanggil tukang cukurmu'. Ketika Nabi melakukan hal tersebut secara visual, kebuntuan psikologis massa seketika retak dan mereka mengikuti beliau. Ini adalah pemahaman intuitif yang luar biasa tentang 'mirror neurons' dalam neurosains—di mana satu tindakan nyata mampu memecah ketegangan emosional kolektif.",
                 roleDynamics: "Di masa krisis atau jalan buntu, orang mencarimu untuk mendapatkan jalan keluar. Logikamu memisahkan emosi dari solusi, menyadari bahwa satu contoh tindakan nyata mengalahkan seribu perdebatan.",
                 wisdom: [
-                    "Executive Functioning: Kapasitas mengambil keputusan strategis dan rasional di tengah krisis (Load Balancing).",
+                    "Executive Functioning: Kapasitas mengambil keputusan strategis dan rasional di tengah krisis.",
                     "Cognitive Flexibility: Mampu beradaptasi dan merumuskan langkah baru pasca kehilangan atau kebuntuan sistemik.",
-                    "Behavioral-Driven Solution: Memahami bahwa tindakan nyata (visual) lebih ampuh meregulasi emosi kolektif daripada verbal."
+                    "Behavioral-Driven Solution: Memahami bahwa tindakan nyata (visual) lebih ampuh meregulasi emosi kolektif daripada perintah verbal."
                 ]
             },
             {
                 id: "zainabkhuzaimah",
                 name: "Zainab binti Khuzaimah",
-                epithet: "Modul Empati Murni & Microservice Kemanusiaan",
+                epithet: "Empati Murni & Pengabdian Sosial",
                 hex: "#8b5cf6",
-                shortSummary: "Kamu mewakili spektrum altruisme murni. Kapasitas empatimu sangat besar, sering kali mengalokasikan seluruh sumber daya pribadimu untuk pelayanan sosial.",
-                history: "Dikenal luas dengan gelar Ummul Masakin (Ibu Orang-Orang Miskin), Zainab binti Khuzaimah mewakili kecerdasan emosional yang terfiksasi pada acts of service. Usia pernikahannya dengan Nabi sangat singkat (sekitar 3 hingga 8 bulan sebelum wafat di usia 30-an). Secara arsitektural, ia adalah sebuah 'microservice' khusus dengan runtime yang pendek namun memiliki throughput pelayanan sosial yang luar biasa maksimal.",
-                roleDynamics: "Kamu menyadari bahwa dampak hidup (impact) tidak ditentukan oleh seberapa lama kamu berada di suatu tempat, melainkan seberapa intens empati dan bantuan yang kamu berikan kepada mereka yang rapuh.",
+                shortSummary: "Kamu mewakili spektrum altruisme murni. Kapasitas empatimu sangat besar, sering kali mengalokasikan seluruh sumber daya pribadimu untuk menolong yang lemah.",
+                history: "Dikenal luas dengan gelar Ummul Masakin (Ibu Orang-Orang Miskin), Zainab binti Khuzaimah mewakili spektrum altruisme (kepedulian tanpa pamrih) dalam matriks kepribadian. Usia pernikahannya dengan Nabi sangat singkat; beliau wafat pada usia sekitar 30 tahun, hanya beberapa bulan setelah dinikahi. Suami sebelumnya syahid dalam pertempuran. Dalam psikologi pro-sosial, kapasitas berempati hingga mengalokasikan seluruh sumber daya pribadi untuk merawat kaum papa sering kali berkorelasi dengan kecerdasan emosional yang difokuskan pada pengabdian (act of service). Kedermawanannya bukan sekadar cara menghadapi masalah (coping mechanism) sementara, melainkan sifat bawaan (trait) yang mendefinisikan identitas aslinya. Meskipun masa baktinya singkat, intensitas kebaikannya memberikan jejak sejarah yang mendalam, membuktikan bahwa dampak hidup tidak diukur dari panjang usia, melainkan besarnya empati yang disalurkan.",
+                roleDynamics: "Kamu menyadari bahwa dampak hidup tidak ditentukan oleh seberapa lama kamu berada di suatu tempat, melainkan seberapa intens empati dan bantuan yang kamu berikan kepada mereka yang membutuhkan.",
                 wisdom: [
                     "Pure Altruism: Memiliki dorongan intrinsik yang kuat untuk merawat dan menyejahterakan kelompok yang lemah.",
-                    "High Throughput Empathy: Mampu memberikan dampak emosional dan sosial yang maksimal dalam waktu yang singkat.",
+                    "Intense Empathy: Mampu memberikan dampak emosional dan sosial yang maksimal tanpa menghitung waktu.",
                     "Act of Service: Menjadikan kedermawanan dan pelayanan sosial bukan sebagai pelarian, melainkan identitas inti."
                 ]
             },
             {
                 id: "zainabjahsy",
                 name: "Zainab binti Jahsy",
-                epithet: "System Refactoring & Dekonstruksi Hierarki Sosial",
+                epithet: "Dekonstruksi Ego & Kemandirian",
                 hex: "#8a4b32",
-                shortSummary: "Kamu berhasil merombak (refactor) ego dan kebanggaan masa lalumu menjadi etos kerja keras yang membumi. Otonomi dan karya adalah kebanggaan sejatimu.",
-                history: "Zainab binti Jahsy memiliki nasab bangsawan Quraisy yang sangat agung (pride of lineage). Pernikahan pertamanya dengan mantan budak (Zaid) yang diinisiasi Nabi merupakan social engineering radikal yang memicu disonansi kognitif hingga berakhir cerai. Setelah turun perintah Ilahi (Surah Al-Ahzab 37) yang menikahkannya langsung dengan Nabi, Zainab mengalami 'Code Refactoring'. Ia merombak ego narsistiknya lewat tindakan taktil; ia dikenal sangat rajin menyamak kulit dan menjahit dengan tangannya sendiri, yang hasilnya 100% disedekahkan.",
-                roleDynamics: "Kamu bertransformasi dari kebanggaan kasta (status bawaan) menuju kebanggaan atas karya (pride of service). Kemandirianmu adalah caramu memerdekakan diri dari batasan sosial.",
+                shortSummary: "Kamu berhasil merombak ego dan kebanggaan masa lalumu menjadi etos kerja keras yang membumi. Otonomi dan karya adalah kebanggaan sejatimu.",
+                history: "Zainab binti Jahsy memiliki nasab bangsawan Quraisy yang sangat agung, memicu tingkat kebanggaan hierarkis yang lumrah pada masa pra-Islam. Pernikahan pertamanya yang diinisiasi oleh Nabi dengan Zaid bin Haritsah—seorang mantan budak yang kemudian menjadi anak angkat Nabi—adalah sebuah usaha merombak struktur sosial yang sangat radikal. Secara psikologis, Zainab mengalami disonansi kognitif (benturan nilai) yang parah karena harus menabrak batas kasta sosial yang tertanam kuat dalam pikirannya. Karena fondasi pernikahan dibangun di atas ketidakcocokan, rumah tangga mereka mengalami kegagalan dan berakhir dengan perceraian. Turunlah perintah Ilahi melalui Surah Al-Ahzab ayat 37 agar Rasulullah menikahi Zainab demi menghapus tradisi jahiliyah. Pasca-pernikahan, Zainab mengalami transformasi psikologis yang luar biasa. Ia merombak ego narsistik ini melalui pembuktian tindakan (behavioral reframing). Zainab dikenal sangat rajin bekerja (menyamak kulit, menjahit) dengan tangannya sendiri, yang hasilnya seratus persen disedekahkan. Beliau berhasil mendemonstrasikan resolusi konflik internal: transisi dari kebanggaan garis keturunan menuju kebanggaan atas karya dan pengabdian.",
+                roleDynamics: "Kamu bertransformasi dari kebanggaan pada status bawaan menuju kebanggaan atas karya dan dedikasi. Kemandirianmu adalah caramu memerdekakan diri dari batasan sosial.",
                 wisdom: [
-                    "Mental Refactoring: Mampu mendekonstruksi ego atau tradisi masa lalu untuk beradaptasi dengan sistem nilai yang lebih luhur.",
+                    "Ego Deconstruction: Mampu mendekonstruksi ego atau tradisi masa lalu untuk beradaptasi dengan sistem nilai yang lebih luhur.",
                     "Self-Reliance & Hard Work: Menemukan otonomi dan harga diri melalui kerja keras dengan tangan sendiri.",
-                    "Pride of Service: Mengubah kebanggaan atas status/nasab menjadi kebanggaan karena bisa memberi dan melayani."
+                    "Pride of Service: Mengubah kebanggaan atas status menjadi kebanggaan karena bisa memberi dan melayani."
                 ]
             },
             {
                 id: "juwairiyah",
                 name: "Juwairiyah binti Al-Harits",
-                epithet: "Background Daemon & Transformasi Trauma (Mindfulness)",
+                epithet: "Regulasi Diri & Transformasi Trauma (Mindfulness)",
                 hex: "#059669",
                 shortSummary: "Kamu adalah pembawa damai yang menyembuhkan diri lewat keheningan. Kamu mentransformasi trauma berat melalui regulasi spiritual dan mindfulness.",
-                history: "Mengalami titik nadir saat sukunya ditaklukkan, suaminya terbunuh, dan ia menjadi tawanan perang (risiko PTSD akut). Namun, pernikahannya dengan Rasulullah memicu 'social engineering ripple effect', menyebabkan pembebasan ratusan tawanan sukunya; Aisyah menyebutnya wanita yang membawa berkah terbesar. Pasca-trauma, Juwairiyah menata kembali arsitektur sarafnya dengan praktik mindfulness—berzikir repetitif (tasbih) dari fajar hingga Dhuha, yang secara neurobiologis menurunkan gelombang otak hyper-arousal.",
-                roleDynamics: "Kamu bertindak layaknya 'Background Daemon' (proses latar belakang) yang secara hening melakukan 'garbage collection' emosi. Kehadiranmu dan ketenangan spiritualmu menetralisir konflik di sekitarmu.",
+                history: "Juwairiyah binti Al-Harits mengalami titik nadir traumatis ketika sukunya dikalahkan dalam peperangan oleh kaum muslimin, yang menyebabkan dirinya menjadi tawanan perang pada usia yang sangat muda. Kehilangan status sosial, keluarga, dan kebebasan secara simultan adalah pemicu kuat untuk trauma mendalam (PTSD) dengan luka batin utama (core wound) berupa Ketidakberdayaan. Namun, ketika beliau menemui Rasulullah untuk meminta bantuan menebus dirinya, Nabi justru menawarkan untuk melunasi tebusannya dan menikahinya. Peristiwa ini memicu reaksi berantai secara sosiologis: para sahabat serta merta membebaskan ratusan tawanan sukunya karena menghormati in-laws Rasulullah. Aisyah menyifati Juwairiyah sebagai wanita yang membawa 'berkah terbesar bagi kaumnya'. Pasca-trauma, Juwairiyah menata kembali kondisi psikologisnya dengan praktik mindfulness dan repetisi afirmasi spiritual. Beliau sangat dikenal sebagai ahli zikir yang menghabiskan waktu berjam-jam dalam keheningan dari fajar hingga Dhuha. Dari sudut pandang neurobiologis, zikir repetitif ini berfungsi meredakan ketegangan sistem saraf, menyembuhkan trauma secara hening dan mandiri tanpa membebani orang di sekitarnya.",
+                roleDynamics: "Kamu bertindak hening namun efektif dalam mengelola dan membersihkan emosi negatif (emotional regulation). Kehadiranmu dan ketenangan spiritualmu menetralisir konflik di sekitarmu.",
                 wisdom: [
-                    "Mindfulness & Trauma Transformation: Menyembuhkan luka batin dalam (core wounds) melalui rutinitas ibadah dan keheningan.",
+                    "Mindfulness & Trauma Transformation: Menyembuhkan luka batin dalam (core wounds) melalui keheningan dan rutinitas spiritual.",
                     "Social Ripple Effect: Mengubah tragedi pribadi menjadi pintu keberkahan dan kebebasan bagi orang banyak.",
-                    "Silent Emotional Regulation: Meredakan gelombang kecemasan (hyper-arousal) sistem saraf tanpa harus menjadi reaktif."
+                    "Silent Emotional Regulation: Meredakan kecemasan dan trauma secara mandiri tanpa harus menjadi reaktif."
                 ]
             },
             {
                 id: "ummuhabibah",
                 name: "Ummu Habibah (Ramlah binti Abu Sufyan)",
-                epithet: "Security Firewall & Manajemen Batasan (Boundary Setting)",
+                epithet: "Ketahanan Mental & Manajemen Batasan (Boundary Setting)",
                 hex: "#b91c1c",
-                shortSummary: "Kamu memiliki ketahanan mental (Resilience) yang luar biasa tangguh. Kamu sanggup membangun batasan (firewall) absolut untuk melindungi integritas sistem nilaimu.",
-                history: "Ummu Habibah menderita penderitaan ganda: diasingkan keluarga (hijrah ke Habasyah) dan dikhianati saat suaminya murtad lalu wafat. Melalui pernikahan jarak jauh dengan Nabi, ia mencapai Post-Traumatic Growth. Karakteristik fundamentalnya tereksekusi saat ayahnya, Abu Sufyan (musyrik yang memusuhi Islam), datang ke Madinah. Saat sang ayah hendak duduk di tikar Nabi, Ummu Habibah dengan sigap melipatnya dan menolak ayahnya duduk di atasnya, menerapkan 'Zero-Trust Policy' atas dasar akidah.",
-                roleDynamics: "Trauma masa lalu menempa sistem sarafmu untuk mematikan kebutuhan validasi (people pleasing). Kamu dengan tegas mengimplementasikan 'Security Firewall'—menolak koneksi atau hubungan yang berpotensi merusak nilai asazmu.",
+                shortSummary: "Kamu memiliki ketahanan mental (Resilience) yang luar biasa tangguh. Kamu sanggup membangun batasan yang sangat tegas untuk melindungi prinsip hidupmu.",
+                history: "Ramlah binti Abu Sufyan adalah studi kasus klasik mengenai ketahanan psikologis (Psychological Resilience) dan Pertumbuhan Pasca-Trauma. Beliau menanggung isolasi dan penderitaan ganda: diasingkan dari lingkungan elitenya di Mekkah, berhijrah menyabung nyawa melintasi laut ke negeri asing (Habasyah), dan menderita trauma pengkhianatan ketika suaminya membelot dan wafat karena alkohol. Risiko keputusasaan (disosiasi traumatis) ini dipulihkan saat Raja Najasyi memfasilitasi pinangan Rasulullah. Karakteristik psikologis Ummu Habibah yang paling fundamental adalah kemampuannya membangun 'strict healthy boundaries' (batasan yang sehat dan tegas). Hal ini terlihat jelas saat ayahnya, Abu Sufyan (yang saat itu masih menjadi musuh utama umat Islam), datang ke Madinah. Saat sang ayah hendak duduk di atas tikar Rasulullah, Ummu Habibah dengan sigap melipat tikar tersebut karena sang ayah dianggap tidak menghormati nilai-nilai suci Islam. Keberanian ini membuktikan trauma masa lalu telah menempa mentalnya untuk tidak lagi mencari validasi buta (people pleasing), melainkan berani bersikap asertif demi mempertahankan prinsip yang ia yakini benar.",
+                roleDynamics: "Trauma masa lalu menempa ketangguhan mentalmu untuk berhenti mencari validasi (people pleasing). Kamu dengan tegas mengimplementasikan batasan yang sehat—menolak hubungan yang berpotensi merusak nilai asazmu.",
                 wisdom: [
-                    "Strict Healthy Boundaries: Berani membangun dan menegakkan batasan mutlak, bahkan terhadap otoritas terdekat (orang tua).",
+                    "Strict Healthy Boundaries: Berani membangun dan menegakkan batasan yang tegas, bahkan terhadap figur otoritas (orang tua).",
                     "Post-Traumatic Growth: Bangkit menjadi lebih kuat dan mandiri secara prinsip pasca isolasi dan pengkhianatan fatal.",
-                    "Zero-Trust Protocol: Memprioritaskan integritas keyakinan di atas ikatan emosional yang berpotensi menjadi toksik."
+                    "Assertive Integrity: Memprioritaskan kebenaran keyakinan di atas ikatan emosional yang berpotensi toksik."
                 ]
             },
             {
                 id: "shafiyyah",
                 name: "Shafiyyah binti Huyay",
-                epithet: "Error Recovery & Restrukturisasi Core Wounds",
+                epithet: "Pemulihan Luka Batin & Pembingkaian Kognitif",
                 hex: "#0369a1",
-                shortSummary: "Kamu adalah ahli dalam pembingkaian ulang kognitif (cognitive reframing). Kamu mampu mengubah input stigma atau diskriminasi menjadi fungsi kebanggaan.",
-                history: "Berasal dari bangsawan Yahudi Bani Nadhir, Shafiyyah kehilangan ayah dan suami dalam perang, memicu trauma dan krisis identitas saat ia masuk ke ekosistem Madinah. Ia kerap menerima mikro-agresi rasial dari istri lain hingga menyentuh luka penolakan (rejection). Nabi memberinya teknik 'Cognitive Reframing': saat dihina sebagai anak Yahudi, ia diajarkan membalas secara logis, 'Ayahku Nabi Harun, pamanku Nabi Musa, dan suamiku Nabi Muhammad.' Perbaikan kode memori ini meng-override luka batinnya menjadi loyalitas absolut.",
-                roleDynamics: "Kamu memiliki kemampuan 'Error Recovery' yang anggun. Alih-alih dihancurkan oleh stigma atau masa lalu, kamu mendekonstruksi label negatif tersebut menjadi narasi kekuatan dan kesetiaan yang tulus.",
+                shortSummary: "Kamu adalah ahli dalam pembingkaian ulang kognitif (cognitive reframing). Kamu mampu mengubah input stigma atau diskriminasi menjadi narasi kekuatan.",
+                history: "Shafiyyah binti Huyay berasal dari bangsawan tinggi Bani Nadhir, suku Yahudi. Kehilangan ayahnya dan suaminya dalam perang adalah sumber trauma ganda yang memicu krisis identitas saat ia masuk ke ekosistem Madinah. Beliau terkadang menjadi subjek mikro-agresi (sindiran) dari istri-istri lain karena latar belakang rasialnya. Hal ini sering menyentuh 'core wound' (luka batin mendalam) berupa rasa Penolakan (Rejection). Intervensi Rasulullah SAW dalam momen ini adalah teknik Cognitive Reframing (pembingkaian ulang cara berpikir) tingkat tinggi: 'Katakanlah kepada mereka: Bagaimana kalian lebih baik daripadaku? Ayahku adalah Nabi Harun, pamanku adalah Nabi Musa, dan suamiku adalah Nabi Muhammad'. Melalui bimbingan ini, Shafiyyah diajarkan untuk merombak persepsi tentang dirinya—dari korban stigma menjadi individu dengan akar identitas yang sangat membanggakan. Pemulihan mental ini menciptakan kesetiaan (loyalitas) absolut. Saat Nabi jatuh sakit parah menjelang wafatnya, Shafiyyah menyatakan dengan air mata ketulusan bahwa ia berharap sakit Nabi dipindahkan kepadanya—sebuah bukti pemulihan trauma komprehensif, dari seorang tawanan yang kehilangan segalanya menjadi ratu yang rela berkorban.",
+                roleDynamics: "Kamu memiliki kemampuan pemulihan diri yang anggun. Alih-alih dihancurkan oleh stigma atau masa lalu, kamu membongkar label negatif tersebut menjadi cerita kekuatan dan kesetiaan yang tulus.",
                 wisdom: [
-                    "Cognitive Reframing: Mengubah dan membingkai ulang serangan stigma (masa lalu/rasial) menjadi kebanggaan intelektual.",
-                    "Wound Restructuring: Mengelola luka penolakan (rejection) dengan kesetiaan, bukan dengan represi atau balas dendam buta.",
-                    "Identity Override: Tidak mengizinkan lingkungan mendikte identitas atau harga dirimu melalui prejudice (prasangka)."
+                    "Cognitive Reframing: Mengubah dan membingkai ulang serangan stigma atau masa lalu menjadi kebanggaan intelektual.",
+                    "Wound Restructuring: Mengelola luka penolakan (rejection) dengan kesetiaan dan keanggunan, bukan dengan represi atau balas dendam.",
+                    "Identity Ownership: Tidak mengizinkan lingkungan atau orang lain mendikte identitas dan harga dirimu melalui prasangka."
                 ]
             },
             {
                 id: "maimunah",
                 name: "Maimunah binti Al-Harits",
-                epithet: "System Logger & Observabilitas Data Presisi",
+                epithet: "Ketelitian & Observasi Presisi",
                 hex: "#4f46e5",
-                shortSummary: "Kamu memiliki profil 'observational learning' yang sangat tajam. Keteraturan dan ketelitianmu pada detail rutinitas menjadi log yang memastikan sistem berjalan sempurna.",
-                history: "Maimunah adalah wanita terakhir yang dinikahi Rasulullah secara institusional. Berbeda dengan Aisyah yang meriwayatkan debat teologis, Maimunah sangat detail (detail-oriented) merekam aktivitas tertutup ruang domestik dan ritual penyucian tubuh (fikih thaharah). Ia meriwayatkan urutan mandi junub Nabi dengan presisi spasial dan taktil—hingga takaran air yang digunakan. Ia wafat di Sarif, tepat di lokasi tenda pertamanya bersama Nabi, menunjukkan hidup yang sangat siklikal dan konsisten.",
-                roleDynamics: "Dalam sebuah sistem, kamu berfungsi sebagai 'System Logger' yang teliti mencatat protokol harian. Presisi observasionalmu menjadikanmu rujukan terpercaya. Keteraturan rutinitas adalah bahasamu dalam memberikan rasa aman.",
+                shortSummary: "Kamu memiliki kemampuan observasi yang sangat tajam. Keteraturan dan ketelitianmu pada detail rutinitas memastikan lingkunganmu berjalan dengan harmonis.",
+                history: "Maimunah binti Al-Harits adalah wanita terakhir yang dinikahi oleh Rasulullah SAW secara institusional (Tahun 7 H). Secara psikologis, Maimunah mendemonstrasikan profil 'observational learning' (pembelajaran melalui pengamatan) yang sangat presisi. Berbeda dengan Aisyah yang banyak meriwayatkan perdebatan teologis, Maimunah sangat teliti (detail-oriented) dalam merekam aktivitas tertutup di ruang domestik dan ritual penyucian tubuh (fikih thaharah). Beliau meriwayatkan tata cara detail Rasulullah mandi junub, hingga seberapa banyak air yang digunakan dan urutan pembasuhan anggota badan. Dalam ranah psikologi, Maimunah berfungsi sebagai penjaga rutinitas yang mencatat dan memelihara keteraturan fisik dan kebersihan. Kualitas pengamatannya yang tinggi membuat para ulama hadis memosisikannya sebagai narasumber yang sangat kredibel. Beliau wafat pada usia sekitar 80 tahun di Sarif—tepat di lokasi tenda pertama kali ia berkumpul dengan Nabi—menunjukkan sebuah pola hidup yang sangat konsisten dan selaras hingga akhir hayatnya.",
+                roleDynamics: "Dalam sebuah kelompok, kamu berfungsi sebagai pengamat yang teliti mencatat kebiasaan harian. Ketelitianmu menjadikanmu rujukan terpercaya. Keteraturan rutinitas adalah bahasamu dalam memberikan rasa aman.",
                 wisdom: [
-                    "Detail-Oriented Processing: Memiliki observabilitas tingkat tinggi dalam merekam dan memelihara detail rutinitas (maintenance).",
-                    "Observational Learning: Memahami dan mentransmisikan kebaikan melalui pengamatan fisik dan presisi spasial yang taktil.",
-                    "Consistent Reliability: Menghadirkan rasa aman bagi lingkungan melalui konsistensi tindakan, kedisiplinan logistik, dan kebersihan."
+                    "Detail-Oriented Observation: Memiliki ketajaman tingkat tinggi dalam merekam dan memelihara detail rutinitas.",
+                    "Observational Learning: Memahami dan mengajarkan kebaikan melalui pengamatan fisik dan presisi praktik sehari-hari.",
+                    "Consistent Reliability: Menghadirkan rasa aman bagi lingkungan melalui konsistensi tindakan, kedisiplinan, dan kebersihan."
                 ]
             }
         ];
@@ -581,7 +584,7 @@
 
                             <div className="bg-white/50 backdrop-blur-sm p-6 rounded-[2rem] text-sm mb-10 text-left border border-white/60 shadow-sm max-w-xl mx-auto" role="note">
                                 <strong className="block mb-3 text-base font-semibold text-slate-700 flex items-center gap-2">
-                                    <LeafIcon aria-hidden="true" /> Sebagai Pengingat Lembut
+                                    <LeafIcon aria-hidden="true" /> Sebagai Pengingat
                                 </strong>
                                 <ul className="space-y-3 text-slate-600 font-medium">
                                     <li className="flex gap-3"><span className="text-emerald-500/70" aria-hidden="true">•</span> Apapun perasaanmu saat ini, semuanya valid. Kita tidak sedang menghakimi, melainkan memeluk dan memahaminya.</li>
@@ -721,7 +724,7 @@
 
         // Result Dashboard (Bento Box Layout)
         const ResultDashboard = ({ result, userName, onReset, onViewGallery, isFading }) => {
-            const { primary, secondary } = result;
+            const { primary, secondary, radarData } = result;
             const [isHistoryExpanded, setIsHistoryExpanded] = useState(true);
             const [isDownloading, setIsDownloading] = useState(false);
             const exportRef = useRef(null);
@@ -770,24 +773,27 @@
             };
 
             const handleShare = async () => {
-                const shareText = `Halo! Saya baru saja mengikuti Asesmen HealYou. Ternyata karakteristik psikologis saya beresonansi dengan keteladanan ${primary.name}. Yuk, cari tahu teladan Ummul Mukminin mana yang sesuai denganmu!`;
-                const shareUrl = "https://healyou-asesmen-ummul-mukminin.netlify.app/";
+                const shareText = `Masya Allah! Berdasarkan tes Arsitektur Psikologis di HealYou, karakterku sangat mirip dengan ${primary.name}.\n\n"${primary.shortSummary}"\n\nYuk, cek siapa Ummul Mukminin yang paling mirip dengan karakter psikologismu!`;
+                const shareUrl = window.location.href;
                 
                 if (navigator.share) {
                     try {
                         await navigator.share({
-                            title: 'HealYou - Asesmen Ummul Mukminin',
+                            title: 'HealYou - Arsitektur Psikologis',
                             text: shareText,
                             url: shareUrl,
                         });
                     } catch (error) {
                         if (error.name !== 'AbortError') {
                             console.error('Error sharing:', error);
+                            // Fallback if sharing fails
+                            navigator.clipboard.writeText(`${shareText}\n\n${shareUrl}`);
+                            alert("Teks berhasil disalin ke clipboard! Silakan paste di sosial mediamu.");
                         }
                     }
                 } else {
                     navigator.clipboard.writeText(`${shareText}\n\n${shareUrl}`);
-                    alert("Tautan dan pesan berhasil disalin ke clipboard!");
+                    alert("Teks dan tautan berhasil disalin ke clipboard! (Fitur Web Share tidak didukung di browsermu).");
                 }
             };
 
@@ -913,6 +919,8 @@
                                     </div>
                                 </div>
                             </div>
+
+
 
                             {/* Dinamika Relasional (Left column, 6 spans) */}
                             <div className="glass-panel col-span-1 md:col-span-6 rounded-[2rem] p-8 sm:p-10 slide-up stagger-2 flex flex-col">
@@ -1183,7 +1191,62 @@
             }
         };
 
-        // --- 5. MAIN APP COMPONENT ---
+        // --- 5. PARALLAX BACKGROUND COMPONENT ---
+        const ParallaxBackground = () => {
+            const bgRef1 = useRef(null);
+            const bgRef2 = useRef(null);
+            const bgRef3 = useRef(null);
+
+            useEffect(() => {
+                let ticking = false;
+
+                const updateParallax = () => {
+                    const scrollY = window.scrollY;
+                    
+                    if (bgRef1.current) {
+                        bgRef1.current.style.transform = `translate3d(0, ${scrollY * 0.4}px, 0)`;
+                    }
+                    if (bgRef2.current) {
+                        bgRef2.current.style.transform = `translate3d(0, ${scrollY * 0.25}px, 0)`;
+                    }
+                    if (bgRef3.current) {
+                        bgRef3.current.style.transform = `translate3d(0, ${scrollY * 0.15}px, 0)`;
+                    }
+                    
+                    ticking = false;
+                };
+
+                const handleScroll = () => {
+                    if (!ticking) {
+                        window.requestAnimationFrame(updateParallax);
+                        ticking = true;
+                    }
+                };
+
+                window.addEventListener('scroll', handleScroll, { passive: true });
+                updateParallax();
+                
+                return () => window.removeEventListener('scroll', handleScroll);
+            }, []);
+
+            return (
+                <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
+                    {/* Parallax Layer 1 (Deepest) */}
+                    <div ref={bgRef1} className="absolute top-0 left-[-10%] w-[70vw] h-[70vw] max-w-[800px] max-h-[800px] rounded-full bg-emerald-200/20 blur-[120px] will-change-transform"></div>
+                    
+                    {/* Parallax Layer 2 (Mid) */}
+                    <div ref={bgRef2} className="absolute top-[30%] right-[-10%] w-[60vw] h-[60vw] max-w-[700px] max-h-[700px] rounded-full bg-amber-100/30 blur-[100px] will-change-transform"></div>
+                    
+                    {/* Parallax Layer 3 (Closest) */}
+                    <div ref={bgRef3} className="absolute top-[60%] left-[10%] w-[50vw] h-[50vw] max-w-[600px] max-h-[600px] rounded-full bg-teal-100/30 blur-[90px] will-change-transform"></div>
+                    
+                    {/* Grain Texture Overlay for Premium Feel */}
+                    <div className="absolute inset-0 opacity-[0.03] mix-blend-multiply" style={{backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.7%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")'}}></div>
+                </div>
+            );
+        };
+
+        // --- 6. MAIN APP COMPONENT ---
         const App = () => {
             const [isAudioPlaying, setIsAudioPlaying] = useState(false);
 
@@ -1215,21 +1278,20 @@
                     try {
                         const parsed = JSON.parse(savedState);
                         if (parsed.questions && parsed.questions.length > 0) {
-                            if (parsed.currentIndex >= parsed.questions.length) {
-                                // Sudah selesai, kembali ke awal
-                                try { localStorage.removeItem('healyou_ummul_mukminin_state'); } catch(e) {}
-                            } else {
-                                setQuestions(parsed.questions);
-                                setCurrentIndex(parsed.currentIndex || 0);
-                                setAnswers(parsed.answers || {});
-                                if (parsed.userName) setUserName(parsed.userName);
-                                
-                                if (parsed.currentIndex > 0) {
-                                    if (parsed.currentIndex % 11 === 0 && parsed.currentIndex !== 0) {
-                                        setGameState('break');
-                                    } else {
-                                        setGameState('playing');
-                                    }
+                            setQuestions(parsed.questions);
+                            setCurrentIndex(parsed.currentIndex || 0);
+                            setAnswers(parsed.answers || {});
+                            if (parsed.userName) setUserName(parsed.userName);
+                            
+                            if (parsed.gameState) {
+                                setGameState(parsed.gameState);
+                            } else if (parsed.currentIndex >= parsed.questions.length) {
+                                setGameState('result');
+                            } else if (parsed.currentIndex > 0) {
+                                if (parsed.currentIndex % 11 === 0 && parsed.currentIndex !== 0) {
+                                    setGameState('break');
+                                } else {
+                                    setGameState('playing');
                                 }
                             }
                         }
@@ -1240,12 +1302,13 @@
                 setIsInitializing(false);
             }, []);
 
-            const saveState = (newCurrentIndex, newAnswers, newQuestions, newUserName) => {
+            const saveState = (newCurrentIndex, newAnswers, newQuestions, newUserName, newGameState) => {
                 const stateToSave = {
                     questions: newQuestions || questions,
                     currentIndex: newCurrentIndex,
                     answers: newAnswers,
                     userName: newUserName !== undefined ? newUserName : userName,
+                    gameState: newGameState || gameState,
                     lastSaved: new Date().toISOString()
                 };
                 try {
@@ -1257,6 +1320,7 @@
 
             const transitionTo = (newState, delay = 400) => {
                 setIsFading(true);
+                saveState(currentIndex, answers, questions, userName, newState);
                 setTimeout(() => {
                     setGameState(newState);
                     setIsFading(false);
@@ -1273,7 +1337,7 @@
                 setQuestions(shuffled);
                 setCurrentIndex(0);
                 setAnswers({});
-                saveState(0, {}, shuffled, name);
+                saveState(0, {}, shuffled, name, 'playing');
                 transitionTo('playing');
             };
 
@@ -1291,18 +1355,21 @@
                 newAnswers[currentQ.a] += val;
 
                 const nextIndex = currentIndex + 1;
-                saveState(nextIndex, newAnswers, questions);
+                let nextState = 'playing';
+                
+                if (nextIndex >= questions.length) {
+                    nextState = 'analyzing';
+                } else if (nextIndex % 11 === 0 && nextIndex !== 0) {
+                    nextState = 'break';
+                }
+
+                saveState(nextIndex, newAnswers, questions, userName, nextState);
 
                 setIsFading(true);
                 setTimeout(() => {
                     setAnswers(newAnswers);
                     setCurrentIndex(nextIndex);
-                    
-                    if (nextIndex >= questions.length) {
-                        setGameState('analyzing');
-                    } else if (nextIndex % 11 === 0 && nextIndex !== 0) {
-                        setGameState('break');
-                    }
+                    setGameState(nextState);
                     setIsFading(false);
                 }, 300);
             };
@@ -1320,92 +1387,111 @@
 
             const calculateResult = () => {
                 const maxScore = 25; // 5 questions * 5 max points
-                const scores = Object.keys(answers).map(archId => ({
-                    id: archId,
-                    score: answers[archId],
-                    matchPercentage: Math.round((answers[archId] / maxScore) * 100)
-                })).sort((a, b) => b.score - a.score);
+                const scores = ARCHETYPES.map(arch => {
+                    const score = answers[arch.id] || 0;
+                    return {
+                        id: arch.id,
+                        name: arch.name.split(' ')[0],
+                        fullName: arch.name,
+                        hex: arch.hex,
+                        score: score,
+                        matchPercentage: Math.round((score / maxScore) * 100)
+                    };
+                }).sort((a, b) => b.score - a.score);
 
-                if (scores.length === 0) return { primary: ARCHETYPES[0], secondary: null };
+                if (scores.length === 0) return { primary: ARCHETYPES[0], secondary: null, radarData: [] };
 
                 const primaryArch = { ...ARCHETYPES.find(a => a.id === scores[0].id), matchPercentage: scores[0].matchPercentage };
                 const secondaryArch = scores.length > 1 && (scores[0].score - scores[1].score <= 3) 
                     ? { ...ARCHETYPES.find(a => a.id === scores[1].id), matchPercentage: scores[1].matchPercentage }
                     : null;
+                    
+                const radarData = ARCHETYPES.map(arch => {
+                    const score = answers[arch.id] || 0;
+                    return {
+                        subject: arch.name.split(' ')[0],
+                        A: Math.round((score / maxScore) * 100),
+                        fullMark: 100
+                    };
+                });
 
-                return { primary: primaryArch, secondary: secondaryArch };
+                return { primary: primaryArch, secondary: secondaryArch, radarData, scores };
             };
 
             return (
                 <div className="bg-[#F7F5F0] text-slate-700 min-h-screen selection:bg-emerald-100 selection:text-emerald-900 relative">
-                    {/* Floating Audio Toggle */}
-                    <button 
-                        onClick={toggleAudio}
-                        className="fixed bottom-6 right-6 z-50 p-4 rounded-full bg-white/80 backdrop-blur-md shadow-lg border border-slate-200 text-slate-500 hover:text-[#5C7C6A] hover:bg-white transition-all duration-300"
-                        aria-label={isAudioPlaying ? "Matikan Suara Ambien" : "Nyalakan Suara Ambien"}
-                        title={isAudioPlaying ? "Matikan Suara Ambien" : "Nyalakan Suara Ambien"}
-                    >
-                        {isAudioPlaying ? <SoundOnIcon /> : <SoundOffIcon />}
-                    </button>
-
-                    {isInitializing ? null : gameState === 'welcome' && (
-                        <WelcomeScreen 
-                            onStart={startNew} 
-                            onResume={resume} 
-                            onReset={resetState}
-                            savedIndex={currentIndex} 
-                            isFading={isFading}
-                        />
-                    )}
-
-                    {gameState === 'data_entry' && (
-                        <DataEntryScreen 
-                            onSubmit={submitUserData}
-                            isFading={isFading}
-                        />
-                    )}
+                    <ParallaxBackground />
                     
-                    {gameState === 'playing' && questions.length > 0 && currentIndex < questions.length && (
-                        <QuestionBoard 
-                            question={questions[currentIndex]}
-                            currentIndex={currentIndex}
-                            totalQuestions={questions.length}
-                            onAnswer={handleAnswer}
-                            isFading={isFading}
-                        />
-                    )}
-                    
-                    {gameState === 'break' && (
-                        <BreakScreen 
-                            chunkIndex={Math.floor(currentIndex / 11)} 
-                            onContinue={() => transitionTo('playing')}
-                            isFading={isFading}
-                        />
-                    )}
-                    
-                    {gameState === 'analyzing' && (
-                        <AnalyzingScreen 
-                            onComplete={() => transitionTo('result')}
-                            isFading={isFading}
-                        />
-                    )}
+                    <div className="relative z-10 flex flex-col min-h-screen">
+                        {/* Floating Audio Toggle */}
+                        <button 
+                            onClick={toggleAudio}
+                            className="fixed bottom-6 right-6 z-50 p-4 rounded-full bg-white/80 backdrop-blur-md shadow-lg border border-slate-200 text-slate-500 hover:text-[#5C7C6A] hover:bg-white transition-all duration-300"
+                            aria-label={isAudioPlaying ? "Matikan Suara Ambien" : "Nyalakan Suara Ambien"}
+                            title={isAudioPlaying ? "Matikan Suara Ambien" : "Nyalakan Suara Ambien"}
+                        >
+                            {isAudioPlaying ? <SoundOnIcon /> : <SoundOffIcon />}
+                        </button>
 
-                    {gameState === 'result' && (
-                        <ResultDashboard 
-                            result={calculateResult()} 
-                            userName={userName}
-                            onReset={resetState}
-                            onViewGallery={() => transitionTo('gallery')}
-                            isFading={isFading}
-                        />
-                    )}
+                        {isInitializing ? null : gameState === 'welcome' && (
+                            <WelcomeScreen 
+                                onStart={startNew} 
+                                onResume={resume} 
+                                onReset={resetState}
+                                savedIndex={currentIndex} 
+                                isFading={isFading}
+                            />
+                        )}
 
-                    {gameState === 'gallery' && (
-                        <GalleryScreen 
-                            onBack={() => transitionTo(Object.keys(answers).length === RAW_QUESTIONS.length ? 'result' : 'welcome')}
-                            isFading={isFading}
-                        />
-                    )}
+                        {gameState === 'data_entry' && (
+                            <DataEntryScreen 
+                                onSubmit={submitUserData}
+                                isFading={isFading}
+                            />
+                        )}
+                        
+                        {gameState === 'playing' && questions.length > 0 && currentIndex < questions.length && (
+                            <QuestionBoard 
+                                question={questions[currentIndex]}
+                                currentIndex={currentIndex}
+                                totalQuestions={questions.length}
+                                onAnswer={handleAnswer}
+                                isFading={isFading}
+                            />
+                        )}
+                        
+                        {gameState === 'break' && (
+                            <BreakScreen 
+                                chunkIndex={Math.floor(currentIndex / 11) + 1} 
+                                onContinue={() => transitionTo('playing')}
+                                isFading={isFading}
+                            />
+                        )}
+                        
+                        {gameState === 'analyzing' && (
+                            <AnalyzingScreen 
+                                onComplete={() => transitionTo('result')}
+                                isFading={isFading}
+                            />
+                        )}
+
+                        {gameState === 'result' && (
+                            <ResultDashboard 
+                                result={calculateResult()} 
+                                userName={userName}
+                                onReset={resetState}
+                                onViewGallery={() => transitionTo('gallery')}
+                                isFading={isFading}
+                            />
+                        )}
+
+                        {gameState === 'gallery' && (
+                            <GalleryScreen 
+                                onBack={() => transitionTo((currentIndex > 0 && currentIndex >= RAW_QUESTIONS.length) ? 'result' : 'welcome')}
+                                isFading={isFading}
+                            />
+                        )}
+                    </div>
                 </div>
             );
         };
