@@ -7,6 +7,45 @@
 
     <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        white: '#FDFDFE',
+                        black: '#1F2220',
+                        slate: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        serif: ['"Playfair Display"', 'serif'],
+                    },
+                    fontSize: {
+                        'xs': ['0.75rem', { lineHeight: '1.5', letterSpacing: '0.05em' }],
+                        'sm': ['0.875rem', { lineHeight: '1.5' }],
+                        'base': ['1rem', { lineHeight: '1.6' }],
+                        'lg': ['1.333rem', { lineHeight: '1.5' }],
+                        'xl': ['1.777rem', { lineHeight: '1.4' }],
+                        '2xl': ['2.369rem', { lineHeight: '1.2' }],
+                        '3xl': ['3.157rem', { lineHeight: '1.1' }],
+                        '4xl': ['4.209rem', { lineHeight: '1.1' }],
+                        '5xl': ['5.61rem', { lineHeight: '1.1' }],
+                    }
+                }
+            }
+        }
+    </script>
 
     <!-- React & ReactDOM -->
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -15,6 +54,21 @@
     <script src="https://unpkg.com/recharts@2.1.12/umd/Recharts.js"></script>
 
     <!-- Babel for JSX -->
+    
+    
+    <!-- Suppress Babel Standalone Warning -->
+    <script>
+        const methods = ['warn', 'info', 'log', 'error'];
+        methods.forEach(m => {
+            const orig = console[m];
+            console[m] = function(...args) {
+                if (args[0] && typeof args[0] === 'string' && (args[0].includes('Babel') || args[0].includes('babel'))) {
+                    return;
+                }
+                orig.apply(console, args);
+            };
+        });
+    </script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
     <!-- html2canvas for Export/Share Feature -->
@@ -22,10 +76,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
 
         :root {
-            --bg-base: #F7F5F0;
+            --bg-base: #F6F7FA;
         }
 
         body {
@@ -37,7 +91,7 @@
                 radial-gradient(at 0% 100%, rgba(245, 235, 220, 0.7) 0px, transparent 50%);
             background-attachment: fixed;
             color: #475569; 
-            font-family: 'Nunito', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             margin: 0;
             padding: 0;
             overflow-x: hidden;
@@ -46,18 +100,16 @@
         }
 
         h1, h2, h3, h4, .font-serif {
-            font-family: 'Lora', serif;
+            font-family: 'Playfair Display', serif;
         }
 
         /* Modern Glass Panel / Bento Box Style */
         .glass-panel {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            box-shadow: 
-                0 4px 24px -8px rgba(0, 0, 0, 0.04),
-                inset 0 0 0 1px rgba(255,255,255,0.4);
+            background: rgba(253, 253, 254, 0.85);
+            backdrop-filter: blur(32px);
+            -webkit-backdrop-filter: blur(32px);
+            border: none;
+            box-shadow: 0 32px 64px -16px rgba(107, 104, 141, 0.08);
         }
 
         .fade-in { animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
@@ -65,8 +117,8 @@
         
         .animate-enter { animation: enterScreen 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
         .animate-exit { animation: exitScreen 0.4s cubic-bezier(0.4, 0, 1, 1) forwards; }
-        .question-enter { animation: questionIn 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
-        .question-exit { animation: questionOut 0.3s cubic-bezier(0.4, 0, 1, 1) forwards; }
+        .question-enter { animation: questionIn 0.6s ease-out forwards; }
+        .question-exit { animation: questionOut 0.5s ease-in forwards; }
 
         @keyframes enterScreen {
             from { opacity: 0; transform: translateY(16px) scale(0.98); }
@@ -77,12 +129,12 @@
             to { opacity: 0; transform: translateY(-16px) scale(0.98); }
         }
         @keyframes questionIn {
-            from { opacity: 0; transform: translateX(32px); }
-            to { opacity: 1; transform: translateX(0); }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
         @keyframes questionOut {
-            from { opacity: 1; transform: translateX(0); }
-            to { opacity: 0; transform: translateX(-32px); }
+            from { opacity: 1; }
+            to { opacity: 0; }
         }
 
         .stagger-1 { animation-delay: 100ms; }
@@ -106,40 +158,41 @@
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
         .btn-primary {
-            background: #5C7C6A;
+            background: #6B688D;
             color: #ffffff;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 14px rgba(44, 62, 53, 0.15);
+            box-shadow: 0 4px 14px rgba(50, 48, 68, 0.15);
         }
         .btn-primary:hover {
-            background: #466352;
+            background: #4A4865;
             transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(44, 62, 53, 0.25);
+            box-shadow: 0 8px 24px rgba(50, 48, 68, 0.25);
         }
         
         .btn-secondary {
-            background: rgba(255,255,255,0.8);
-            border: 1px solid rgba(0,0,0,0.05);
+            background: rgba(253, 253, 254,0.85);
+            border: none;
+            box-shadow: 0 12px 24px -8px rgba(107, 104, 141, 0.05);
             color: #475569;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .btn-secondary:hover {
-            background: #ffffff;
+            background: #F6F7FA;
             transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 16px 32px -8px rgba(107, 104, 141, 0.15);
             color: #1e293b;
         }
 
         .option-card {
-            background: rgba(255, 255, 255, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(253, 253, 254, 0.7);
+            border: none;
+            box-shadow: 0 8px 24px -8px rgba(107, 104, 141, 0.05);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .option-card:hover {
-            background: rgba(255, 255, 255, 1);
+            background: rgba(253, 253, 254, 1);
             transform: translateY(-3px);
-            box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.08);
-            border-color: #fff;
+            box-shadow: 0 24px 48px -12px rgba(107, 104, 141, 0.12);
         }
     </style>
 </head>
@@ -411,11 +464,57 @@
         };
 
         // --- 4. KOMPONEN SCREENS ---
+        
+        const PSYCH_GLOSSARY = {
+            "Somatic Grounding": "Teknik untuk menenangkan sistem saraf yang sedang panik (hyper-arousal) dengan fokus pada sensasi fisik, seperti memberikan kehangatan, tekanan (diselimuti), atau sentuhan fisik yang aman, sehingga mengembalikan otak ke realitas saat ini.",
+            "Cognitive Restructuring": "Sebuah proses terapi untuk mengidentifikasi dan menantang pikiran-pikiran negatif atau irasional, kemudian menggantinya dengan pemikiran yang lebih logis, positif, dan berbasis bukti nyata.",
+            "Crisis Intervention": "Tindakan segera dan terarah yang diberikan kepada seseorang yang sedang mengalami trauma atau krisis akut, bertujuan untuk mencegah kerusakan psikologis lebih lanjut dan mengembalikan stabilitas mental dasar.",
+            "secure attachment": "Gaya kelekatan psikologis yang sehat, di mana seseorang merasa aman, nyaman, dan percaya diri dalam hubungan, serta mampu menjadi tempat bersandar yang menenangkan bagi orang lain tanpa rasa cemas atau takut ditinggalkan.",
+            "Fungsi Eksekutif": "Kemampuan kognitif tingkat tinggi di otak (korteks prefrontal) yang mengatur perencanaan, fokus, pengendalian impuls, dan penyelesaian masalah secara terstruktur, terutama di bawah tekanan.",
+            "disosiasi traumatis": "Mekanisme pertahanan mental ekstrem di mana seseorang 'memisahkan diri' dari kenyataan atau kesadarannya untuk menghindari rasa sakit akibat trauma emosional yang terlalu berat.",
+            "behavioral-driven": "Pendekatan atau solusi yang digerakkan oleh tindakan/perilaku nyata, bukan sekadar teori atau kata-kata.",
+            "mirror neurons": "Sel-sel saraf di otak yang bereaksi dan meniru emosi atau tindakan orang lain yang kita lihat, memungkinkan manusia untuk merasakan empati dan menyelaraskan perilaku secara kolektif.",
+            "act of service": "Bahasa cinta atau ekspresi empati yang ditunjukkan melalui tindakan pelayanan atau pengabdian nyata kepada orang lain.",
+            "coping mechanism": "Cara atau strategi sadar maupun tidak sadar yang digunakan seseorang untuk menghadapi, mengurangi, atau mentolerir stres dan masalah psikologis.",
+            "trait": "Sifat bawaan atau karakteristik kepribadian yang menetap dan mendefinisikan identitas asli seseorang.",
+            "disonansi kognitif": "Rasa tidak nyaman dan konflik batin yang parah akibat memegang dua atau lebih nilai, keyakinan, atau ide yang saling bertentangan secara bersamaan.",
+            "behavioral reframing": "Mengubah cara pandang atau perasaan terhadap suatu masalah dengan cara mengubah tindakan atau perilaku fisik secara nyata, yang pada akhirnya akan merombak pola pikir.",
+            "PTSD": "Gangguan Stres Pascatrauma; kondisi kesehatan mental yang dipicu oleh peristiwa traumatis masa lalu yang menyebabkan kecemasan parah, kilas balik, dan ketidakberdayaan.",
+            "core wound": "Luka batin terdalam (sering terbentuk di masa lalu) yang menjadi akar dari ketakutan atau respons emosional negatif seseorang, seperti rasa takut diabaikan atau ditolak.",
+            "mindfulness": "Praktik memusatkan perhatian penuh pada momen saat ini secara sadar, menerima perasaan dan pikiran tanpa menghakimi, sangat efektif menenangkan sistem saraf.",
+            "Psychological Resilience": "Ketahanan mental atau kemampuan seseorang untuk bangkit kembali, beradaptasi, dan bahkan tumbuh menjadi lebih kuat setelah mengalami penderitaan atau trauma berat.",
+            "strict healthy boundaries": "Batasan emosional dan fisik yang tegas, sehat, dan jelas untuk melindungi diri dari manipulasi, eksploitasi, atau pelanggaran nilai, tanpa kompromi berlebihan.",
+            "people pleasing": "Kecenderungan untuk selalu berusaha menyenangkan orang lain dan mengorbankan diri sendiri, biasanya didasari oleh rasa takut akan penolakan atau konflik.",
+            "Rejection": "Rasa sakit emosional akibat penolakan, pengasingan, atau tidak diterimanya seseorang oleh individu atau kelompok lain.",
+            "Cognitive Reframing": "Teknik mengubah perspektif atau cara seseorang melihat dan memaknai sebuah peristiwa, merombak sudut pandang negatif menjadi makna yang memberdayakan dan positif.",
+            "observational learning": "Proses belajar yang terjadi murni melalui pengamatan yang sangat teliti terhadap perilaku orang lain, merekam detail-detail kecil untuk ditiru atau dijaga dengan presisi.",
+            "detail-oriented": "Kemampuan untuk sangat memperhatikan, merekam, dan mengeksekusi detail-detail kecil dengan tingkat akurasi yang tinggi."
+        };
+
         const GalleryScreen = ({ onBack, isFading }) => {
             const [selectedChar, setSelectedChar] = useState(null);
+        const [activeGlossaryTerm, setActiveGlossaryTerm] = useState(null);
+
+        const handleTermClick = (rawTerm) => {
+            let term = rawTerm.replace(/['()]/g, '').trim().toLowerCase();
+            const match = Object.keys(PSYCH_GLOSSARY).find(k => k.toLowerCase() === term);
+            if (match) {
+                setActiveGlossaryTerm({ title: match, desc: PSYCH_GLOSSARY[match] });
+            }
+        };
+
+        useEffect(() => {
+            if (selectedChar) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = 'unset';
+            }
+            return () => { document.body.style.overflow = 'unset'; };
+        }, [selectedChar]);
+
 
             return (
-                <main className={`min-h-screen py-10 px-4 sm:px-6 lg:px-8 overflow-x-hidden ${isFading ? 'animate-exit' : 'animate-enter'}`}>
+                <main className={`min-h-screen py-16 sm:py-24 px-6 sm:px-12 lg:px-24 overflow-x-hidden ${isFading ? 'animate-exit' : 'animate-enter'}`}>
                     <div className="max-w-5xl mx-auto space-y-8 slide-up">
                         <div className="text-center mb-10">
                             <h2 className="text-3xl sm:text-4xl font-serif text-slate-700 mb-4">Galeri Ummul Mukminin</h2>
@@ -431,7 +530,7 @@
                                 >
                                     <CharacterAvatar id={char.id} colorHex={char.hex} size="medium" />
                                     <h3 className="mt-6 text-xl font-serif text-slate-700" style={{color: char.hex}}>{char.name}</h3>
-                                    <span className="text-[10px] font-bold tracking-widest uppercase mt-2 mb-3 px-3 py-1 rounded-full bg-white/60 border shadow-sm" style={{color: char.hex, borderColor: `${char.hex}30`}}>
+                                    <span className="text-[10px] font-bold tracking-widest uppercase mt-2 mb-3 px-4 py-1.5 rounded-full bg-white/60 border shadow-sm whitespace-nowrap" style={{color: char.hex, borderColor: `${char.hex}30`}}>
                                         {char.epithet}
                                     </span>
                                     <p className="text-sm text-slate-600 leading-relaxed mb-6 text-center">
@@ -448,16 +547,33 @@
                         </div>
 
                         <div className="flex justify-center mt-12">
-                            <button onClick={onBack} className="btn-secondary py-3 px-8 rounded-full font-semibold flex items-center justify-center gap-2">
+                            <button onClick={onBack} className="btn-secondary whitespace-nowrap py-3 px-8 rounded-full font-semibold flex items-center justify-center gap-2">
                                 Kembali ke Hasil
                             </button>
                         </div>
                     </div>
 
+
+                    {/* Glossary Modal */}
+                    {activeGlossaryTerm && ReactDOM.createPortal(
+                        <div className="fixed inset-0 z-[10000] flex items-center justify-center p-4 sm:p-6 fade-in" onClick={() => setActiveGlossaryTerm(null)}>
+                            <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" aria-hidden="true"></div>
+                            <div className="glass-panel max-w-sm w-full rounded-[2rem] p-8 sm:p-10 relative z-10 slide-up shadow-2xl" onClick={e => e.stopPropagation()}>
+                                <button onClick={() => setActiveGlossaryTerm(null)} className="absolute top-6 right-6 w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 text-slate-500 hover:text-slate-800 transition-colors">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                </button>
+                                <h4 className="text-xl font-serif text-slate-800 mb-4 pr-6">{activeGlossaryTerm.title}</h4>
+                                <p className="text-sm text-slate-600 leading-relaxed font-medium">
+                                    {activeGlossaryTerm.desc}
+                                </p>
+                            </div>
+                        </div>,
+                        document.body
+                    )}
                     {/* Character Details Modal */}
-                    {selectedChar && (
-                        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-slate-900/40 backdrop-blur-sm animate-enter" onClick={() => setSelectedChar(null)}>
-                            <div className="glass-panel max-w-2xl w-full max-h-[90vh] overflow-y-auto rounded-[2rem] p-6 sm:p-10 relative bg-[#F7F5F0]" onClick={e => e.stopPropagation()}>
+                    {selectedChar && ReactDOM.createPortal(
+                        <div className="fixed inset-0 z-50 flex items-center justify-center p-6 sm:p-12 lg:p-20 bg-slate-900/40 backdrop-blur-sm animate-enter" onClick={() => setSelectedChar(null)}>
+                            <div className="glass-panel max-w-2xl w-full max-h-[90vh] overflow-y-auto rounded-[2rem] p-6 sm:p-10 relative bg-[#F6F7FA]" onClick={e => e.stopPropagation()}>
                                 <button 
                                     onClick={() => setSelectedChar(null)}
                                     className="absolute top-4 right-4 sm:top-6 sm:right-6 w-10 h-10 bg-white/80 rounded-full flex items-center justify-center text-slate-500 hover:text-slate-800 transition-colors shadow-sm"
@@ -473,7 +589,7 @@
                                     </div>
                                     <div className="text-center sm:text-left flex-1">
                                         <h3 className="text-2xl sm:text-3xl font-serif text-slate-800 mb-2">{selectedChar.name}</h3>
-                                        <span className="inline-block text-[10px] font-bold tracking-widest uppercase px-3 py-1 rounded-full bg-white/60 border shadow-sm mb-4" style={{color: selectedChar.hex, borderColor: `${selectedChar.hex}30`}}>
+                                        <span className="inline-block text-[10px] font-bold tracking-widest uppercase px-4 py-1.5 rounded-full bg-white/60 border shadow-sm mb-4 whitespace-nowrap" style={{color: selectedChar.hex, borderColor: `${selectedChar.hex}30`}}>
                                             {selectedChar.epithet}
                                         </span>
                                         <p className="text-sm font-medium text-slate-600 leading-relaxed bg-white/40 p-4 rounded-xl border border-white">
@@ -485,9 +601,35 @@
                                 <div className="space-y-8">
                                     <div>
                                         <h4 className="text-xs font-bold tracking-widest uppercase mb-3 text-slate-400 border-b border-slate-200 pb-2">Jejak Sejarah & Konteks Klinis</h4>
-                                        <p className="text-base text-slate-700 leading-relaxed font-medium">
-                                            {selectedChar.history}
-                                        </p>
+                                        <div className="text-base text-slate-700 leading-relaxed font-medium text-justify">
+                                            {selectedChar.history.split(/(?<=\.)\s+/).reduce((acc, sentence, idx, arr) => {
+                                                if (idx % 2 === 0) {
+                                                    const para = [sentence, arr[idx + 1]].filter(Boolean).join(' ');
+                                                    
+                                                    // Format psychological terms in quotes or parentheses to be highlighted
+                                                    const formattedPara = para.split(/('[^']+'|\([^)]+\))/g).map((part, i) => {
+                                                        if (part.startsWith("'") && part.endsWith("'")) {
+                                                            const cleanTerm = part.replace(/'/g, '').trim();
+                                                            const hasMatch = Object.keys(PSYCH_GLOSSARY).some(k => k.toLowerCase() === cleanTerm.toLowerCase());
+                                                            return <span key={i} onClick={() => handleTermClick(part)} className={`font-bold transition-opacity inline ${hasMatch ? 'underline decoration-dotted underline-offset-4 cursor-pointer hover:opacity-70' : ''}`} style={{color: selectedChar.hex}}>{cleanTerm}</span>;
+                                                        }
+                                                        if (part.startsWith("(") && part.endsWith(")")) {
+                                                            const cleanTermParen = part.replace(/[()]/g, '').trim();
+                                                            const hasMatchParen = Object.keys(PSYCH_GLOSSARY).some(k => k.toLowerCase() === cleanTermParen.toLowerCase());
+                                                            return <span key={i} onClick={() => handleTermClick(part)} className={`font-medium transition-opacity inline ${hasMatchParen ? 'cursor-pointer hover:opacity-70 underline decoration-dotted underline-offset-4' : 'cursor-default'}`} style={{color: selectedChar.hex}}>{part}</span>;
+                                                        }
+                                                        return part;
+                                                    });
+
+                                                    acc.push(
+                                                        <p key={idx} className={`mb-6 ${idx === 0 ? 'first-letter:text-5xl first-letter:font-serif first-letter:mr-2 first-letter:float-left first-letter:leading-none' : ''}`}>
+                                                            {formattedPara}
+                                                        </p>
+                                                    );
+                                                }
+                                                return acc;
+                                            }, [])}
+                                        </div>
                                     </div>
                                     
                                     <div>
@@ -503,9 +645,16 @@
                                             {selectedChar.wisdom.map((w, idx) => {
                                                 const [term, desc] = w.split(': ');
                                                 return (
-                                                    <li key={idx} className="text-sm text-slate-700 leading-relaxed bg-white/40 p-3 rounded-xl border border-white">
-                                                        <span className="font-bold block mb-1" style={{color: selectedChar.hex}}>{term}</span>
-                                                        <span className="font-medium">{desc}</span>
+                                                    <li key={idx} className="flex flex-col gap-1.5 text-sm sm:text-base text-slate-700 font-medium leading-relaxed bg-white/40 p-3 rounded-xl border border-white">
+                                                        <span 
+                                                            onClick={() => handleTermClick(term)} 
+                                                            className="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold tracking-wider uppercase self-start border cursor-pointer hover:opacity-75 transition-opacity" 
+                                                            style={{color: selectedChar.hex, backgroundColor: `${selectedChar.hex}10`, borderColor: `${selectedChar.hex}30`}}
+                                                            title="Klik untuk penjelasan"
+                                                        >
+                                                            {term}
+                                                        </span>
+                                                        <span className="text-slate-600 block mt-1">{desc}</span>
                                                     </li>
                                                 );
                                             })}
@@ -513,7 +662,8 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>,
+                        document.body
                     )}
                 </main>
             );
@@ -530,9 +680,9 @@
             };
 
             return (
-                <main className={`min-h-screen flex items-center justify-center p-4 sm:p-6 overflow-x-hidden ${isFading ? 'animate-exit' : 'animate-enter'}`}>
-                    <section className="glass-panel max-w-md w-full rounded-[2rem] p-10 text-center slide-up">
-                        <div className="inline-flex items-center justify-center p-4 bg-white/80 rounded-[2rem] text-[#5C7C6A] mb-6 shadow-sm border border-white" aria-hidden="true">
+                <main className={`min-h-screen flex items-center justify-center p-6 sm:p-12 lg:p-20 overflow-x-hidden ${isFading ? 'animate-exit' : 'animate-enter'}`}>
+                    <section className="glass-panel max-w-md w-full rounded-[2rem] p-12 sm:p-16 text-center slide-up">
+                        <div className="inline-flex items-center justify-center p-4 bg-white/80 rounded-[2rem] text-[#6B688D] mb-6 shadow-sm border border-white" aria-hidden="true">
                             <LeafIcon />
                         </div>
                         <h2 className="text-2xl font-serif text-slate-700 mb-2">Sebelum Memulai</h2>
@@ -546,13 +696,13 @@
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
                                     placeholder="Masukkan namamu..."
-                                    className="w-full px-5 py-4 bg-white/70 border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#5C7C6A] focus:border-transparent text-slate-700 placeholder-slate-400 font-medium transition-all"
+                                    className="w-full px-5 py-4 bg-white/70 border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#6B688D] focus:border-transparent text-slate-700 placeholder-slate-400 font-medium transition-all"
                                     required
                                     autoFocus
                                     maxLength="30"
                                 />
                             </div>
-                            <button type="submit" disabled={!name.trim()} className="btn-primary w-full py-4 rounded-3xl font-semibold disabled:opacity-50 disabled:cursor-not-allowed">
+                            <button type="submit" disabled={!name.trim()} className="btn-primary whitespace-nowrap w-full py-4 rounded-3xl font-semibold disabled:opacity-50 disabled:cursor-not-allowed">
                                 Lanjutkan Perjalanan
                             </button>
                         </form>
@@ -562,15 +712,15 @@
         };
 
         const WelcomeScreen = ({ onStart, onResume, onReset, savedIndex, isFading }) => (
-            <main className={`min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-8 overflow-x-hidden ${isFading ? 'animate-exit' : 'animate-enter'}`}>
-                <article className="glass-panel max-w-3xl w-full rounded-[2.5rem] p-8 sm:p-12 lg:p-16 text-center relative overflow-hidden">
-                    <div className="absolute -top-32 -right-32 w-64 h-64 bg-emerald-100/40 rounded-full blur-3xl" aria-hidden="true"></div>
-                    <div className="absolute -bottom-32 -left-32 w-64 h-64 bg-orange-100/40 rounded-full blur-3xl" aria-hidden="true"></div>
+            <main className={`min-h-screen flex items-center justify-center p-6 sm:p-12 lg:p-24 overflow-x-hidden ${isFading ? 'animate-exit' : 'animate-enter'}`}>
+                <article className="glass-panel max-w-3xl w-full rounded-[2.5rem] p-10 sm:p-16 lg:p-24 text-center relative overflow-hidden">
+                    <div className="absolute -top-32 -right-32 w-64 h-64 bg-indigo-100/40 rounded-full blur-3xl" aria-hidden="true"></div>
+                    <div className="absolute -bottom-32 -left-32 w-64 h-64 bg-fuchsia-100/40 rounded-full blur-3xl" aria-hidden="true"></div>
 
                     <div className="relative z-10">
                         <header className="slide-up stagger-1">
-                            <div className="inline-flex items-center justify-center p-3.5 bg-white/80 backdrop-blur-md rounded-[2rem] text-[#5C7C6A] mb-6 shadow-sm border border-white/50" aria-hidden="true">
-                                <SparklesIcon />
+                            <div className="inline-flex items-center justify-center w-20 h-20 bg-white/80 backdrop-blur-md rounded-[2.5rem] mb-6 shadow-sm border border-white/50 overflow-hidden p-1" aria-hidden="true">
+                                <img src="/logo-healyou.webp" alt="Heal You Logo" className="w-full h-full object-cover rounded-[2rem]" onError={(e) => { e.target.onerror = null; e.target.src = '/logo-healyou.webp'; }} />
                             </div>
                             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-serif text-slate-700 mb-6 leading-[1.15] tracking-tight">
                                 Menemukan Kedamaian Diri &<br className="hidden sm:block" /> Teladan Ummul Mukminin
@@ -578,25 +728,36 @@
                         </header>
                         
                         <section className="slide-up stagger-2">
-                            <p className="text-slate-600 mb-10 leading-relaxed text-sm sm:text-base max-w-lg mx-auto font-medium">
+                            <p className="text-slate-600 mb-16 leading-relaxed text-sm sm:text-base max-w-lg mx-auto font-medium">
                                 Selamat datang di ruang aman untuk merenung. Mari bersama-sama menyusuri kembali perjalanan emosimu, mengenali kekuatan aslimu, dan menemukan resonansi ketenangan batin yang terinspirasi dari keanggunan serta ketangguhan para istri Nabi Muhammad SAW.
                             </p>
 
-                            <div className="bg-white/50 backdrop-blur-sm p-6 rounded-[2rem] text-sm mb-10 text-left border border-white/60 shadow-sm max-w-xl mx-auto" role="note">
+                            <div className="bg-white/50 backdrop-blur-sm p-8 sm:p-10 rounded-[2rem] text-sm mb-16 text-left border border-white/60 shadow-sm max-w-xl mx-auto" role="note">
                                 <strong className="block mb-3 text-base font-semibold text-slate-700 flex items-center gap-2">
                                     <LeafIcon aria-hidden="true" /> Sebagai Pengingat
                                 </strong>
                                 <ul className="space-y-3 text-slate-600 font-medium">
-                                    <li className="flex gap-3"><span className="text-emerald-500/70" aria-hidden="true">•</span> Apapun perasaanmu saat ini, semuanya valid. Kita tidak sedang menghakimi, melainkan memeluk dan memahaminya.</li>
-                                    <li className="flex gap-3"><span className="text-emerald-500/70" aria-hidden="true">•</span> Pilihlah jawaban yang paling jujur dari hatimu, tanpa perlu merasa harus menjadi sempurna.</li>
+                                    <li className="flex gap-3"><span className="text-indigo-500/70" aria-hidden="true">•</span> Apapun perasaanmu saat ini, semuanya valid. Kita tidak sedang menghakimi, melainkan memeluk dan memahaminya.</li>
+                                    <li className="flex gap-3"><span className="text-indigo-500/70" aria-hidden="true">•</span> Pilihlah jawaban yang paling jujur dari hatimu, tanpa perlu merasa harus menjadi sempurna.</li>
                                 </ul>
                             </div>
                         </section>
 
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8 slide-up stagger-3">
-                            <button onClick={onStart} className="btn-primary w-full sm:w-auto px-10 py-4 rounded-[2rem] font-semibold flex items-center justify-center gap-3">
+                            {savedIndex > 0 ? (
+                                <>
+                                    <button onClick={onResume} className="btn-primary whitespace-nowrap w-full sm:w-auto px-10 py-4 rounded-[2rem] font-semibold flex items-center justify-center gap-3">
+                                        Lanjutkan Sesi <ArrowRightIcon aria-hidden="true" />
+                                    </button>
+                                    <button onClick={onReset} className="btn-secondary whitespace-nowrap w-full sm:w-auto px-8 py-4 rounded-[2rem] font-semibold flex items-center justify-center">
+                                        Mulai Ulang
+                                    </button>
+                                </>
+                            ) : (
+                                <button onClick={onStart} className="btn-primary whitespace-nowrap w-full sm:w-auto px-10 py-4 rounded-[2rem] font-semibold flex items-center justify-center gap-3">
                                     Mulai Perjalananmu <ArrowRightIcon aria-hidden="true" />
                                 </button>
+                            )}
                         </div>
                     </div>
                 </article>
@@ -605,16 +766,16 @@
 
         // Break Screen
         const BreakScreen = ({ chunkIndex, onContinue, isFading }) => (
-            <main className={`min-h-screen flex items-center justify-center p-4 sm:p-6 overflow-x-hidden ${isFading ? 'animate-exit' : 'animate-enter'}`}>
-                <section className="glass-panel max-w-md w-full rounded-[2rem] p-10 text-center slide-up" aria-labelledby="break-title">
-                    <div className="inline-flex items-center justify-center p-4 bg-white/80 rounded-[2rem] text-[#5C7C6A] mb-6 shadow-sm border border-white" aria-hidden="true">
-                        <LeafIcon />
+            <main className={`min-h-screen flex items-center justify-center p-6 sm:p-12 lg:p-20 overflow-x-hidden ${isFading ? 'animate-exit' : 'animate-enter'}`}>
+                <section className="glass-panel max-w-md w-full rounded-[2rem] p-12 sm:p-16 text-center slide-up" aria-labelledby="break-title">
+                    <div className="inline-flex items-center justify-center w-16 h-16 bg-white/80 backdrop-blur-md rounded-[1.5rem] mb-6 shadow-sm border border-white/50 overflow-hidden p-1" aria-hidden="true">
+                        <img src="/logo-healyou.webp" alt="Heal You Logo" className="w-full h-full object-cover rounded-[1.2rem]" onError={(e) => { e.target.onerror = null; e.target.src = '/logo-healyou.webp'; }} />
                     </div>
-                    <h2 id="break-title" className="text-2xl font-serif text-slate-700 mb-4">Jeda Sejenak (Bagian {chunkIndex})</h2>
-                    <p className="text-slate-600 text-sm mb-10 leading-relaxed font-medium">
+                    <h2 id="break-title" className="text-2xl font-serif text-slate-700 mb-4">Jeda Sejenak<br/>(Bagian {chunkIndex})</h2>
+                    <p className="text-slate-600 text-sm mb-16 leading-relaxed font-medium">
                         Terima kasih sudah berbagi sejauh ini. Tarik napas perlahan, istirahatkan pikiranmu sejenak, dan mari kita lanjutkan saat kamu siap.
                     </p>
-                    <button onClick={onContinue} className="btn-primary w-full py-4 rounded-3xl font-semibold">
+                    <button onClick={onContinue} className="btn-primary whitespace-nowrap w-full py-4 rounded-3xl font-semibold">
                         Lanjutkan Perjalanan
                     </button>
                 </section>
@@ -628,7 +789,7 @@
             const totalChunks = Math.ceil(totalQuestions / 11);
 
             return (
-                <main className={`min-h-screen flex flex-col items-center justify-center p-4 sm:p-6 overflow-x-hidden ${isFading ? 'question-exit' : 'question-enter'}`}>
+                <main className={`min-h-screen flex flex-col items-center justify-center p-6 sm:p-12 lg:p-20 overflow-x-hidden ${isFading ? 'question-exit' : 'question-enter'}`}>
                     <section className="max-w-2xl w-full">
                         <header className="mb-10 text-center" aria-label="Progress">
                             <p className="text-[11px] font-semibold text-slate-400 tracking-wider uppercase mb-5" aria-live="polite">
@@ -636,7 +797,7 @@
                             </p>
                             <div className="w-full bg-slate-200/50 backdrop-blur-sm h-1 rounded-full overflow-hidden" role="progressbar" aria-valuenow={Math.round(progressPercent)} aria-valuemin="0" aria-valuemax="100">
                                 <div 
-                                    className="h-full bg-[#5C7C6A] transition-all duration-700 ease-out rounded-full"
+                                    className="h-full bg-[#6B688D] transition-all duration-700 ease-out rounded-full"
                                     style={{ width: `${progressPercent}%` }}
                                 ></div>
                             </div>
@@ -704,13 +865,13 @@
             }, [onComplete]);
 
             return (
-                <main className={`min-h-screen flex items-center justify-center p-4 sm:p-6 overflow-x-hidden ${isFading ? 'animate-exit' : 'animate-enter'}`}>
+                <main className={`min-h-screen flex items-center justify-center p-6 sm:p-12 lg:p-20 overflow-x-hidden ${isFading ? 'animate-exit' : 'animate-enter'}`}>
                     <section className="glass-panel max-w-md w-full rounded-[2rem] p-12 text-center flex flex-col items-center">
                         <div className="relative w-24 h-24 mb-10 flex items-center justify-center">
                             <div className="absolute inset-0 border-4 border-slate-200 rounded-full opacity-50"></div>
-                            <div className="absolute inset-0 border-4 border-[#5C7C6A] rounded-full border-t-transparent animate-spin opacity-80"></div>
-                            <div className="absolute inset-2 bg-emerald-50 rounded-full animate-pulse flex items-center justify-center text-[#5C7C6A] shadow-inner">
-                                <SparklesIcon />
+                            <div className="absolute inset-0 border-4 border-[#6B688D] rounded-full border-t-transparent animate-spin opacity-80"></div>
+                            <div className="absolute inset-2 bg-indigo-50 rounded-full animate-pulse flex items-center justify-center overflow-hidden shadow-inner">
+                                <img src="/logo-healyou.webp" alt="Heal You" className="w-full h-full object-cover rounded-full" onError={(e) => { e.target.onerror = null; e.target.src = '/logo-healyou.webp'; }} />
                             </div>
                         </div>
                         <h2 className="text-xl sm:text-2xl font-serif text-slate-700 h-16 sm:h-8 flex items-center justify-center transition-all duration-300">
@@ -722,14 +883,42 @@
             );
         };
 
+        
+        
+
         // Result Dashboard (Bento Box Layout)
         const ResultDashboard = ({ result, userName, onReset, onViewGallery, isFading }) => {
             const { primary, secondary, radarData } = result;
             const [isHistoryExpanded, setIsHistoryExpanded] = useState(true);
+            
+            // Parse primary name to separate main name and sub name (in parentheses)
+            const nameMatch = primary.name.match(/^(.*?)\s*(\((.*?)\))?$/);
+            const mainName = nameMatch ? nameMatch[1].trim() : primary.name;
+            const subName = nameMatch && nameMatch[2] ? nameMatch[2].trim() : null;
+
             const [isDownloading, setIsDownloading] = useState(false);
             const exportRef = useRef(null);
             const pdfRef = useRef(null);
             const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
+            const [activeGlossaryTerm, setActiveGlossaryTerm] = useState(null);
+            useEffect(() => {
+                if (activeGlossaryTerm) {
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    document.body.style.overflow = 'unset';
+                }
+                return () => { document.body.style.overflow = 'unset'; };
+            }, [activeGlossaryTerm]);
+
+
+            const handleTermClick = (rawTerm) => {
+                let term = rawTerm.replace(/['()]/g, '').trim().toLowerCase();
+                const match = Object.keys(PSYCH_GLOSSARY).find(k => k.toLowerCase() === term);
+                if (match) {
+                    setActiveGlossaryTerm({ title: match, desc: PSYCH_GLOSSARY[match] });
+                }
+            };
+
 
             const handleDownloadPDF = async () => {
                 if (!pdfRef.current) return;
@@ -810,7 +999,7 @@
                     await new Promise(resolve => setTimeout(resolve, 300));
                     const canvas = await html2canvas(exportRef.current, {
                         scale: 2, 
-                        backgroundColor: "#F7F5F0",
+                        backgroundColor: "#F6F7FA",
                         useCORS: true,
                         logging: false,
                         windowWidth: exportRef.current.scrollWidth,
@@ -833,33 +1022,47 @@
             };
 
             return (
-                <main className={`min-h-screen py-10 px-4 sm:px-6 lg:px-8 overflow-x-hidden ${isFading ? 'animate-exit' : 'animate-enter'}`}>
+                <main className={`min-h-screen py-16 sm:py-24 px-6 sm:px-12 lg:px-24 overflow-x-hidden ${isFading ? 'animate-exit' : 'animate-enter'}`}>
                     
                     {/* Hidden Export Layout (Portrait for Social Media) */}
                     <div style={{ position: 'absolute', top: '-15000px', left: '-15000px' }}>
-                        <div ref={exportRef} className="w-[480px] min-h-[853px] bg-[#F7F5F0] relative overflow-hidden flex flex-col p-10 font-sans" style={{ backgroundColor: '#F7F5F0' }}>
+                        <div ref={exportRef} className="w-[480px] min-h-[853px] bg-[#F6F7FA] relative overflow-hidden flex flex-col p-10 font-sans" style={{ backgroundColor: '#F6F7FA' }}>
                             {/* Background Decorations */}
                             <div className="absolute top-0 right-0 w-80 h-80 rounded-full blur-3xl opacity-30 pointer-events-none" style={{backgroundColor: primary.hex}}></div>
                             <div className="absolute bottom-0 left-0 w-64 h-64 rounded-full blur-3xl opacity-30 pointer-events-none" style={{backgroundColor: secondary ? secondary.hex : primary.hex}}></div>
 
                             {/* Header */}
-                            <div className="mb-6 flex justify-between items-center z-10">
-                                <p className="text-[#5C7C6A] font-bold tracking-[0.2em] uppercase text-[10px]">Catatan Perjalanan HealYou</p>
+                            <div className="mb-4 flex justify-center items-center z-10">
+                                <p className="text-[10px] font-bold text-[#6B688D] tracking-widest uppercase">Catatan Perjalanan Psikologis</p>
                             </div>
 
                             {/* Main Content Area */}
                             <div className="flex-1 flex flex-col items-center justify-center text-center z-10 py-6">
                                 <CharacterAvatar id={primary.id} colorHex={primary.hex} size="large" />
                                 
-                                <div className="mt-8 mb-4 inline-flex items-center justify-center px-5 py-2 bg-white/60 border border-white rounded-full shadow-sm backdrop-blur-md">
+                                <div className="mt-8 mb-4 inline-flex items-center justify-center px-5 py-2 bg-white/60 border border-white rounded-full shadow-sm whitespace-nowrap backdrop-blur-md">
                                     <span className="text-[11px] font-bold tracking-widest uppercase" style={{color: primary.hex}}>
                                         {primary.epithet} • Kesesuaian {primary.matchPercentage || 0}%
                                     </span>
                                 </div>
                                 
-                                <h1 className="text-3xl font-serif text-slate-700 mb-6 leading-tight">
-                                    Karakteristik {userName ? userName : 'saya'} beresonansi dengan<br />
-                                    <span style={{color: primary.hex}} className="font-semibold text-4xl mt-3 block">{primary.name}</span>
+                                <h1 className="font-serif text-center flex flex-col items-center gap-1 mb-8 w-full">
+                                    <span className="text-lg text-slate-500 font-medium tracking-wide">
+                                        Halo {userName ? userName : 'saya'},
+                                    </span>
+                                    <span className="text-xl text-slate-700 leading-snug">
+                                        Karakteristikmu beresonansi dengan
+                                    </span>
+                                    <div className="flex flex-col items-center mt-3">
+                                        <span className="text-4xl font-bold tracking-tight leading-none text-center" style={{color: primary.hex}}>
+                                            {mainName}
+                                        </span>
+                                        {subName && (
+                                            <span className="text-xl font-medium mt-2 text-center" style={{color: primary.hex, opacity: 0.85}}>
+                                                {subName}
+                                            </span>
+                                        )}
+                                    </div>
                                 </h1>
                                 
                                 <p className="text-slate-600 leading-relaxed text-base font-medium px-2">
@@ -876,34 +1079,54 @@
                             )}
 
                             {/* Footer */}
-                            <div className="mt-6 pt-6 border-t border-slate-200/50 flex justify-between items-center z-10">
-                                <div className="text-left">
-                                    <p className="text-xs font-bold text-slate-700">Asesmen Ummul Mukminin</p>
-                                    <p className="text-[10px] text-slate-500 mt-0.5">healyou-asesmen-ummul-mukminin.netlify.app</p>
+                            <div className="mt-8 pt-6 border-t border-slate-200/50 flex justify-between items-center z-10">
+                                <div className="text-left flex-1">
+                                    <p className="text-xs font-bold text-[#6B688D] mb-1">Asesmen Ummul Mukminin</p>
+                                    <p className="text-[9px] text-slate-500">healyou-asesmen-ummul-mukminin.netlify.app</p>
                                 </div>
-                                <div className="w-10 h-10 bg-[#5C7C6A] rounded-full flex items-center justify-center text-white shadow-sm">
-                                    <LeafIcon />
+                                <div className="flex flex-col items-end shrink-0 gap-1.5">
+                                    <div className="w-12 h-12 bg-white/80 backdrop-blur-md rounded-xl shadow-sm border border-white/50 overflow-hidden p-0.5">
+                                        <img src="/logo-healyou.webp" alt="Heal You" className="w-full h-full object-cover rounded-[0.6rem]" />
+                                    </div>
+                                    <p className="text-[8px] font-bold text-[#6B688D] tracking-[0.2em] uppercase">Heal You</p>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div className="max-w-5xl mx-auto space-y-6">
+                    <div className="max-w-5xl mx-auto space-y-10 sm:space-y-12">
                         {/* BENTO GRID */}
                         <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
                             
                             {/* Main Identity (Top row, full width) */}
-                            <div className="glass-panel col-span-1 md:col-span-12 rounded-[2rem] p-8 sm:p-12 text-center slide-up stagger-1 flex flex-col items-center relative overflow-hidden">
+                            <div className="glass-panel col-span-1 md:col-span-12 rounded-[2rem] p-10 sm:p-16 lg:p-20 text-center slide-up stagger-1 flex flex-col items-center relative overflow-hidden">
                                 <div className="absolute top-0 right-0 w-64 h-64 rounded-full blur-3xl opacity-20 pointer-events-none" style={{backgroundColor: primary.hex}}></div>
                                 
                                 <CharacterAvatar id={primary.id} colorHex={primary.hex} size="large" />
-                                <div className="mt-6 mb-4 inline-flex items-center justify-center px-5 py-2 bg-white/60 border border-white rounded-full shadow-sm backdrop-blur-md">
+                                <div className="mt-6 mb-4 inline-flex items-center justify-center px-5 py-2 bg-white/60 border border-white rounded-full shadow-sm whitespace-nowrap backdrop-blur-md">
                                     <span className="text-[11px] font-bold tracking-widest uppercase" style={{color: primary.hex}}>
                                         {primary.epithet}
                                     </span>
                                 </div>
-                                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-serif text-slate-700 mb-4 px-2 leading-tight">
-                                    {userName ? `Halo ${userName}, Karakteristikmu` : 'Karakteristikmu'}<br />Beresonansi dengan <span style={{color: primary.hex}} className="font-semibold">{primary.name}</span>
+                                <h1 className="font-serif text-center flex flex-col items-center gap-2 sm:gap-3 mb-8 px-4 w-full">
+                                    {userName && (
+                                        <span className="text-xl sm:text-2xl lg:text-3xl text-slate-500 font-medium tracking-wide mb-1">
+                                            Halo {userName},
+                                        </span>
+                                    )}
+                                    <span className="text-2xl sm:text-3xl lg:text-4xl text-slate-700 leading-snug">
+                                        Karakteristikmu beresonansi dengan
+                                    </span>
+                                    <div className="flex flex-col items-center mt-3 sm:mt-5">
+                                        <span className="text-4xl sm:text-5xl lg:text-7xl font-bold tracking-tight leading-none text-center" style={{color: primary.hex}}>
+                                            {mainName}
+                                        </span>
+                                        {subName && (
+                                            <span className="text-xl sm:text-2xl lg:text-3xl font-medium mt-3 sm:mt-4 text-center" style={{color: primary.hex, opacity: 0.85}}>
+                                                {subName}
+                                            </span>
+                                        )}
+                                    </div>
                                 </h1>
                                 <p className="text-slate-600 leading-relaxed text-base sm:text-lg max-w-3xl mx-auto font-medium z-10 mb-8">
                                     {primary.shortSummary}
@@ -914,7 +1137,7 @@
                                         <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">Tingkat Kesesuaian</span>
                                         <span className="text-xl font-black" style={{color: primary.hex}}>{primary.matchPercentage || 0}%</span>
                                     </div>
-                                    <div className="w-full bg-slate-200/50 rounded-full h-3 overflow-hidden shadow-inner">
+                                    <div className="w-full bg-slate-200/50 rounded-full overflow-hidden h-3 overflow-hidden shadow-inner">
                                         <div className="h-full rounded-full transition-all duration-1000 ease-out" style={{ width: `${primary.matchPercentage || 0}%`, backgroundColor: primary.hex }}></div>
                                     </div>
                                 </div>
@@ -923,7 +1146,7 @@
 
 
                             {/* Dinamika Relasional (Left column, 6 spans) */}
-                            <div className="glass-panel col-span-1 md:col-span-6 rounded-[2rem] p-8 sm:p-10 slide-up stagger-2 flex flex-col">
+                            <div className="glass-panel col-span-1 md:col-span-6 rounded-[2rem] p-10 sm:p-14 slide-up stagger-2 flex flex-col">
                                 <h3 className="text-xs font-bold text-slate-400 mb-5 tracking-widest uppercase">Dinamika Relasional & Keseharian</h3>
                                 <p className="text-slate-700 text-base sm:text-lg leading-relaxed font-medium">
                                     {primary.roleDynamics}
@@ -931,14 +1154,19 @@
                             </div>
 
                             {/* Blueprint Kognitif & Klinis (Right column, 6 spans) */}
-                            <div className="glass-panel col-span-1 md:col-span-6 rounded-[2rem] p-8 sm:p-10 slide-up stagger-3 flex flex-col">
+                            <div className="glass-panel col-span-1 md:col-span-6 rounded-[2rem] p-10 sm:p-14 slide-up stagger-3 flex flex-col">
                                 <h3 className="text-xs font-bold text-slate-400 mb-6 tracking-widest uppercase">Kekuatan Kognitif & Emosional</h3>
                                 <ul className="space-y-4">
                                     {primary.wisdom.map((w, idx) => {
                                         const [term, desc] = w.split(': ');
                                         return (
                                             <li key={idx} className="flex flex-col gap-1.5 text-sm sm:text-base text-slate-700 font-medium leading-relaxed">
-                                                <span className="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold tracking-wider uppercase self-start border" style={{color: primary.hex, backgroundColor: `${primary.hex}10`, borderColor: `${primary.hex}30`}}>
+                                                <span 
+                                                    onClick={() => handleTermClick(term)} 
+                                                    className="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold tracking-wider uppercase self-start border cursor-pointer hover:opacity-75 transition-opacity" 
+                                                    style={{color: primary.hex, backgroundColor: `${primary.hex}10`, borderColor: `${primary.hex}30`}}
+                                                    title="Klik untuk penjelasan"
+                                                >
                                                     {term}
                                                 </span>
                                                 <span className="text-slate-600">{desc}</span>
@@ -950,12 +1178,12 @@
 
                             {/* Secondary Character (Full width) */}
                             {secondary && (
-                                <div className="glass-panel col-span-1 md:col-span-12 rounded-[2rem] p-6 sm:p-8 flex flex-col sm:flex-row items-center gap-6 slide-up stagger-4">
+                                <div className="glass-panel col-span-1 md:col-span-12 rounded-[2rem] p-8 sm:p-12 flex flex-col sm:flex-row items-center gap-10 slide-up stagger-4">
                                     <div className="shrink-0">
                                         <CharacterAvatar id={secondary.id} colorHex={secondary.hex} size="small" />
                                     </div>
                                     <div className="text-center sm:text-left flex-1">
-                                        <p className="text-xs font-bold text-slate-400 tracking-widest uppercase mb-2">Sub-Rutinitas & Kapabilitas Paralel</p>
+                                        <p className="text-xs font-bold text-slate-400 tracking-widest uppercase mb-2">Sifat Pendamping & Kemampuan Beradaptasi</p>
                                         <h3 className="text-xl font-serif text-slate-700 mb-2">{secondary.name}</h3>
                                         <p className="text-sm text-slate-600 leading-relaxed font-medium">
                                             Sistem arsitektur psikologismu juga didukung oleh modul <span className="font-semibold" style={{color: secondary.hex}}>{secondary.epithet}</span> layaknya karakteristik {secondary.name.split(' ')[0]}.
@@ -966,7 +1194,7 @@
                                             <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Kesesuaian</span>
                                             <span className="text-sm font-bold" style={{color: secondary.hex}}>{secondary.matchPercentage || 0}%</span>
                                         </div>
-                                        <div className="w-full bg-slate-200/50 rounded-full h-1.5 overflow-hidden shadow-inner">
+                                        <div className="w-full bg-slate-200/50 rounded-full overflow-hidden h-1.5 overflow-hidden shadow-inner">
                                             <div className="h-full rounded-full transition-all duration-1000 ease-out" style={{ width: `${secondary.matchPercentage || 0}%`, backgroundColor: secondary.hex }}></div>
                                         </div>
                                     </div>
@@ -977,7 +1205,7 @@
                             <div className="col-span-1 md:col-span-12 slide-up stagger-4">
                                 <button 
                                     onClick={() => setIsHistoryExpanded(!isHistoryExpanded)}
-                                    className="glass-panel w-full flex items-center justify-between p-6 rounded-[2rem] text-slate-700 font-semibold transition-all hover:bg-white/90"
+                                    className="glass-panel w-full flex items-center justify-between p-8 sm:p-10 rounded-[2rem] text-slate-700 font-semibold transition-all hover:bg-white/90"
                                     aria-expanded={isHistoryExpanded}
                                 >
                                     <span>Analisis Historis & Psikologis Terapan</span>
@@ -987,31 +1215,59 @@
                                 </button>
                                 
                                 {isHistoryExpanded && (
-                                    <div className="glass-panel border-t-0 rounded-b-2xl p-6 sm:p-8 -mt-4 pt-8 text-base text-slate-700 leading-relaxed font-medium">
-                                        {primary.history}
+                                    <div className="glass-panel border-t-0 rounded-b-2xl p-8 sm:p-12 -mt-6 pt-12 text-base text-slate-700 leading-relaxed font-medium">
+                                        {primary.history.split(/(?<=\.)\s+/).reduce((acc, sentence, idx, arr) => {
+                                            if (idx % 2 === 0) {
+                                                const para = [sentence, arr[idx + 1]].filter(Boolean).join(' ');
+                                                
+                                                // Format psychological terms in quotes or parentheses to be highlighted
+                                                const formattedPara = para.split(/('[^']+'|\([^)]+\))/g).map((part, i) => {
+                                                    if (part.startsWith("'") && part.endsWith("'")) {
+                                                        
+                                                        const cleanTerm = part.replace(/'/g, '').trim();
+                                                        const hasMatch = Object.keys(PSYCH_GLOSSARY).some(k => k.toLowerCase() === cleanTerm.toLowerCase());
+                                                        return <span key={i} onClick={() => handleTermClick(part)} className={`font-bold transition-opacity inline ${hasMatch ? 'underline decoration-dotted underline-offset-4 cursor-pointer hover:opacity-70' : ''}`} style={{color: primary.hex}}>{cleanTerm}</span>;
+                                                    }
+                                                    if (part.startsWith("(") && part.endsWith(")")) {
+                                                        
+                                                        const cleanTermParen = part.replace(/[()]/g, '').trim();
+                                                        const hasMatchParen = Object.keys(PSYCH_GLOSSARY).some(k => k.toLowerCase() === cleanTermParen.toLowerCase());
+                                                        return <span key={i} onClick={() => handleTermClick(part)} className={`font-medium transition-opacity inline ${hasMatchParen ? 'cursor-pointer hover:opacity-70 underline decoration-dotted underline-offset-4' : 'cursor-default'}`} style={{color: primary.hex}}>{part}</span>;
+                                                    }
+                                                    return part;
+                                                });
+
+                                                acc.push(
+                                                    <p key={idx} className={`mb-6 text-slate-600 text-justify leading-relaxed ${idx === 0 ? 'first-letter:text-5xl first-letter:font-serif first-letter:mr-2 first-letter:float-left first-letter:leading-none' : ''}`}>
+                                                        {formattedPara}
+                                                    </p>
+                                                );
+                                            }
+                                            return acc;
+                                        }, [])}
                                     </div>
                                 )}
                             </div>
                         </div>
 
                         {/* Actions */}
-                        <div className="flex flex-col sm:flex-row flex-wrap gap-4 pt-6 slide-up stagger-4" data-html2canvas-ignore>
-                            <button onClick={handleShare} className="glass-panel flex-1 py-4 px-4 rounded-3xl font-semibold text-slate-700 hover:bg-white/90 transition-all border border-slate-200 flex items-center justify-center gap-2" style={{borderColor: `${primary.hex}50`, color: primary.hex}}>
+                        <div className="flex flex-col sm:flex-row flex-wrap gap-4 pt-10 slide-up stagger-4" data-html2canvas-ignore>
+                            <button onClick={handleShare} className="glass-panel flex-1 whitespace-nowrap py-5 px-6 rounded-3xl font-semibold text-slate-700 hover:bg-white/90 transition-all flex items-center justify-center gap-2" style={{color: primary.hex}}>
                                 <ShareIcon /> Bagikan Hasil
                             </button>
-                            <button onClick={handleDownloadPDF} disabled={isGeneratingPDF} className="glass-panel flex-1 py-4 px-4 rounded-3xl font-semibold text-slate-700 hover:bg-white/90 transition-all border border-slate-200 flex items-center justify-center gap-2" style={{borderColor: `${primary.hex}50`, color: primary.hex}}>
+                            <button onClick={handleDownloadPDF} disabled={isGeneratingPDF} className="glass-panel flex-1 whitespace-nowrap py-5 px-6 rounded-3xl font-semibold text-slate-700 hover:bg-white/90 transition-all flex items-center justify-center gap-2" style={{color: primary.hex}}>
                                 {isGeneratingPDF ? "Memproses PDF..." : <><FileTextIcon /> Cetak Rapor PDF</>}
                             </button>
-                            <button onClick={handleDownloadImage} disabled={isDownloading} className="btn-primary flex-1 py-4 px-4 rounded-3xl font-semibold flex items-center justify-center gap-2">
+                            <button onClick={handleDownloadImage} disabled={isDownloading} className="btn-primary whitespace-nowrap flex-1 py-5 px-6 rounded-3xl font-semibold flex items-center justify-center gap-2">
                                 {isDownloading ? "Menyimpan Poster..." : <><DownloadIcon /> Simpan Poster</>}
                             </button>
                         </div>
                         
                         <div className="flex flex-col sm:flex-row flex-wrap gap-4 pt-2 slide-up stagger-4" data-html2canvas-ignore>
-                            <button onClick={onViewGallery} className="glass-panel w-full sm:w-auto flex-1 py-4 px-4 rounded-3xl font-semibold text-slate-700 hover:bg-white/80 transition-all border border-slate-200 flex items-center justify-center gap-2">
+                            <button onClick={onViewGallery} className="glass-panel w-full sm:w-auto flex-1 whitespace-nowrap py-5 px-6 rounded-3xl font-semibold text-slate-700 hover:bg-white/80 transition-all flex items-center justify-center gap-2">
                                 Lihat Galeri Lengkap
                             </button>
-                            <button onClick={onReset} className="btn-secondary w-full sm:w-auto flex-1 py-4 px-4 rounded-3xl font-semibold">
+                            <button onClick={onReset} className="btn-secondary whitespace-nowrap w-full sm:w-auto flex-1 py-5 px-6 rounded-3xl font-semibold">
                                 Mulai Ulang
                             </button>
                         </div>
@@ -1021,19 +1277,40 @@
                         </p>
                     </div>
 
+                    
+                        {/* Glossary Modal */}
+                        {activeGlossaryTerm && ReactDOM.createPortal(
+                            <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6 fade-in" onClick={() => setActiveGlossaryTerm(null)}>
+                                <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" aria-hidden="true"></div>
+                                <div className="glass-panel max-w-sm w-full rounded-[2rem] p-8 sm:p-10 relative z-10 slide-up shadow-2xl" onClick={e => e.stopPropagation()}>
+                                    <button onClick={() => setActiveGlossaryTerm(null)} className="absolute top-6 right-6 w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 text-slate-500 hover:text-slate-800 transition-colors">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                    </button>
+                                    <h4 className="text-xl font-serif text-slate-800 mb-4 pr-6">{activeGlossaryTerm.title}</h4>
+                                    <p className="text-sm text-slate-600 leading-relaxed font-medium">
+                                        {activeGlossaryTerm.desc}
+                                    </p>
+                                </div>
+                            </div>,
+                            document.body
+                        )}
+
                     {/* Hidden PDF Rapor Layout (A4 Size: ~794px x 1123px) */}
                     <div style={{ position: 'absolute', top: '-25000px', left: '-25000px' }}>
-                        <div ref={pdfRef} className="w-[794px] min-h-[1123px] bg-white relative overflow-hidden flex flex-col font-sans text-slate-800" style={{ backgroundColor: '#ffffff' }}>
+                        <div ref={pdfRef} className="w-[794px] min-h-[1123px] bg-white relative overflow-hidden flex flex-col font-sans text-slate-800" style={{ backgroundColor: '#FDFDFE' }}>
                             {/* Decorative Top Border */}
                             <div className="h-4 w-full" style={{backgroundColor: primary.hex}}></div>
                             
                             {/* Header */}
-                            <div className="px-16 pt-16 pb-8 flex justify-between items-start border-b border-slate-100">
+                            <div className="px-16 pt-16 pb-8 flex justify-between items-end border-b border-slate-100 relative">
+                                <div className="absolute top-16 right-16 w-16 h-16 bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden p-1 flex items-center justify-center">
+                                    <img src="/logo-healyou.webp" alt="Heal You Logo" className="w-full h-full object-cover rounded-[0.8rem]" />
+                                </div>
                                 <div>
-                                    <h1 className="text-3xl font-serif text-slate-800 tracking-tight">Rapor Psikologi</h1>
+                                    <h1 className="text-4xl font-serif text-[#6B688D] tracking-tight">Rapor Psikologi</h1>
                                     <p className="text-sm font-bold text-slate-400 tracking-widest uppercase mt-2">HealYou Asesmen Ummul Mukminin</p>
                                 </div>
-                                <div className="text-right">
+                                <div className="text-right pr-20">
                                     <p className="text-sm text-slate-500 font-medium">Tanggal: {new Date().toLocaleDateString('id-ID', {day: 'numeric', month: 'long', year: 'numeric'})}</p>
                                     <p className="text-sm text-slate-500 font-medium mt-1">Subjek: <span className="text-slate-800 font-bold">{userName || 'Anonim'}</span></p>
                                 </div>
@@ -1058,7 +1335,7 @@
                                                 <p className="text-[10px] font-bold text-slate-400 tracking-widest uppercase mt-1">Kesesuaian</p>
                                             </div>
                                         </div>
-                                        <span className="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase border mt-2" style={{color: primary.hex, borderColor: `${primary.hex}50`, backgroundColor: `${primary.hex}10`}}>
+                                        <span className="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase border mt-2 whitespace-nowrap" style={{color: primary.hex, borderColor: `${primary.hex}50`, backgroundColor: `${primary.hex}10`}}>
                                             {primary.epithet}
                                         </span>
                                     </div>
@@ -1087,8 +1364,13 @@
                                         {primary.wisdom.map((w, idx) => {
                                             const [term, desc] = w.split(': ');
                                             return (
-                                                <li key={idx} className="flex flex-col gap-1 text-base text-slate-600 font-medium leading-relaxed">
-                                                    <span className="font-bold text-slate-800">{term}</span>
+                                                <li key={idx} className="flex flex-col gap-1.5 text-base text-slate-600 font-medium leading-relaxed">
+                                                    <span 
+                                                        className="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold tracking-wider uppercase self-start border" 
+                                                        style={{color: primary.hex, backgroundColor: `${primary.hex}10`, borderColor: `${primary.hex}30`}}
+                                                    >
+                                                        {term}
+                                                    </span>
                                                     <span>{desc}</span>
                                                 </li>
                                             );
@@ -1116,7 +1398,7 @@
                             {/* Footer */}
                             <div className="px-16 py-8 border-t border-slate-100 flex justify-between items-center bg-slate-50 mt-auto">
                                 <div className="flex items-center gap-3">
-                                    <div className="w-8 h-8 bg-[#5C7C6A] rounded-full flex items-center justify-center text-white">
+                                    <div className="w-8 h-8 bg-[#6B688D] rounded-full flex items-center justify-center text-white">
                                         <LeafIcon />
                                     </div>
                                     <p className="text-xs font-bold text-slate-400 tracking-widest uppercase">HealYou</p>
@@ -1232,13 +1514,13 @@
             return (
                 <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
                     {/* Parallax Layer 1 (Deepest) */}
-                    <div ref={bgRef1} className="absolute top-0 left-[-10%] w-[70vw] h-[70vw] max-w-[800px] max-h-[800px] rounded-full bg-emerald-200/20 blur-[120px] will-change-transform"></div>
+                    <div ref={bgRef1} className="absolute top-0 left-[-10%] w-[70vw] h-[70vw] max-w-[800px] max-h-[800px] rounded-full bg-indigo-200/20 blur-[120px] will-change-transform"></div>
                     
                     {/* Parallax Layer 2 (Mid) */}
-                    <div ref={bgRef2} className="absolute top-[30%] right-[-10%] w-[60vw] h-[60vw] max-w-[700px] max-h-[700px] rounded-full bg-amber-100/30 blur-[100px] will-change-transform"></div>
+                    <div ref={bgRef2} className="absolute top-[30%] right-[-10%] w-[60vw] h-[60vw] max-w-[700px] max-h-[700px] rounded-full bg-purple-100/30 blur-[100px] will-change-transform"></div>
                     
                     {/* Parallax Layer 3 (Closest) */}
-                    <div ref={bgRef3} className="absolute top-[60%] left-[10%] w-[50vw] h-[50vw] max-w-[600px] max-h-[600px] rounded-full bg-teal-100/30 blur-[90px] will-change-transform"></div>
+                    <div ref={bgRef3} className="absolute top-[60%] left-[10%] w-[50vw] h-[50vw] max-w-[600px] max-h-[600px] rounded-full bg-blue-100/30 blur-[90px] will-change-transform"></div>
                     
                     {/* Grain Texture Overlay for Premium Feel */}
                     <div className="absolute inset-0 opacity-[0.03] mix-blend-multiply" style={{backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.7%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")'}}></div>
@@ -1249,6 +1531,7 @@
         // --- 6. MAIN APP COMPONENT ---
         const App = () => {
             const [isAudioPlaying, setIsAudioPlaying] = useState(false);
+            const [showResetConfirm, setShowResetConfirm] = useState(false);
 
             const toggleAudio = () => {
                 if (isAudioPlaying) {
@@ -1324,6 +1607,8 @@
                 setTimeout(() => {
                     setGameState(newState);
                     setIsFading(false);
+                    // Ensure the new screen always starts at the very top
+                    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
                 }, delay);
             };
 
@@ -1338,7 +1623,14 @@
                 setCurrentIndex(0);
                 setAnswers({});
                 saveState(0, {}, shuffled, name, 'playing');
-                transitionTo('playing');
+                
+                // Manual transition to prevent closure stale state overwriting localStorage
+                setIsFading(true);
+                setTimeout(() => {
+                    setGameState('playing');
+                    setIsFading(false);
+                    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+                }, 400);
             };
 
             const resume = () => {
@@ -1371,18 +1663,22 @@
                     setCurrentIndex(nextIndex);
                     setGameState(nextState);
                     setIsFading(false);
-                }, 300);
+                    // Scroll to top if transitioning to break or analyzing
+                    if (nextState !== 'playing') {
+                        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+                    }
+                }, 500); // Increased delay to match softer fade out
             };
 
             const resetState = () => {
-                if (window.confirm("Apakah kamu yakin ingin mereset sistem (menghapus cache data) dan memulai ulang dari awal?")) {
-                    try { localStorage.removeItem('healyou_ummul_mukminin_state'); } catch (e) {}
-                    setQuestions([]);
-                    setCurrentIndex(0);
-                    setAnswers({});
-                    setUserName('');
-                    transitionTo('welcome');
-                }
+                try { localStorage.removeItem('healyou_ummul_mukminin_state'); } catch (e) {}
+                setQuestions([]);
+                setCurrentIndex(0);
+                setAnswers({});
+                setUserName('');
+                setShowResetConfirm(false);
+                setGameState('welcome'); 
+                window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
             };
 
             const calculateResult = () => {
@@ -1419,14 +1715,14 @@
             };
 
             return (
-                <div className="bg-[#F7F5F0] text-slate-700 min-h-screen selection:bg-emerald-100 selection:text-emerald-900 relative">
+                <div className="bg-[#F6F7FA] text-slate-700 min-h-screen selection:bg-indigo-100 selection:text-indigo-900 relative">
                     <ParallaxBackground />
                     
                     <div className="relative z-10 flex flex-col min-h-screen">
                         {/* Floating Audio Toggle */}
                         <button 
                             onClick={toggleAudio}
-                            className="fixed bottom-6 right-6 z-50 p-4 rounded-full bg-white/80 backdrop-blur-md shadow-lg border border-slate-200 text-slate-500 hover:text-[#5C7C6A] hover:bg-white transition-all duration-300"
+                            className="fixed bottom-6 right-6 z-50 p-4 rounded-full bg-white/80 backdrop-blur-md shadow-lg border border-slate-200 text-slate-500 hover:text-[#6B688D] hover:bg-white transition-all duration-300"
                             aria-label={isAudioPlaying ? "Matikan Suara Ambien" : "Nyalakan Suara Ambien"}
                             title={isAudioPlaying ? "Matikan Suara Ambien" : "Nyalakan Suara Ambien"}
                         >
@@ -1437,7 +1733,7 @@
                             <WelcomeScreen 
                                 onStart={startNew} 
                                 onResume={resume} 
-                                onReset={resetState}
+                                onReset={() => setShowResetConfirm(true)}
                                 savedIndex={currentIndex} 
                                 isFading={isFading}
                             />
@@ -1479,7 +1775,7 @@
                             <ResultDashboard 
                                 result={calculateResult()} 
                                 userName={userName}
-                                onReset={resetState}
+                                onReset={() => setShowResetConfirm(true)}
                                 onViewGallery={() => transitionTo('gallery')}
                                 isFading={isFading}
                             />
@@ -1490,6 +1786,31 @@
                                 onBack={() => transitionTo((currentIndex > 0 && currentIndex >= RAW_QUESTIONS.length) ? 'result' : 'welcome')}
                                 isFading={isFading}
                             />
+                        )}
+
+                        {/* Custom Reset Confirm Modal */}
+                        {showResetConfirm && ReactDOM.createPortal(
+                            <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 sm:p-6 fade-in" onClick={() => setShowResetConfirm(false)}>
+                                <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" aria-hidden="true"></div>
+                                <div className="glass-panel max-w-sm w-full rounded-[2rem] p-8 sm:p-10 relative z-10 slide-up shadow-2xl text-center" onClick={e => e.stopPropagation()}>
+                                    <div className="w-16 h-16 bg-red-100 text-red-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+                                    </div>
+                                    <h4 className="text-xl font-serif text-slate-800 mb-4">Mulai Ulang?</h4>
+                                    <p className="text-sm text-slate-600 font-medium mb-8">
+                                        Apakah kamu yakin ingin mereset sistem dan memulai ulang dari awal? Semua riwayat jawabanmu akan dihapus.
+                                    </p>
+                                    <div className="flex flex-col sm:flex-row gap-3">
+                                        <button onClick={() => setShowResetConfirm(false)} className="flex-1 py-3 px-4 rounded-xl font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 transition-colors">
+                                            Batal
+                                        </button>
+                                        <button onClick={resetState} className="flex-1 py-3 px-4 rounded-xl font-bold text-white bg-red-500 hover:bg-red-600 transition-colors shadow-md shadow-red-500/20">
+                                            Ya, Mulai Ulang
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>,
+                            document.body
                         )}
                     </div>
                 </div>

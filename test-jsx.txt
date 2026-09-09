@@ -68,7 +68,7 @@
                                 {/* Secondary */}
                                 {secondary && (
                                     <div className="mt-auto pt-8 border-t border-slate-200">
-                                        <h3 className="text-sm font-bold text-slate-800 tracking-widest uppercase mb-4">Sub-Rutinitas & Kapabilitas Paralel</h3>
+                                        <h3 className="text-sm font-bold text-slate-800 tracking-widest uppercase mb-4">Sifat Pendamping & Kemampuan Beradaptasi</h3>
                                         <div className="flex items-center gap-6 p-6 rounded-2xl bg-slate-50 border border-slate-100">
                                             <div className="shrink-0">
                                                 <CharacterAvatar id={secondary.id} colorHex={secondary.hex} size="small" />

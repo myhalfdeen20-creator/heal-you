@@ -1,0 +1,301 @@
+883:        const ResultDashboard = ({ result, userName, onReset, onViewGallery, isFading }) => {
+884-            const { primary, secondary, radarData } = result;
+885-            const [isHistoryExpanded, setIsHistoryExpanded] = useState(true);
+886-            const [isDownloading, setIsDownloading] = useState(false);
+887-            const exportRef = useRef(null);
+888-            const pdfRef = useRef(null);
+889-            const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
+890-            const [activeGlossaryTerm, setActiveGlossaryTerm] = useState(null);
+891-            useEffect(() => {
+892-                if (activeGlossaryTerm) {
+893-                    document.body.style.overflow = 'hidden';
+894-                } else {
+895-                    document.body.style.overflow = 'unset';
+896-                }
+897-                return () => { document.body.style.overflow = 'unset'; };
+898-            }, [activeGlossaryTerm]);
+899-
+900-
+901-            const handleTermClick = (rawTerm) => {
+902-                let term = rawTerm.replace(/['()]/g, '').trim().toLowerCase();
+903-                const match = Object.keys(PSYCH_GLOSSARY).find(k => k.toLowerCase() === term);
+904-                if (match) {
+905-                    setActiveGlossaryTerm({ title: match, desc: PSYCH_GLOSSARY[match] });
+906-                }
+907-            };
+908-
+909-
+910-            const handleDownloadPDF = async () => {
+911-                if (!pdfRef.current) return;
+912-                setIsGeneratingPDF(true);
+913-                const currentScrollY = window.scrollY;
+914-                window.scrollTo(0, 0);
+915-                
+916-                try {
+917-                    await new Promise(resolve => setTimeout(resolve, 300));
+918-                    const canvas = await html2canvas(pdfRef.current, {
+919-                        scale: 2,
+920-                        backgroundColor: "#ffffff",
+921-                        useCORS: true,
+922-                        logging: false,
+923-                        windowWidth: pdfRef.current.scrollWidth,
+924-                        windowHeight: pdfRef.current.scrollHeight,
+925-                    });
+926-                    
+927-                    const imgData = canvas.toDataURL('image/jpeg', 0.95);
+928-                    const { jsPDF } = window.jspdf;
+929-                    
+930-                    // A4 size in mm: 210 x 297
+931-                    const pdf = new jsPDF({
+932-                        orientation: 'portrait',
+933-                        unit: 'mm',
+934-                        format: 'a4'
+935-                    });
+936-                    
+937-                    const pdfWidth = pdf.internal.pageSize.getWidth();
+938-                    const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+939-                    
+940-                    pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+941-                    pdf.save(`Rapor_Psikologi_${primary.name.replace(/\s+/g, '_')}.pdf`);
+942-                } catch (error) {
+943-                    console.error("Gagal menghasilkan PDF:", error);
+944-                    alert("Maaf, terjadi kesalahan saat menyusun dokumen rapor.");
+945-                } finally {
+946-                    window.scrollTo(0, currentScrollY);
+947-                    setIsGeneratingPDF(false);
+948-                }
+949-            };
+950-
+951-            const handleShare = async () => {
+952-                const shareText = `Masya Allah! Berdasarkan tes Arsitektur Psikologis di HealYou, karakterku sangat mirip dengan ${primary.name}.\n\n"${primary.shortSummary}"\n\nYuk, cek siapa Ummul Mukminin yang paling mirip dengan karakter psikologismu!`;
+953-                const shareUrl = window.location.href;
+954-                
+955-                if (navigator.share) {
+956-                    try {
+957-                        await navigator.share({
+958-                            title: 'HealYou - Arsitektur Psikologis',
+959-                            text: shareText,
+960-                            url: shareUrl,
+961-                        });
+962-                    } catch (error) {
+963-                        if (error.name !== 'AbortError') {
+964-                            console.error('Error sharing:', error);
+965-                            // Fallback if sharing fails
+966-                            navigator.clipboard.writeText(`${shareText}\n\n${shareUrl}`);
+967-                            alert("Teks berhasil disalin ke clipboard! Silakan paste di sosial mediamu.");
+968-                        }
+969-                    }
+970-                } else {
+971-                    navigator.clipboard.writeText(`${shareText}\n\n${shareUrl}`);
+972-                    alert("Teks dan tautan berhasil disalin ke clipboard! (Fitur Web Share tidak didukung di browsermu).");
+973-                }
+974-            };
+975-
+976-            const handleDownloadImage = async () => {
+977-                if (!exportRef.current) return;
+978-                setIsDownloading(true);
+979-                
+980-                // Simpan posisi scroll saat ini
+981-                const currentScrollY = window.scrollY;
+982-                // Gulir ke atas agar html2canvas tidak memotong elemen
+983-                window.scrollTo(0, 0);
+984-                
+985-                try {
+986-                    await new Promise(resolve => setTimeout(resolve, 300));
+987-                    const canvas = await html2canvas(exportRef.current, {
+988-                        scale: 2, 
+989-                        backgroundColor: "#F2EFE9",
+990-                        useCORS: true,
+991-                        logging: false,
+992-                        windowWidth: exportRef.current.scrollWidth,
+993-                        windowHeight: exportRef.current.scrollHeight,
+994-                    });
+995-
+996-                    const image = canvas.toDataURL("image/jpeg", 0.9);
+997-                    const link = document.createElement("a");
+998-                    link.href = image;
+999-                    link.download = `Catatan_Perjalanan_${primary.name.replace(/\s+/g, '_')}.jpg`;
+1000-                    link.click();
+1001-                } catch (error) {
+1002-                    console.error("Gagal mengekspor gambar:", error);
+1003-                    alert("Maaf, terjadi kesalahan saat menyimpan gambar.");
+1004-                } finally {
+1005-                    // Kembalikan posisi scroll
+1006-                    window.scrollTo(0, currentScrollY);
+1007-                    setIsDownloading(false);
+1008-                }
+1009-            };
+1010-
+1011-            return (
+1012-                <main className={`min-h-screen py-16 sm:py-24 px-6 sm:px-12 lg:px-24 overflow-x-hidden ${isFading ? 'animate-exit' : 'animate-enter'}`}>
+1013-                    
+1014-                    {/* Hidden Export Layout (Portrait for Social Media) */}
+1015-                    <div style={{ position: 'absolute', top: '-15000px', left: '-15000px' }}>
+1016-                        <div ref={exportRef} className="w-[480px] min-h-[853px] bg-[#F2EFE9] relative overflow-hidden flex flex-col p-10 font-sans" style={{ backgroundColor: '#F2EFE9' }}>
+1017-                            {/* Background Decorations */}
+1018-                            <div className="absolute top-0 right-0 w-80 h-80 rounded-full blur-3xl opacity-30 pointer-events-none" style={{backgroundColor: primary.hex}}></div>
+1019-                            <div className="absolute bottom-0 left-0 w-64 h-64 rounded-full blur-3xl opacity-30 pointer-events-none" style={{backgroundColor: secondary ? secondary.hex : primary.hex}}></div>
+1020-
+1021-                            {/* Header */}
+1022-                            <div className="mb-6 flex justify-between items-center z-10">
+1023-                                <p className="text-[#45624E] font-bold tracking-[0.2em] uppercase text-[10px]">Catatan Perjalanan HealYou</p>
+1024-                            </div>
+1025-
+1026-                            {/* Main Content Area */}
+1027-                            <div className="flex-1 flex flex-col items-center justify-center text-center z-10 py-6">
+1028-                                <CharacterAvatar id={primary.id} colorHex={primary.hex} size="large" />
+1029-                                
+1030-                                <div className="mt-8 mb-4 inline-flex items-center justify-center px-5 py-2 bg-white/60 border border-white rounded-full shadow-sm whitespace-nowrap backdrop-blur-md">
+1031-                                    <span className="text-[11px] font-bold tracking-widest uppercase" style={{color: primary.hex}}>
+1032-                                        {primary.epithet} • Kesesuaian {primary.matchPercentage || 0}%
+1033-                                    </span>
+1034-                                </div>
+1035-                                
+1036-                                <h1 className="text-3xl font-serif text-slate-700 mb-6 leading-tight">
+1037-                                    Karakteristik {userName ? userName : 'saya'} beresonansi dengan<br />
+1038-                                    <span style={{color: primary.hex}} className="font-semibold text-4xl mt-3 block">{primary.name}</span>
+1039-                                </h1>
+1040-                                
+1041-                                <p className="text-slate-600 leading-relaxed text-base font-medium px-2">
+1042-                                    {primary.shortSummary}
+1043-                                </p>
+1044-                            </div>
+1045-
+1046-                            {/* Secondary if exists */}
+1047-                            {secondary && (
+1048-                                <div className="mt-4 bg-white/60 backdrop-blur-md rounded-2xl p-5 border border-white/80 w-full z-10">
+1049-                                    <p className="text-[10px] font-bold text-slate-400 tracking-widest uppercase mb-1">Sub-Rutinitas Pendukung</p>
+1050-                                    <p className="text-sm font-serif text-slate-700"><span style={{color: secondary.hex}} className="font-semibold">{secondary.name}</span> — {secondary.epithet}</p>
+1051-                                </div>
+1052-                            )}
+1053-
+1054-                            {/* Footer */}
+1055-                            <div className="mt-6 pt-6 border-t border-slate-200/50 flex justify-between items-center z-10">
+1056-                                <div className="text-left">
+1057-                                    <p className="text-xs font-bold text-slate-700">Asesmen Ummul Mukminin</p>
+1058-                                    <p className="text-[10px] text-slate-500 mt-0.5">healyou-asesmen-ummul-mukminin.netlify.app</p>
+1059-                                </div>
+1060-                                <div className="w-10 h-10 bg-[#45624E] rounded-full flex items-center justify-center text-white shadow-sm">
+1061-                                    <LeafIcon />
+1062-                                </div>
+1063-                            </div>
+1064-                        </div>
+1065-                    </div>
+1066-
+1067-                    <div className="max-w-5xl mx-auto space-y-10 sm:space-y-12">
+1068-                        {/* BENTO GRID */}
+1069-                        <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+1070-                            
+1071-                            {/* Main Identity (Top row, full width) */}
+1072-                            <div className="glass-panel col-span-1 md:col-span-12 rounded-[2rem] p-10 sm:p-16 lg:p-20 text-center slide-up stagger-1 flex flex-col items-center relative overflow-hidden">
+1073-                                <div className="absolute top-0 right-0 w-64 h-64 rounded-full blur-3xl opacity-20 pointer-events-none" style={{backgroundColor: primary.hex}}></div>
+1074-                                
+1075-                                <CharacterAvatar id={primary.id} colorHex={primary.hex} size="large" />
+1076-                                <div className="mt-6 mb-4 inline-flex items-center justify-center px-5 py-2 bg-white/60 border border-white rounded-full shadow-sm whitespace-nowrap backdrop-blur-md">
+1077-                                    <span className="text-[11px] font-bold tracking-widest uppercase" style={{color: primary.hex}}>
+1078-                                        {primary.epithet}
+1079-                                    </span>
+1080-                                </div>
+1081-                                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-serif text-slate-700 mb-4 px-2 leading-tight">
+1082-                                    {userName ? `Halo ${userName}, Karakteristikmu` : 'Karakteristikmu'}<br />Beresonansi dengan <span style={{color: primary.hex}} className="font-semibold">{primary.name}</span>
+1083-                                </h1>
+1084-                                <p className="text-slate-600 leading-relaxed text-base sm:text-lg max-w-3xl mx-auto font-medium z-10 mb-8">
+1085-                                    {primary.shortSummary}
+1086-                                </p>
+1087-                                
+1088-                                <div className="w-full max-w-md mx-auto bg-white/40 p-5 rounded-3xl border border-white backdrop-blur-sm relative z-10 shadow-[0_8px_32px_-12px_rgba(0,0,0,0.05)]">
+1089-                                    <div className="flex justify-between items-center mb-3">
+1090-                                        <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">Tingkat Kesesuaian</span>
+1091-                                        <span className="text-xl font-black" style={{color: primary.hex}}>{primary.matchPercentage || 0}%</span>
+1092-                                    </div>
+1093-                                    <div className="w-full bg-slate-200/50 rounded-full overflow-hidden h-3 overflow-hidden shadow-inner">
+1094-                                        <div className="h-full rounded-full transition-all duration-1000 ease-out" style={{ width: `${primary.matchPercentage || 0}%`, backgroundColor: primary.hex }}></div>
+1095-                                    </div>
+1096-                                </div>
+1097-                            </div>
+1098-
+1099-
+1100-
+1101-                            {/* Dinamika Relasional (Left column, 6 spans) */}
+1102-                            <div className="glass-panel col-span-1 md:col-span-6 rounded-[2rem] p-10 sm:p-14 slide-up stagger-2 flex flex-col">
+1103-                                <h3 className="text-xs font-bold text-slate-400 mb-5 tracking-widest uppercase">Dinamika Relasional & Keseharian</h3>
+1104-                                <p className="text-slate-700 text-base sm:text-lg leading-relaxed font-medium">
+1105-                                    {primary.roleDynamics}
+1106-                                </p>
+1107-                            </div>
+1108-
+1109-                            {/* Blueprint Kognitif & Klinis (Right column, 6 spans) */}
+1110-                            <div className="glass-panel col-span-1 md:col-span-6 rounded-[2rem] p-10 sm:p-14 slide-up stagger-3 flex flex-col">
+1111-                                <h3 className="text-xs font-bold text-slate-400 mb-6 tracking-widest uppercase">Kekuatan Kognitif & Emosional</h3>
+1112-                                <ul className="space-y-4">
+1113-                                    {primary.wisdom.map((w, idx) => {
+1114-                                        const [term, desc] = w.split(': ');
+1115-                                        return (
+1116-                                            <li key={idx} className="flex flex-col gap-1.5 text-sm sm:text-base text-slate-700 font-medium leading-relaxed">
+1117-                                                <span className="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold tracking-wider uppercase self-start border" style={{color: primary.hex, backgroundColor: `${primary.hex}10`, borderColor: `${primary.hex}30`}}>
+1118-                                                    {term}
+1119-                                                </span>
+1120-                                                <span className="text-slate-600">{desc}</span>
+1121-                                            </li>
+1122-                                        );
+1123-                                    })}
+1124-                                </ul>
+1125-                            </div>
+1126-
+1127-                            {/* Secondary Character (Full width) */}
+1128-                            {secondary && (
+1129-                                <div className="glass-panel col-span-1 md:col-span-12 rounded-[2rem] p-8 sm:p-12 flex flex-col sm:flex-row items-center gap-10 slide-up stagger-4">
+1130-                                    <div className="shrink-0">
+1131-                                        <CharacterAvatar id={secondary.id} colorHex={secondary.hex} size="small" />
+1132-                                    </div>
+1133-                                    <div className="text-center sm:text-left flex-1">
+1134-                                        <p className="text-xs font-bold text-slate-400 tracking-widest uppercase mb-2">Sifat Pendamping & Kemampuan Beradaptasi</p>
+1135-                                        <h3 className="text-xl font-serif text-slate-700 mb-2">{secondary.name}</h3>
+1136-                                        <p className="text-sm text-slate-600 leading-relaxed font-medium">
+1137-                                            Sistem arsitektur psikologismu juga didukung oleh modul <span className="font-semibold" style={{color: secondary.hex}}>{secondary.epithet}</span> layaknya karakteristik {secondary.name.split(' ')[0]}.
+1138-                                        </p>
+1139-                                    </div>
+1140-                                    <div className="mt-4 sm:mt-0 sm:ml-auto w-full sm:w-48 bg-white/40 p-4 rounded-2xl border border-white backdrop-blur-sm shrink-0">
+1141-                                        <div className="flex justify-between items-center mb-2">
+1142-                                            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Kesesuaian</span>
+1143-                                            <span className="text-sm font-bold" style={{color: secondary.hex}}>{secondary.matchPercentage || 0}%</span>
+1144-                                        </div>
+1145-                                        <div className="w-full bg-slate-200/50 rounded-full overflow-hidden h-1.5 overflow-hidden shadow-inner">
+1146-                                            <div className="h-full rounded-full transition-all duration-1000 ease-out" style={{ width: `${secondary.matchPercentage || 0}%`, backgroundColor: secondary.hex }}></div>
+1147-                                        </div>
+1148-                                    </div>
+1149-                                </div>
+1150-                            )}
+1151-
+1152-                            {/* History/Analysis Toggle (Full width) */}
+1153-                            <div className="col-span-1 md:col-span-12 slide-up stagger-4">
+1154-                                <button 
+1155-                                    onClick={() => setIsHistoryExpanded(!isHistoryExpanded)}
+1156-                                    className="glass-panel w-full flex items-center justify-between p-8 sm:p-10 rounded-[2rem] text-slate-700 font-semibold transition-all hover:bg-white/90"
+1157-                                    aria-expanded={isHistoryExpanded}
+1158-                                >
+1159-                                    <span>Analisis Historis & Psikologis Terapan</span>
+1160-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`transform transition-transform duration-300 ${isHistoryExpanded ? 'rotate-180' : ''}`}>
+1161-                                        <polyline points="6 9 12 15 18 9"></polyline>
+1162-                                    </svg>
+1163-                                </button>
+1164-                                
+1165-                                {isHistoryExpanded && (
+1166-                                    <div className="glass-panel border-t-0 rounded-b-2xl p-8 sm:p-12 -mt-6 pt-12 text-base text-slate-700 leading-relaxed font-medium">
+1167-                                        {primary.history.split(/(?<=\.)\s+/).reduce((acc, sentence, idx, arr) => {
+1168-                                            if (idx % 2 === 0) {
+1169-                                                const para = [sentence, arr[idx + 1]].filter(Boolean).join(' ');
+1170-                                                
+1171-                                                // Format psychological terms in quotes or parentheses to be highlighted
+1172-                                                const formattedPara = para.split(/('[^']+'|\([^)]+\))/g).map((part, i) => {
+1173-                                                    if (part.startsWith("'") && part.endsWith("'")) {
+1174-                                                        
+1175-                                                        const cleanTerm = part.replace(/'/g, '').trim();
+1176-                                                        const hasMatch = Object.keys(PSYCH_GLOSSARY).some(k => k.toLowerCase() === cleanTerm.toLowerCase());
+1177-                                                        return <span key={i} onClick={() => handleTermClick(part)} className={`font-bold transition-opacity inline ${hasMatch ? 'underline decoration-dotted underline-offset-4 cursor-pointer hover:opacity-70' : ''}`} style={{color: primary.hex}}>{cleanTerm}</span>;
+1178-                                                    }
+1179-                                                    if (part.startsWith("(") && part.endsWith(")")) {
+1180-                                                        
+1181-                                                        const cleanTermParen = part.replace(/[()]/g, '').trim();
+1182-                                                        const hasMatchParen = Object.keys(PSYCH_GLOSSARY).some(k => k.toLowerCase() === cleanTermParen.toLowerCase());
+1183-                                                        return <span key={i} onClick={() => handleTermClick(part)} className={`font-medium transition-opacity inline ${hasMatchParen ? 'cursor-pointer hover:opacity-70 underline decoration-dotted underline-offset-4' : 'cursor-default'}`} style={{color: primary.hex}}>{part}</span>;
